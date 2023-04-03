@@ -22,7 +22,7 @@ Per le attività sopracitate, il Committente richiede i seguenti output:
 
 - [ ] Documento dei Requisiti Software
   - [ ] Analisi dei Requisiti
-    - [ ] Modellazione di tutti i casi d'uso.
+    - [X] Modellazione di tutti i casi d'uso.
     - [ ] Individuazione del target degli utenti. (solo gruppi “Nuovo Ordinamento”)
     - [ ] Descrizioni Testuali Strutturate per almeno quattro casi d’uso significativi (autenticazione esclusa) a scelta dei contraenti tra quelli richiesti.
     - [ ] Prototipazione visuale via Mock-up dell’interfaccia utente per tutti i casi d’uso assegnati.Si raccomanda caldamente l’uso del tool “Figma”.
