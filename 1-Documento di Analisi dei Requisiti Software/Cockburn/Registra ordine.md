@@ -8,7 +8,7 @@ Flusso degli eventi:
 
 1. L'addetto alla sala accede al sistema di registrazione delle ordinazioni.
 2. L'addetto alla sala seleziona il tavolo di riferimento, inserendo il suo identificativo nel sistema.
-3. Il sistema visualizza il menù disponibile per il tavolo selezionato.
+3. Il sistema visualizza il menù.
 4. L'addetto alla sala seleziona gli elementi del menù desiderati dall'utente.
 5. L'addetto alla sala conferma l'ordinazione.
 
