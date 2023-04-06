@@ -6,11 +6,11 @@ Precondizioni: L'addetto alla cucina/supervisore ha accesso al sistema di gestio
 
 Flusso degli eventi:
 
-1. L'addetto alla cucina/supervisore accede al sistema di gestione dell'inventario.
+1. L'addetto alla cucina/supervisore clicca sull bottone dispensa.
 2. Il sistema visualizza l'inventario corrente, che contiene i prodotti disponibili e le relative quantità.
 3. L'addetto alla cucina/supervisore può inserire nuovi prodotti nella dispensa, selezionando l'opzione "Inserisci prodotto" e inserendo i seguenti dettagli: nome del prodotto, descrizione, quantità e costo di acquisto.
 4. L'addetto alla cucina/supervisore può rimuovere i prodotti dalla dispensa, selezionando l'opzione "Rimuovi prodotto" e selezionando il prodotto da rimuovere dall'inventario.
-5. L'addetto alla cucina/supervisore può modificare le quantità di un prodotto nella dispensa, selezionando l'opzione "Modifica quantità" e inserendo la nuova quantità del prodotto.
+5. L'addetto alla cucina/supervisore può modificare le quantità di un prodotto nella dispensa, inserendo la nuova quantità del prodotto, oppure incrementando/decrementando di un unità.
 6. L'addetto alla cucina/supervisore può aggiornare i dettagli di un prodotto esistente, selezionando l'opzione "Aggiorna prodotto" e inserendo i nuovi dettagli (nome, descrizione, costo di acquisto e quantità).
 7. L'addetto alla cucina/supervisore conferma le modifiche all'inventario.
 
