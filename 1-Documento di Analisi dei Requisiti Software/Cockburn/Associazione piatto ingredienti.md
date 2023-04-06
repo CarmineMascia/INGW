@@ -14,7 +14,7 @@ Post-condizioni
 Il menù viene associato all'elenco degli ingredienti necessari alla preparazione.
 Flusso principale
 
-1. L'attore seleziona la funzione "gestisci menù" nel sistema.
+1. L'attore clicca sul bottone "menù" nel sistema.
 2. Il sistema mostra l'elenco dei piatti presenti nel menù.
 3. L'attore seleziona un piatto.
 4. Il sistema mostra l'elenco degli ingredienti necessari alla preparazione del piatto.
@@ -29,11 +29,6 @@ A1: Quantità di ingredienti non valida
 2. Il sistema mostra un messaggio di errore e richiede di inserire nuovamente la quantità necessaria per ciascun ingrediente.
 3. Si ritorna al punto 6 del flusso principale.
 
-A2: Ingrediente non disponibile in dispensa
-1. Nel punto 5 del flusso principale, l'attore associa un ingrediente non disponibile in dispensa per la preparazione del piatto.
-2. Il sistema mostra un messaggio di errore e richiede di selezionare un ingrediente disponibile in dispensa.
-3. Si ritorna al punto 5 del flusso principale.
-
-A3: Annullamento delle modifiche al menù
+A2: Annullamento delle modifiche al menù
 1. In qualsiasi momento durante il flusso principale, l'attore decide di annullare le modifiche al menù.
 2. Il sistema annulla le modifiche e ritorna alla schermata principale.
