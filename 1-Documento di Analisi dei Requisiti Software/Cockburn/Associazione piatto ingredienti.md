@@ -17,11 +17,10 @@ Flusso principale
 1. L'attore clicca sul bottone "menù" nel sistema.
 2. Il sistema mostra l'elenco dei piatti presenti nel menù.
 3. L'attore seleziona un piatto.
-4. Il sistema mostra l'elenco degli ingredienti necessari alla preparazione del piatto.
-5. L'attore associa un elenco di ingredienti in dispensa necessari alla preparazione del piatto.
-6. L'attore indica la quantità necessaria di ciascun ingrediente per la preparazione del piatto.
-7. L'attore conferma le modifiche al menù nel sistema.
-8. Il sistema aggiorna il menù e l'elenco degli ingredienti necessari alla preparazione del piatto.
+4. L'attore associa un elenco di ingredienti in dispensa necessari alla preparazione del piatto.
+5. L'attore indica la quantità necessaria di ciascun ingrediente per la preparazione del piatto.
+6. L'attore conferma le modifiche al menù nel sistema.
+7. Il sistema aggiorna il menù e l'elenco degli ingredienti necessari alla preparazione del piatto.
 
 Flussi alternativi
 A1: Quantità di ingredienti non valida
