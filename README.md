@@ -29,7 +29,7 @@ Per le attività sopracitate, il Committente richiede i seguenti output:
     - [ ] Valutazione dell’usabilità a priori. (solo gruppi “Nuovo Ordinamento”)
     - [ ] Glossario.
   - [ ] Specifica dei Requisiti.
-    - [ ] Classi, oggetti e relazioni di analisi.
+    - [X] Classi, oggetti e relazioni di analisi.
     - [ ] Diagrammi di sequenza di analisi per due casi d’uso significativi a scelta dei contraenti tra quelli assegnati.
     - [ ] Prototipazione funzionale via statechart dell’interfaccia grafica, relativamente ai casi d’uso individuati.
 - [ ] Documento di Design del sistema.
