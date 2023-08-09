@@ -1,0 +1,3 @@
+python-version: Python 3.11.4
+django-version: Django 4.2.1
+postgres-version: PostgreSQL 15.3 (Homebrew) on aarch64-apple-darwin22.4.0, compiled by Apple clang version 14.0.3 (clang-1403.0.22.14.1), 64-bit
