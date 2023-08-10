@@ -13,9 +13,11 @@
 - [x] Quando la **quantità di un dato prodotto** presente in dispensa scende al di sotto di una certa soglia personalizzabile per ciascun prodotto, il sistema invia un **messaggio** di avvertimento agli amministratori e ai supervisori.
 - [x] Un amministratore può visualizzare statistiche sugli introiti dell’attività di ristorazione. In particolare, dato un certo intervallo di tempo personalizzabile, è possibile visualizzare l’incasso medio, il valore medio di ciascun conto, l’incasso complessivo. È apprezzata la presenza di grafici interattivi.
 
-- [ ] Autocompletamento, autenticazione, pdf
-- [ ] Campo tipologia di quantità (kg/lt)
-- [ ] Gestione degli url
-- [ ] Spostare la logica dei receipts dentro managementApp
+--- 
+
 - [ ] Ogni quanto fare il controllo del minThreshold
 - [ ] Testing
+- [ ] Spostare la logica dei receipts dentro managementApp
+- [ ] Gestione degli url
+- [ ] Campo tipologia di quantità (kg/lt)
+- [ ] Autocompletamento, autenticazione, pdf
