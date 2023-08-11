@@ -15,8 +15,6 @@
 
 --- 
 
-- [ ] Ogni quanto fare il controllo del minThreshold (probabilmente quando viene ordinato
 - [ ] Testing
 - [ ] Gestione degli url
-- [ ] Campo tipologia di quantità (kg/lt)
 - [ ] Autocompletamento, autenticazione, pdf
