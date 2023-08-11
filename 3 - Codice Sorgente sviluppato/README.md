@@ -17,7 +17,6 @@
 
 - [ ] Ogni quanto fare il controllo del minThreshold (probabilmente quando viene ordinato
 - [ ] Testing
-- [ ] Spostare la logica dei receipts dentro managementApp
 - [ ] Gestione degli url
 - [ ] Campo tipologia di quantità (kg/lt)
 - [ ] Autocompletamento, autenticazione, pdf
