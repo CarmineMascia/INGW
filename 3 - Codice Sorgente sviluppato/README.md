@@ -18,3 +18,19 @@
 - [ ] Testing
 - [ ] Gestione degli url
 - [ ] Autocompletamento, autenticazione, pdf
+
+--- 
+
+Ratatouille
+|- managementApp
+|  |- statisticsAPI 
+|  |- ingredientsAPI
+|  |- dishAPI
+|  |- orderAPI
+|  |- dishOfOrderAPI 
+|  |- ingredientsInDishAPI
+|
+|- usersApp
+|  |- userApi
+|  |- login_view
+|  |- updatePassword_view
