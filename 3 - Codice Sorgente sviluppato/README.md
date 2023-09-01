@@ -13,17 +13,16 @@
 - Quando la **quantità di un dato prodotto** presente in dispensa scende al di sotto di una certa soglia personalizzabile per ciascun prodotto, il sistema invia un **messaggio** di avvertimento agli amministratori e ai supervisori.
 - Un amministratore può visualizzare statistiche sugli introiti dell’attività di ristorazione. In particolare, dato un certo intervallo di tempo personalizzabile, è possibile visualizzare l’incasso medio, il valore medio di ciascun conto, l’incasso complessivo. È apprezzata la presenza di grafici interattivi.
 
---- 
-
+## Check list
 - [ ] Testing
 - [ ] Gestione degli url
 - [ ] Autocompletamento, autenticazione, pdf
 
---- 
+## Server's views
 ```
 Ratatouille
 |- managementApp
-|  |- statisticsAPI 
+|  |- statisticsAPI
 |  |- ingredientsAPI
 |  |- dishAPI
 |  |- orderAPI
@@ -35,3 +34,48 @@ Ratatouille
 |  |- login_view
 |  |- updatePassword_view
 ```
+
+## How to use server's api
+Se non è specificato che JSON una view ritorna, allora essa ritornerà un JSON contenente l'esito dell'operazione (Esempio {"Added successfully"}). Per sapere come si chiamano gli attributi da mettere nei JSON vedere il model. 
+
+- **ManagementApp**
+  - **statisticsAPI**
+    - Questa view supporta il metodo GET;
+    - Riceve in input un JSON del tipo {"start": "x", "end": "y"} dove x,y sono date del formato **???**;
+    - Ritorna un oggetto JSON contenente il totale guadagno, la media dei conti e la media del guadagno.
+  - **ingredientsAPI**
+    - Questa view supporta i metodi GET, PUT, POST e DELETE;
+    - Il metodo GET non riceve nessun JSON, e ritorna tutti gli ingredienti;
+    - Il metodo PUT riceve un JSON contenente almeno l'id dell'ingrediente e opzionalmente gli attributi da modificare;
+    - Il metodo POST riceve un JSON contenente le informazioni necessarie per creare un nuovo ingrediente;
+    - Il metodo DELETE non riceve nessun JSON, ma ha bisogno dell'id dell'ingrediente inserito nell'url.
+  - **dishAPI**
+    - Questa view supporta i metodi GET, PUT, POST e DELETE;
+    - Il metodo GET non riceve nessun JSON, e ritorna tutti i piatti;
+    - Il metodo PUT riceve un JSON contenente almeno l'id del piatto e opzionalmente gli attributi da modificare;
+    - Il metodo POST riceve un JSON contenente le informazioni necessarie per creare un nuovo piatto;
+    - Il metodo DELETE non riceve nessun JSON, ma ha bisogno dell'id del piatto inserito nell'url.
+  - **orderAPI**
+    - Questa view supporta i metodi GET, PUT, e POST;   
+    - Il metodo GET riceve un JSON contenente il numero del tavolo, e ritorna tutte le informazioni appartenenti al conto;
+    - Il metodo PUT riceve un JSON contenente il numero del tavolo, questo metodo deve essere chiamato alla fine, quando il cliente se n'è andato. E deve essere chiamato DOPO aver preso le informazioni del conto (order-dish info).
+    - Il metodo POST riceve un JSON contenente il numero del tavolo, questo metodo deve essere chiamato solo quando un tavolo viene occupato, e deve essere fatto prima di ordinare qualsiasi cosa.
+  - **dishOfOrderAPI**
+    - Questa view supporta il metodo POST;
+    - Riceve un JSON contenente il numero del tavolo, e l'id del piatto;
+    - Controlla inoltre se un certo ingrediente sta per finire.
+  - **ingredientsInDishAPI**
+    - Questa view supporta il metodo POST;
+    - Riceve un JSON che è una tupla di ingredientsInDish.
+ 
+- **UsersApp**
+  - **userApi**
+    - Questa view supporta i metodi GET e POST;
+    - Il metodo GET non riceve alcun JSON e ritorna un JSON contenente tutti gli utenti;
+    - Il metodo POST riceve un JSON contenente tutte le informazioni di un nuovo utente.
+  - **login_view**
+    -  Questa view supporta il metodo POST;
+    -  Riceve un JSON contenente name e password, e ritorna un JSON contenente tutte le informazioni di quell'utente.
+  - **updatePassword_view**
+    -  Questa view supporta il metodo PUT;
+    -  Riceve un JSON con l'id dell'utente, e la nuova password.
