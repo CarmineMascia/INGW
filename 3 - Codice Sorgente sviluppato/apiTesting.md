@@ -78,3 +78,102 @@ DELETE http://127.0.0.1:8000/ingredients/
 RESPONSE
 "Deleted sucessfully"
 ```
+
+## Dish
+```
+REQUEST
+GET http://127.0.0.1:8000/dish/
+NO JSON
+
+RESPONSE
+[
+    {
+        "id": 1,
+        "name": "Tagliatelle in una delicata crema di latticini e formaggio",
+        "cost": 16.5,
+        "category": 1,
+        "description": "Pasta al burro"
+    }
+]
+```
+
+```
+REQUEST
+POST http://127.0.0.1:8000/dish/
+{
+    "name":"Tagliatelle in una delicata crema di latticini e formaggio",
+    "cost":"15",
+    "description":"Pasta al burro",
+    "category":"1"
+}
+
+RESPONSE
+"Added successfully"
+```
+
+```
+REQUEST
+PUT http://127.0.0.1:8000/dish/
+{
+    "id":"1",
+    "name":"Tagliatelle in una delicata crema di latticini e formaggio",
+    "cost":"16.5",
+    "description":"Pasta al burro",
+    "category":"1"
+}
+
+RESPONSE
+"Updated successfully"
+```
+
+```
+REQUEST
+DELETE http://127.0.0.1:8000/dish/
+{
+    "id":"2"
+}
+
+RESPONSE
+"Deleted sucessfully"
+```
+
+## Order
+```
+REQUEST
+GET http://127.0.0.1:8000/order/
+{
+}
+
+RESPONSE
+
+```
+
+```
+REQUEST
+POST http://127.0.0.1:8000/order/
+{
+}
+
+RESPONSE
+
+```
+
+```
+REQUEST
+PUT http://127.0.0.1:8000/order/
+{
+}
+
+RESPONSE
+
+```
+
+```
+REQUEST
+DELETE http://127.0.0.1:8000/order/
+{
+}
+
+RESPONSE
+
+```
