@@ -41,7 +41,7 @@ Se non è specificato che JSON una view ritorna, allora essa ritornerà un JSON 
 - **ManagementApp**
   - **statisticsAPI**
     - Questa view supporta il metodo GET;
-    - Riceve in input un JSON del tipo {"start": "x", "end": "y"} dove x,y sono date del formato **???**;
+    - Riceve in input un JSON del tipo {"start": "x", "end": "y"} dove x,y sono date del formato AAAA-MM-GG;
     - Ritorna un oggetto JSON contenente il totale guadagno, la media dei conti e la media del guadagno.
   - **ingredientsAPI**
     - Questa view supporta i metodi GET, PUT, POST e DELETE;
