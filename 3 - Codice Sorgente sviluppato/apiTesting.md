@@ -142,37 +142,71 @@ RESPONSE
 REQUEST
 GET http://127.0.0.1:8000/order/
 {
+    "tableNumber":"1"
 }
 
 RESPONSE
-
+{
+    "order": {
+        "id": 4,
+        "tableNumber": 1,
+        "timestamp": "2023-09-05",
+        "cost": 16.5,
+        "isActive": true
+    },
+    "dishes": [
+        {
+            "dish": {
+                "id": 1,
+                "name": "Tagliatelle in una delicata crema di latticini e formaggio",
+                "cost": 16.5,
+                "category": 1,
+                "description": "Pasta al burro"
+            }
+        }
+    ]
+}
 ```
 
 ```
 REQUEST
 POST http://127.0.0.1:8000/order/
 {
+    "tableNumber":"1"
 }
 
 RESPONSE
-
+"Added successfully"
 ```
 
 ```
 REQUEST
 PUT http://127.0.0.1:8000/order/
 {
+    "tableNumber":"1"
 }
 
 RESPONSE
-
+"Updated successfully"
 ```
 
+## Dish of order
 ```
 REQUEST
-DELETE http://127.0.0.1:8000/order/
+POST http://127.0.0.1:8000/dishOfOrder/
 {
+    "tableNumber":"1",
+    "dishId":"1"
 }
+
+RESPONSE
+"Added successfully"
+```
+
+## Ingredients in dish 
+```
+REQUEST
+
 
 RESPONSE
 
