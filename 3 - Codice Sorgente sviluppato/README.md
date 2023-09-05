@@ -14,8 +14,7 @@
 - Un amministratore può visualizzare statistiche sugli introiti dell’attività di ristorazione. In particolare, dato un certo intervallo di tempo personalizzabile, è possibile visualizzare l’incasso medio, il valore medio di ciascun conto, l’incasso complessivo. È apprezzata la presenza di grafici interattivi.
 
 ## Check list
-- [ ] Testing
-- [ ] Gestione degli url
+- [ ] Ingredients in dish + testing del threshold
 - [ ] Autocompletamento, autenticazione, pdf
 
 ## Server's views
