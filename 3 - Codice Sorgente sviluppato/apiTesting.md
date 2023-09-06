@@ -206,8 +206,13 @@ RESPONSE
 ## Ingredients in dish 
 ```
 REQUEST
-
+POST 
+{
+    "dishId":"1",
+    "ingredientsId":"1",
+    "quantityNeeded":"0.1"
+}
 
 RESPONSE
-
+"Added successfully"
 ```
