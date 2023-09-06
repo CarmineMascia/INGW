@@ -206,7 +206,7 @@ RESPONSE
 ## Ingredients in dish 
 ```
 REQUEST
-POST 
+POST http://127.0.0.1:8000/ingredientsInDish/
 {
     "dishId":"1",
     "ingredientsId":"1",
