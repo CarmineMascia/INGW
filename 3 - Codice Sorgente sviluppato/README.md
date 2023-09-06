@@ -13,10 +13,6 @@
 - Quando la **quantità di un dato prodotto** presente in dispensa scende al di sotto di una certa soglia personalizzabile per ciascun prodotto, il sistema invia un **messaggio** di avvertimento agli amministratori e ai supervisori.
 - Un amministratore può visualizzare statistiche sugli introiti dell’attività di ristorazione. In particolare, dato un certo intervallo di tempo personalizzabile, è possibile visualizzare l’incasso medio, il valore medio di ciascun conto, l’incasso complessivo. È apprezzata la presenza di grafici interattivi.
 
-## Check list
-- [ ] Ingredients in dish + testing del threshold
-- [ ] Autocompletamento, autenticazione, pdf
-
 ## Server's views
 ```
 Ratatouille
