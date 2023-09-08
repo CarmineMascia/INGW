@@ -1,4 +1,3 @@
-from django.shortcuts import get_object_or_404, render
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
@@ -11,20 +10,44 @@ from managementApp.models import DishesOfOrder
 from managementApp.serializers import DishesOfOrderSerializer
 from managementApp.models import Ingredients
 from managementApp.serializers import IngredientsSerializer
+from managementApp.models import IngredientsInDish
 
 from django.db.models import F
 
-# TODO : TEST
-
-# Getting every ingredients info
 @csrf_exempt
-def ingredientsAPI(request, identifier):
-    if request.methdo == 'GET':
+def statisticsAPI(request):
+    if request.method == 'GET':
+        data = JSONParser().parse(request)
+        startDate = data.get('start')
+        endDate = data.get('end')
+
+        receipt_data = Orders.objects.filter(timestamp__range=(startDate, endDate)).order_by('timestamp')
+        total = 0
+        for receipt in receipt_data: total += receipt.cost
+
+        n = len(receipt_data)
+        m = (receipt_data.last().timestamp-receipt_data.first().timestamp).days
+
+        if n == 0: n = 1
+        if m == 0: m = 1
+
+        expectedReceipt = total // n
+        expectedTotal = total // m
+
+        return JsonResponse({ 
+            "total": total, 
+            "Expected value of receipt": expectedReceipt,
+            "Expected value of total": expectedTotal
+        })
+
+@csrf_exempt
+def ingredientsAPI(request):
+    if request.method == 'GET':
         ingredients = Ingredients.objects.all()
         ingredients_serializer=IngredientsSerializer(ingredients, many=True) 
         return JsonResponse (ingredients_serializer.data, safe=False)
     
-    elif request.method == 'PUT': # This update works probably giving already the new value 
+    elif request.method == 'PUT':
         data = JSONParser().parse(request)
         ingredients = Ingredients.objects.get(id=data['id']) 
         serializer = IngredientsSerializer(ingredients, data=data) 
@@ -34,7 +57,7 @@ def ingredientsAPI(request, identifier):
         return JsonResponse("Failed to update", safe=False)
 
     elif request.method  == 'POST':
-        data = JSONParser().parse(request) # taking the table number
+        data = JSONParser().parse(request)
         serializer = IngredientsSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -42,16 +65,16 @@ def ingredientsAPI(request, identifier):
         return JsonResponse("Failed to add", safe=False)
 
     elif request.method == 'DELETE':
-        Ingredients.objects.get(id=identifier).delete()
+        data = JSONParser().parse(request)
+        Ingredients.objects.get(id=data['id']).delete()
         return JsonResponse("Deleted sucessfully", safe=False )
 
-# Creation, Update and delete of a dish, also getting every dish info 
 @csrf_exempt
-def dishAPI(request, identifier=0):
-    if request.methdo == 'GET':
+def dishAPI(request):
+    if request.method == 'GET':
         dishes = Dish.objects.all()
         dishes_serializer=DishSerializer(dishes, many=True) 
-        return JsonResponse (dishes_serializer.data, safe=False)
+        return JsonResponse(dishes_serializer.data, safe=False)
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
@@ -71,7 +94,8 @@ def dishAPI(request, identifier=0):
         return JsonResponse("Failed to update", safe=False)
 
     elif request.method == 'DELETE':
-        Dish.objects.get(id=identifier).delete()
+        data = JSONParser().parse(request)
+        Dish.objects.get(id=data['id']).delete()
         return JsonResponse("Deleted sucessfully", safe=False )
 
 # Creation, closure and retriving of an order
@@ -115,7 +139,7 @@ def orderAPI(request):
 
         # This case is for when the order ended, and we need to close it 
         # BEFORE DOING THIS, IS A MUST TO TAKE THE ORDER-DISH INFO,
-        #  because after isActive=False and if request.method == 'GET': does not work
+        # because after isActive=False and if request.method == 'GET': does not work
         elif request.method == 'PUT':
             data = JSONParser().parse(request)  # taking the table number
             order = Orders.objects.get(tableNumber=data['tableNumber'], isActive=True)
@@ -126,19 +150,36 @@ def orderAPI(request):
                 return JsonResponse("Updated successfully", safe=False)
             return JsonResponse("Failed to update", safe=False)
 
+# The name 
+def check_inventory_thresholds():
+    ingredients_below_threshold = Ingredients.objects.filter(quantity__lt=F('minTheshold'))
+
+    for ingredient in ingredients_below_threshold:
+        message = f"Warning: {ingredient.name} quantity is below threshold ({ingredient.minThreshold})"
+        Notification(message=message, ingredient=ingredient.name).save()
+
 # Add a tuple (this is for adding an element to an order)
 @csrf_exempt
 def dishOfOrderAPI(request):
     if request.method == 'POST':
-        data = JSONParser().parse(request) # taking the table number and dish id TODO give dish id ?
-        order = Orders.objects.get(tableNumber=data['tableNumber'], isActive=True)
+        data = JSONParser().parse(request)
+        try:
+            order = Orders.objects.get(tableNumber=data['tableNumber'], isActive=True)
+            dish = Dish.objects.get(id=data['dishId'])
+        except:
+            return JsonResponse({'Failed to add, order or dish not found'}, safe=False)
+        
+        dishes_of_order = DishesOfOrder(orderId=order, dishId=dish)
+        dishes_of_order.save()
 
-        dish_of_order = DishesOfOrder(orderId=order, dishId=data['dishId'])
-        if dish_of_order.is_valid():
-            dish_of_order.save()
-            return JsonResponse("Added successfully", safe=False)
-        return JsonResponse("Failed to add", safe=False)
+        # TODO : Togliere la quantità dalla dispensa
+        ingredients_used = IngredientsInDish.objects.filter(dishId=data['dishId'])
+        for ingredient in ingredients_used:
+            x = Ingredients.objects.get(id=ingredient.ingredientsId.id)
+            x.quantity -= ingredient.quantityNeeded
+            x.save()
 
+        return JsonResponse("Added successfully", safe=False)
 
 # Add a tuple (this is for adding an ingredient to a dish)
 @csrf_exempt
@@ -152,14 +193,6 @@ def ingredientsInDishAPI(request):
                 serializer.save()
                 return JsonResponse("Added successfully", safe=False)
             return JsonResponse("Failed to add", safe=False)
-
-# The name 
-def check_inventory_thresholds():
-    ingredients_below_threshold = Ingredients.objects.filter(quantity__lt=F('minTheshold'))
-
-    for ingredient in ingredients_below_threshold:
-        message = f"Warning: {ingredient.name} quantity is below threshold ({ingredient.minThreshold})"
-        Notification(message=message, ingredient=ingredient.name).save()
 
 # TODO : Gli ordini sono solo gli "scontrini" e l'informazione se sono ancora attivi, una volta che l'ordine è finito, non è più attivo
 # un tavolo sta venendo usato se c'è un ordine attivo su di esso.

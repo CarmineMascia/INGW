@@ -16,11 +16,12 @@ class Dish(models.Model):
 class Ingredients(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
-    descripion = models.CharField(max_length=500)
+    description = models.CharField(max_length=500)
     quantity = models.FloatField() # in kg
     cost = models.FloatField() # for kg
+    # type = kg or lt
     isAllergen = models.BooleanField(default=False)
-    minTheshold = models.IntegerField()
+    minThreshold = models.IntegerField()
 
 class IngredientsInDish(models.Model):
     id = models.AutoField(primary_key=True)
