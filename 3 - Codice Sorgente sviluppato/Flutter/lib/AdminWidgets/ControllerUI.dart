@@ -10,7 +10,7 @@ import 'package:prova1/AdminUI/LogicUI/DatiAccountAdmin.dart';
 import 'package:prova1/Model/Admin.dart';
 
 class ControllerUI {
-  ThemeDatiAccount datiAccount = ThemeDatiAccount();
+  ThemeDatiAccount themeDatiAccount = ThemeDatiAccount();
 
   /*questo Map contiene le routes per tutte le varie classi
   Map<String, WidgetBuilder> routes = {
@@ -25,6 +25,9 @@ class ControllerUI {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const Spacer(
+            flex: 1,
+          ),
           ElevatedButton(
               style: ButtonStyle(
                   elevation: MaterialStateProperty.all(4.0),
@@ -55,7 +58,7 @@ class ControllerUI {
               },
               child: const Text('DATI ACCOUNT')),
           const Spacer(flex: 2),
-          ElevatedButton(
+          /*ElevatedButton(
               style: ButtonStyle(
                   elevation: MaterialStateProperty.all(4.0),
                   backgroundColor: MaterialStateProperty.all(Colors.white),
@@ -68,8 +71,8 @@ class ControllerUI {
                           admin: admin,
                         )));
               },
-              child: const Text('MESSAGGI')),
-          const Spacer(flex: 2),
+              child: const Text('MESSAGGI')),*/
+          //const Spacer(flex: 2),
           ElevatedButton(
               style: ButtonStyle(
                   elevation: MaterialStateProperty.all(4.0),
@@ -112,6 +115,9 @@ class ControllerUI {
                 );
               },
               child: const Text('CREA ACCOUNT')),
+          const Spacer(
+            flex: 1,
+          ),
         ],
       ),
     );
@@ -186,7 +192,7 @@ class ControllerUI {
             alignment: Alignment.topLeft, // Allinea il Text in alto a sinistra
             child: Text(
               key,
-              style: ThemeDatiAccount.textStyle(),
+              style: themeDatiAccount.textStyle2(),
             ),
           ),
           const SizedBox(
@@ -194,7 +200,7 @@ class ControllerUI {
           ),
           Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(3.0),
               color: Colors.white,
               border: Border.all(
                 color: Colors.black, // Colore del bordo
@@ -202,7 +208,7 @@ class ControllerUI {
               ),
             ),
             width: 500.0,
-            height: 30.0,
+            height: 35.0,
             padding: const EdgeInsets.all(5.0),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,

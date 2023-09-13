@@ -1,83 +1,3 @@
-/*import 'package:flutter/material.dart';
-import 'package:prova1/AdminUI/Themes/ThemeAggiungiPiatto.dart';
-
-class AllergeniWidget extends StatefulWidget {
-  final List<String> optionsList;
-
-  AllergeniWidget({required this.optionsList});
-
-  @override
-  _AllergeniWidgetState createState() => _AllergeniWidgetState();
-}
-
-class _AllergeniWidgetState extends State<AllergeniWidget> {
-  List<String> selectedItems = [];
-
-  void addItemToList(String item) {
-    setState(() {
-      selectedItems.add(item);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: ThemeAggiungiPiatto.containerDecoration(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            height: 200, // Altezza specifica per evitare problemi di layout
-            padding: const EdgeInsets.all(20.0),
-            child: Wrap(
-              alignment: WrapAlignment.start,
-              spacing: 8.0,
-              children: [
-                for (String item in selectedItems)
-                  Chip(
-                    label: Text(item),
-                    deleteIcon: Icon(Icons.cancel),
-                    onDeleted: () {
-                      setState(() {
-                        selectedItems.remove(item);
-                      });
-                    },
-                  ),
-              ],
-            ),
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text('Seleziona un elemento'),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        for (String option in widget.optionsList)
-                          ListTile(
-                            title: Text(option),
-                            onTap: () {
-                              addItemToList(option);
-                              Navigator.pop(context);
-                            },
-                          ),
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
-            child: Icon(Icons.add),
-          ),
-        ],
-      ),
-    );
-  }
-}*/
-
 import 'package:flutter/material.dart';
 import 'package:prova1/AdminUI/Themes/ThemeAggiungiPiatto.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
@@ -86,6 +6,7 @@ import 'package:prova1/Model/Allergeni.dart';
 class AllergeniWidget extends StatefulWidget {
   final List<Allergeni> optionsList;
   final Function(List<Allergeni>) onUpdateSelection;
+  ThemeAggiungiPiatto themeAggiungiPiatto = ThemeAggiungiPiatto();
 
   AllergeniWidget({required this.optionsList, required this.onUpdateSelection});
 
@@ -115,7 +36,7 @@ class _AllergeniWidgetState extends State<AllergeniWidget> {
   Widget build(BuildContext context) {
     return Container(
       height: 220,
-      decoration: ThemeAggiungiPiatto.containerDecoration(),
+      decoration: widget.themeAggiungiPiatto.containerDecoration(),
       child: Padding(
         padding: EdgeInsets.all(10.0),
         child: Column(
@@ -127,7 +48,7 @@ class _AllergeniWidgetState extends State<AllergeniWidget> {
             ),
             Text(
               'ALLERGENI',
-              style: ThemeAggiungiPiatto.textStyle(),
+              style: widget.themeAggiungiPiatto.textStyle(),
               textAlign: TextAlign.center,
             ),
             SizedBox(

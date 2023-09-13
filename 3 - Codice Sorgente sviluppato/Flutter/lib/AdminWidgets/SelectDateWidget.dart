@@ -4,6 +4,7 @@ import 'package:prova1/AdminUI/Themes/ThemeStatisticheShop.dart';
 class SelectDateWidget extends StatefulWidget {
   final Function(DateTime) changeStartDate;
   final Function(DateTime) changeEndDate;
+  ThemeStatisticheShop themeStatisticheShop = ThemeStatisticheShop();
 
   SelectDateWidget({
     required this.changeStartDate,
@@ -80,7 +81,7 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
               child: Column(
                 children: [
                   Text('SELEZIONA LE DATE:',
-                      style: ThemeStatisticheShop.textStyle4()),
+                      style: widget.themeStatisticheShop.textStyle4()),
                   const SizedBox(height: 20.0),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     ElevatedButton(
@@ -91,9 +92,10 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
                           _startDate.month.toString() +
                           '/' +
                           _startDate.year.toString()),
-                      style: ElevatedButton.styleFrom(
+                      style: widget.themeStatisticheShop.buttonStyle(),
+                      /*ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
-                      ),
+                      ),*/
                     ),
                     const SizedBox(width: 30.0),
                     ElevatedButton(
@@ -104,8 +106,7 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
                           _endDate.month.toString() +
                           '/' +
                           _endDate.year.toString()),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue),
+                      style: widget.themeStatisticheShop.buttonStyle(),
                     ),
                   ]),
                 ],

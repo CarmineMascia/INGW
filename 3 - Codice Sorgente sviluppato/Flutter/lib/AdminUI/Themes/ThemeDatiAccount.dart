@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
 class ThemeDatiAccount {
-  static TextStyle textStyle() {
+  TextStyle textStyle() {
     return const TextStyle(
       color: Colors.black,
       fontSize: 25.0,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
+  TextStyle textStyle2() {
+    return const TextStyle(
+      color: Colors.black,
+      fontSize: 20.0,
       fontWeight: FontWeight.bold,
     );
   }

@@ -21,17 +21,6 @@ class AdminConnessioneDB {
     return (Admin('Carmine', 'Mascia', 'mascia.c02@gmail.com', 'lalalala'));
   }
 
-  List<Ingrediente> TakeDispensaDB() {
-    return [
-      Ingrediente('Prosciutto cotto', '00001', '5KG', DateTime(2025, 8, 3),
-          'Buono e gustoso gnamckospsniprkvpsmimo opf pwmorospvmsopigjsnvkpkm  mgpgwmdlskmgkewgpigkwrinpkwdfkmefowpgiwngkn gqpwfmkrdmslòfmsdkrnionkgsmkfmpsdksvmriongksi eipwkfmodlskmnkgirgnwbojcndlckamofpefèapvnddbu jngnjrspgkgjnsfnhgjpoae o pfiejaipfmkdkgnikdagpiengrujnjgaipefmoqdòklcvsnvriogn gefofeopa    ofejoppafpjoeaojpfopjafpjofefejofjojopfeapfaejoeevovuaaaaaaaaaaaaaaaa iojfeaeeeeeeeeeeeeeeeeeeeeeeeee paofnaudoavijoguhvjaeifaojncauofjaeionaceiaougnjcaidjpakwopdicmksljvdurjiapeugiacoqehaocjvnhryiu fuehajpsoiojiydfuoiefoneiduiosdjhayfuoinjhyudhifuiodjnhiyuofiajehhu ifaiuipodknjufiadjknjabgduivnk juivajdnjuivjdiuaejtudfj'),
-      Ingrediente('Prosciutto crudo', '00002', '5KG', DateTime(2026, 8, 3),
-          'Buono e gustoso gnam'),
-      Ingrediente('Mozzarella', '00003', '5KG', DateTime(2024, 8, 3),
-          'Buono e gustoso gnam'),
-    ];
-  }
-
   List<Messaggio> TakeMessagesDB() {
     return [
       Messaggio('La mozzarella sta per terminare', DateTime(2023, 8, 6)),
@@ -48,7 +37,7 @@ class AdminConnessioneDB {
   List<String> allergeni;
   List<Ingrediente> ingredienti;*/
 
-  List<List<Piatti>> takeAllPiattiDB() {
+  /*List<List<Piatti>> takeAllPiattiDB() {
     return [
       [
         Piatti('Spaghetti allo scoglio', '15', '00001',
@@ -89,37 +78,10 @@ class AdminConnessioneDB {
         Piatti('Spaghetti alla carbonara', '15', '', '', [], []),
       ]
     ];
-  }
+  }*/
 
   void DeletePiattiDB(List<Piatti> selectedPiatti) {
     //elimina i piatti dal DB
-  }
-
-  List<Allergeni> takeAllergeniDB() {
-    return [
-      Allergeni('nichel'),
-      Allergeni('glutine'),
-      Allergeni('lattosio'),
-      Allergeni('galattosio'),
-      Allergeni('tonno'),
-      Allergeni('pomodoro'),
-    ];
-  }
-
-  List<Ingrediente> TakeIngredientiDB() {
-    return [
-      Ingrediente('Prosciutto cotto', '00001', '5KG', DateTime(2025, 8, 3),
-          'Buono e gustoso gnamckospsniprkvpsmimo opf pwmorospvmsopigjsnvkpkm  mgpgwmdlskmgkewgpigkwrinpkwdfkmefowpgiwngkn gqpwfmkrdmslòfmsdkrnionkgsmkfmpsdksvmriongksi eipwkfmodlskmnkgirgnwbojcndlckamofpefèapvnddbu jngnjrspgkgjnsfnhgjpoae o pfiejaipfmkdkgnikdagpiengrujnjgaipefmoqdòklcvsnvriogn gefofeopa    ofejoppafpjoeaojpfopjafpjofefejofjojopfeapfaejoeevovuaaaaaaaaaaaaaaaa iojfeaeeeeeeeeeeeeeeeeeeeeeeeee paofnaudoavijoguhvjaeifaojncauofjaeionaceiaougnjcaidjpakwopdicmksljvdurjiapeugiacoqehaocjvnhryiu fuehajpsoiojiydfuoiefoneiduiosdjhayfuoinjhyudhifuiodjnhiyuofiajehhu ifaiuipodknjufiadjknjabgduivnk juivajdnjuivjdiuaejtudfj'),
-      Ingrediente('Prosciutto crudo', '00002', '5KG', DateTime(2026, 8, 3),
-          'Buono e gustoso gnam'),
-      Ingrediente('Mozzarella', '00003', '5KG', DateTime(2024, 8, 3),
-          'Buono e gustoso gnam'),
-    ];
-  }
-
-  bool SavePiattoDB(Piatti piatti) {
-    print("Messaggio: OK");
-    return true;
   }
 
   bool addEmployee(String accountType, Iterable<String?> values) {
@@ -127,10 +89,6 @@ class AdminConnessioneDB {
   }
 
   void setToZeroNotifications() {}
-
-  bool UpdatePiattoDB(Piatti piatti) {
-    return true;
-  }
 
   Map<DateTime, double> getIncassoGiornalieroDB(
       DateTime startDate, DateTime endDate) {
@@ -501,5 +459,13 @@ class AdminConnessioneDB {
       DateTime(2023, 12, 29): random.nextDouble() * 100,
       DateTime(2023, 12, 30): random.nextDouble() * 100,
     };
+  }
+
+  bool salvaNuovoOrdineDelMenuDB(List<Piatti> piatti) {
+    return true;
+  }
+
+  double getValoreMedioContoDB(DateTime startDate, DateTime endDate) {
+    return Random().nextDouble() * 200;
   }
 }

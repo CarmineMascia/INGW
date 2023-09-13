@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:prova1/AdminUI/Themes/ThemeAggiungiPiatto.dart';
 import 'package:prova1/AdminUI/Themes/ThemeCreaAccount.dart';
 import 'package:prova1/AdminWidgets/AllergeniWidget.dart';
-import 'package:prova1/AdminWidgets/IngredientiWidget.dart';
+import 'package:prova1/AdminWidgets/AppBarLayout.dart';
+import 'package:prova1/ClientsWidgets/IngredientiWidget.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
+import 'package:prova1/Controller/Controller.dart';
 import 'package:prova1/Model/Allergeni.dart';
 import 'package:prova1/Model/Ingrediente.dart';
 import 'package:prova1/Model/Piatti.dart';
-import '../Themes/ThemeMain.dart';
+import '../../ClientsWidgets/ThemeMain.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/AdminWidgets/ControllerUI.dart';
-import 'package:prova1/ControllerAdmin/Controller.dart';
+import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 import '../Themes/ThemeDatiAccount.dart';
 import 'package:prova1/ClientsWidgets/CustomDropdown.dart';
 
@@ -28,8 +30,9 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
   ControllerUI controllerUI = ControllerUI();
   ThemeMain theme = ThemeMain();
   AppBarLayout AppBar = AppBarLayout();
-  ThemeAggiungiPiatto themeDatiAccount = ThemeAggiungiPiatto();
+  ThemeAggiungiPiatto themeAggiungiPiatto = ThemeAggiungiPiatto();
   Controller controller = Controller();
+  ControllerAdmin controllerAdmin = ControllerAdmin();
 
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController descrizioneController = TextEditingController();
@@ -64,7 +67,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                       const SizedBox(height: 5.0),
                       Text(
                         "AGGIUNGI PIATTO AL MENU",
-                        style: ThemeCreaAccount.textStyle(),
+                        style: themeAggiungiPiatto.textStyle(),
                       ),
                       const SizedBox(height: 5.0),
                       WhiteLine(),
@@ -72,7 +75,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                         height: 20.0,
                       ),
                       Container(
-                        decoration: ThemeAggiungiPiatto.containerDecoration(),
+                        decoration: themeAggiungiPiatto.containerDecoration(),
                         height: 100.0,
                         child: Padding(
                           padding: EdgeInsets.all(10.0),
@@ -83,7 +86,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                               ),
                               Text(
                                 "NOME: ",
-                                style: ThemeAggiungiPiatto.textStyle2(),
+                                style: themeAggiungiPiatto.textStyle2(),
                               ),
                               const SizedBox(
                                 width: 10.0,
@@ -94,7 +97,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                                 child: TextField(
                                   controller: nomeController,
                                   decoration:
-                                      ThemeAggiungiPiatto.TextFieldDecoration(),
+                                      themeAggiungiPiatto.TextFieldDecoration(),
                                 ),
                               ),
                               const SizedBox(
@@ -102,7 +105,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                               ),
                               Text(
                                 "CODICE: ",
-                                style: ThemeAggiungiPiatto.textStyle2(),
+                                style: themeAggiungiPiatto.textStyle2(),
                               ),
                               const SizedBox(
                                 width: 10.0,
@@ -113,7 +116,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                                 child: TextField(
                                   controller: codiceController,
                                   decoration:
-                                      ThemeAggiungiPiatto.TextFieldDecoration(),
+                                      themeAggiungiPiatto.TextFieldDecoration(),
                                 ),
                               ),
                               const SizedBox(
@@ -121,7 +124,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                               ),
                               Text(
                                 "PREZZO: ",
-                                style: ThemeAggiungiPiatto.textStyle2(),
+                                style: themeAggiungiPiatto.textStyle2(),
                               ),
                               const SizedBox(
                                 width: 10.0,
@@ -132,7 +135,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                                 child: TextField(
                                   controller: prezzoController,
                                   decoration:
-                                      ThemeAggiungiPiatto.TextFieldDecoration(),
+                                      themeAggiungiPiatto.TextFieldDecoration(),
                                 ),
                               ),
                               const SizedBox(
@@ -146,7 +149,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                         height: 20.0,
                       ),
                       Container(
-                        decoration: ThemeAggiungiPiatto.containerDecoration(),
+                        decoration: themeAggiungiPiatto.containerDecoration(),
                         child: Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Column(
@@ -155,7 +158,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                               const SizedBox(height: 5.0),
                               Text(
                                 "DESCRIZIONE",
-                                style: ThemeCreaAccount.textStyle(),
+                                style: themeAggiungiPiatto.textStyle(),
                               ),
                               const SizedBox(height: 5.0),
                               WhiteLine(),
@@ -169,7 +172,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                                   minLines: 7,
                                   maxLines: 7,
                                   decoration:
-                                      ThemeAggiungiPiatto.TextFieldDecoration(),
+                                      themeAggiungiPiatto.TextFieldDecoration(),
                                 ),
                               )
                             ],
@@ -209,7 +212,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                           child: ElevatedButton(
                             child: Text(
                               "SALVA",
-                              style: ThemeCreaAccount.textStyle2(),
+                              style: themeAggiungiPiatto.textStyle2(),
                             ),
                             onPressed: () {
                               String nome = nomeController.text;

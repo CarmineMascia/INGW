@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeDispensaAdmin {
-  static TextStyle textStyle() {
+  TextStyle textStyle() {
     return const TextStyle(
       color: Colors.black,
       fontSize: 25.0,
@@ -9,7 +9,7 @@ class ThemeDispensaAdmin {
     );
   }
 
-  static TextStyle textStyle2() {
+  TextStyle textStyle2() {
     return const TextStyle(
       color: Colors.black,
       fontSize: 15.0,

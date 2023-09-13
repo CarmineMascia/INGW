@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeAggiungiPiatto {
-  static TextStyle textStyle() {
+  TextStyle textStyle() {
     return const TextStyle(
       color: Colors.black,
       fontSize: 25.0,
@@ -9,7 +9,7 @@ class ThemeAggiungiPiatto {
     );
   }
 
-  static TextStyle textStyle2() {
+  TextStyle textStyle2() {
     return const TextStyle(
       color: Colors.black,
       fontSize: 15.0,
@@ -17,7 +17,7 @@ class ThemeAggiungiPiatto {
     );
   }
 
-  static BoxDecoration containerDecoration() {
+  BoxDecoration containerDecoration() {
     return BoxDecoration(
       boxShadow: [
         BoxShadow(
@@ -33,7 +33,7 @@ class ThemeAggiungiPiatto {
     );
   }
 
-  static InputDecoration TextFieldDecoration() {
+  InputDecoration TextFieldDecoration() {
     return InputDecoration(
       filled: true,
       fillColor: Colors.white,

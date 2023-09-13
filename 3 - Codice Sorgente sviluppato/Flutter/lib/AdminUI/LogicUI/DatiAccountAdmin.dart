@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:prova1/AdminWidgets/AppBarLayout.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
-import '../Themes/ThemeMain.dart';
+import '../../ClientsWidgets/ThemeMain.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/AdminWidgets/ControllerUI.dart';
-import 'package:prova1/ControllerAdmin/Controller.dart';
+import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 import '../Themes/ThemeDatiAccount.dart';
 
 /*class DatiAccountAdmin extends StatelessWidget {
@@ -25,12 +26,13 @@ class DatiAccountAdmin extends StatelessWidget {
   AppBarLayout AppBar = AppBarLayout();
   ThemeDatiAccount themeDatiAccount = ThemeDatiAccount();
   Admin admin;
+  ControllerAdmin controller = ControllerAdmin();
 
   DatiAccountAdmin({super.key, required this.admin});
 
   @override
   Widget build(BuildContext context) {
-    admin = Controller().takeAdminInfoDB();
+    admin = controller.takeAdminInfoDB();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar.buildAppBar(context, admin),
@@ -54,7 +56,7 @@ class DatiAccountAdmin extends StatelessWidget {
                       const SizedBox(height: 5.0),
                       Text(
                         "DATI ACCOUNT",
-                        style: ThemeDatiAccount.textStyle(),
+                        style: themeDatiAccount.textStyle(),
                       ),
                       const SizedBox(height: 5.0),
                       WhiteLine(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeInfoPiatto {
-  static TextStyle textStyle() {
+  TextStyle textStyle() {
     return const TextStyle(
       color: Colors.black,
       fontSize: 25.0,
@@ -9,7 +9,7 @@ class ThemeInfoPiatto {
     );
   }
 
-  static TextStyle textStyle2() {
+  TextStyle textStyle2() {
     return const TextStyle(
       color: Colors.black,
       fontSize: 15.0,
@@ -17,7 +17,14 @@ class ThemeInfoPiatto {
     );
   }
 
-  static BoxDecoration containerDecoration() {
+  TextStyle textStyle3() {
+    return const TextStyle(
+      color: Colors.white,
+      fontSize: 18.0,
+    );
+  }
+
+  BoxDecoration containerDecoration() {
     return BoxDecoration(
       boxShadow: [
         BoxShadow(
@@ -33,7 +40,7 @@ class ThemeInfoPiatto {
     );
   }
 
-  static InputDecoration TextFieldDecoration() {
+  InputDecoration TextFieldDecoration() {
     return InputDecoration(
       filled: true,
       fillColor: Colors.white,
@@ -47,5 +54,15 @@ class ThemeInfoPiatto {
       ),
       hintText: 'Enter text...',
     );
+  }
+
+  List<String> takeTipologie() {
+    return [
+      'Primo',
+      'Secondo',
+      'Contorno',
+      'Dolci',
+      'Bibite',
+    ];
   }
 }

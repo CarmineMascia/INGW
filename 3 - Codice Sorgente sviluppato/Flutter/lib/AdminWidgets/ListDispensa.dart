@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prova1/AdminUI/Themes/ThemeDispensaAdmin.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
-import 'package:prova1/ControllerAdmin/Controller.dart';
+import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 import 'package:prova1/Model/Ingrediente.dart';
 
 class ListDispensa extends StatelessWidget {
@@ -25,6 +25,7 @@ class ListDispensa extends StatelessWidget {
 
 class ItemListDispensa extends StatelessWidget {
   final Ingrediente ingrediente;
+  ThemeDispensaAdmin themeDispensaAdmin = ThemeDispensaAdmin();
   ItemListDispensa({required this.ingrediente});
 
   @override
@@ -56,24 +57,24 @@ class ItemListDispensa extends StatelessWidget {
                 ),
                 Text(
                   ingrediente.nome,
-                  style: ThemeDispensaAdmin.textStyle2(),
+                  style: themeDispensaAdmin.textStyle2(),
                 ),
                 const SizedBox(
                   width: 50.0,
                 ),
                 Text(
                   ingrediente.codice,
-                  style: ThemeDispensaAdmin.textStyle2(),
+                  style: themeDispensaAdmin.textStyle2(),
                 ),
-                const SizedBox(
-                  width: 300.0,
+                Spacer(
+                  flex: 1,
                 ),
                 Text(
-                  ingrediente.quantita,
-                  style: ThemeDispensaAdmin.textStyle2(),
+                  ingrediente.quantita + ' Kg',
+                  style: themeDispensaAdmin.textStyle2(),
                 ),
-                const SizedBox(
-                  width: 300.0,
+                Spacer(
+                  flex: 1,
                 ),
                 Text(
                   ingrediente.scadenza.day.toString() +
@@ -81,7 +82,7 @@ class ItemListDispensa extends StatelessWidget {
                       ingrediente.scadenza.month.toString() +
                       "/" +
                       ingrediente.scadenza.year.toString(),
-                  style: ThemeDispensaAdmin.textStyle2(),
+                  style: themeDispensaAdmin.textStyle2(),
                 ),
               ],
             ),
@@ -95,7 +96,7 @@ class ItemListDispensa extends StatelessWidget {
               const SizedBox(width: 20.0),
               Text(
                 "Descrizione: ",
-                style: ThemeDispensaAdmin.textStyle2(),
+                style: themeDispensaAdmin.textStyle2(),
               ),
               const SizedBox(width: 10.0),
               Expanded(

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:prova1/AdminWidgets/AppBarLayout.dart';
 import 'package:prova1/AdminWidgets/SelectDateWidget.dart';
 import 'package:prova1/AdminWidgets/VerticalBarChart.dart';
 import 'package:prova1/Model/Admin.dart';
-import '../Themes/ThemeMain.dart';
+import '../../ClientsWidgets/ThemeMain.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
 import 'package:prova1/AdminWidgets/ControllerUI.dart';
 import '../Themes/ThemeStatisticheShop.dart';
-import 'package:prova1/ControllerAdmin/Controller.dart'; // Importa il pacchetto fl_chart
+import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart'; // Importa il pacchetto fl_chart
 
 class StatisticheShop extends StatefulWidget {
   final Admin admin;
-  Controller controller = Controller();
+  ControllerAdmin controller = ControllerAdmin();
   ThemeMain theme = ThemeMain();
+  ThemeStatisticheShop themeStatisticheShop = ThemeStatisticheShop();
   AppBarLayout appBar = AppBarLayout();
   ControllerUI controllerUI = ControllerUI();
 
@@ -95,7 +97,7 @@ class _StatisticheShopState extends State<StatisticheShop> {
                     const SizedBox(height: 5.0),
                     Text(
                       "STATISTICHE",
-                      style: ThemeStatisticheShop.textStyle(),
+                      style: widget.themeStatisticheShop.textStyle(),
                     ),
                     const SizedBox(height: 5.0),
                     WhiteLine(),
@@ -129,70 +131,6 @@ class _StatisticheShopState extends State<StatisticheShop> {
                         data: incassoGiornalieroStatistiche,
                       ),
                     ]),
-                    //const SizedBox(height: 20.0),
-
-                    /*Container(
-                      padding: EdgeInsets.all(16.0),
-                      child: Row(
-                        children: [
-                          Text('Seleziona le date'),
-                          SizedBox(width: 20.0),
-                          ElevatedButton(
-                            onPressed: () => _selectStartDate(context),
-                            child: Text(
-                                'Inizio: ${startDate.toLocal()}'.split(' ')[0]),
-                          ),
-                          SizedBox(width: 20.0),
-                          ElevatedButton(
-                            onPressed: () => _selectEndDate(context),
-                            child: Text(
-                                'Fine: ${endDate.toLocal()}'.split(' ')[0]),
-                          ),
-                        ],
-                      ),
-                    ),*/
-
-                    // Aggiungi qui il grafico a linea
-                    /* SizedBox(height: 50.0),
-                    Container(
-                      width: 600, // Imposta la larghezza desiderata
-                      height: 500,
-                      child: LineChart(
-                        LineChartData(
-                          backgroundColor: Colors.white,
-                          gridData: FlGridData(show: true),
-                          titlesData: FlTitlesData(
-                            leftTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 30,
-                            ),
-                            bottomTitles: SideTitles(
-                              showTitles: true,
-                              reservedSize: 30,
-                            ),
-                          ),
-                          borderData: FlBorderData(show: true),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: [
-                                // Qui puoi aggiungere i dati delle statistiche come punti nel grafico
-                                FlSpot(0, 10), // Esempio di dati fittizi
-                                FlSpot(0.5, 13),
-                                FlSpot(1, 15),
-                                FlSpot(1, 15),
-                                FlSpot(2, 25),
-
-                                // ... E così via ...
-                              ],
-                              isCurved: false,
-                              colors: [Colors.blue],
-                              //dotData: FlDotData(show: false),
-                              belowBarData: BarAreaData(show: false),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),*/
                   ],
                 ),
               ),

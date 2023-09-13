@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ThemeCreaAccount {
-  static TextStyle textStyle() {
+  TextStyle textStyle() {
     return const TextStyle(
       color: Colors.black,
       fontSize: 25.0,
@@ -9,7 +9,7 @@ class ThemeCreaAccount {
     );
   }
 
-  static TextStyle textStyle2() {
+  TextStyle textStyle2() {
     return const TextStyle(
       color: Colors.white,
       fontSize: 15.0,

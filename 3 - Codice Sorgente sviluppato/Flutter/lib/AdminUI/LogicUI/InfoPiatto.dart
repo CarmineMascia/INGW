@@ -4,17 +4,19 @@ import 'package:prova1/AdminUI/Themes/ThemeAggiungiPiatto.dart';
 import 'package:prova1/AdminUI/Themes/ThemeCreaAccount.dart';
 import 'package:prova1/AdminUI/Themes/ThemeInfoPiatto.dart';
 import 'package:prova1/AdminWidgets/AllergeniWidget.dart';
-import 'package:prova1/AdminWidgets/AllergeniWidgetInfoPiatto.dart';
-import 'package:prova1/AdminWidgets/IngredientiWidget.dart';
-import 'package:prova1/AdminWidgets/IngredientiWidgetInfoPiatto.dart';
+import 'package:prova1/ClientsWidgets/AllergeniWidgetInfoPiatto.dart';
+import 'package:prova1/AdminWidgets/AppBarLayout.dart';
+import 'package:prova1/ClientsWidgets/IngredientiWidget.dart';
+import 'package:prova1/ClientsWidgets/IngredientiWidgetInfoPiatto.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
+import 'package:prova1/Controller/Controller.dart';
 import 'package:prova1/Model/Allergeni.dart';
 import 'package:prova1/Model/Ingrediente.dart';
 import 'package:prova1/Model/Piatti.dart';
-import '../Themes/ThemeMain.dart';
+import '../../ClientsWidgets/ThemeMain.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/AdminWidgets/ControllerUI.dart';
-import 'package:prova1/ControllerAdmin/Controller.dart';
+import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 import '../Themes/ThemeDatiAccount.dart';
 import 'package:prova1/ClientsWidgets/CustomDropdown.dart';
 
@@ -34,16 +36,18 @@ class _InfoPiattoState extends State<InfoPiatto> {
   late Piatti piatto;
   ThemeMain theme = ThemeMain();
   AppBarLayout AppBar = AppBarLayout();
-  ThemeAggiungiPiatto themeDatiAccount = ThemeAggiungiPiatto();
+  ThemeInfoPiatto themeInfoPiatto = ThemeInfoPiatto();
+  ControllerAdmin controllerAdmin = ControllerAdmin();
   Controller controller = Controller();
 
   TextEditingController nomeController = TextEditingController();
   TextEditingController descrizioneController = TextEditingController();
-  TextEditingController codiceController = TextEditingController();
   TextEditingController prezzoController = TextEditingController();
+  late CustomDropdown customDropdown;
 
   List<Ingrediente> ingredientiList = [];
   List<Allergeni> allergeniList = [];
+  late String newTipologia;
 
   @override
   void initState() {
@@ -53,8 +57,11 @@ class _InfoPiattoState extends State<InfoPiatto> {
     allergeniList = piatto.allergeni;
     nomeController.text = piatto.nome;
     descrizioneController.text = piatto.descrizione;
-    codiceController.text = piatto.codice;
+
     prezzoController.text = piatto.prezzo;
+    newTipologia = piatto.tipologia;
+    customDropdown = CustomDropdown(
+        options: themeInfoPiatto.takeTipologie(), hint: piatto.tipologia);
   }
 
   @override
@@ -82,7 +89,7 @@ class _InfoPiattoState extends State<InfoPiatto> {
                       const SizedBox(height: 5.0),
                       Text(
                         "INFO PIATTO",
-                        style: ThemeCreaAccount.textStyle(),
+                        style: themeInfoPiatto.textStyle(),
                       ),
                       const SizedBox(height: 5.0),
                       WhiteLine(),
@@ -90,7 +97,7 @@ class _InfoPiattoState extends State<InfoPiatto> {
                         height: 20.0,
                       ),
                       Container(
-                        decoration: ThemeInfoPiatto.containerDecoration(),
+                        decoration: themeInfoPiatto.containerDecoration(),
                         height: 100.0,
                         child: Padding(
                           padding: EdgeInsets.all(10.0),
@@ -101,7 +108,7 @@ class _InfoPiattoState extends State<InfoPiatto> {
                               ),
                               Text(
                                 "NOME: ",
-                                style: ThemeAggiungiPiatto.textStyle2(),
+                                style: themeInfoPiatto.textStyle2(),
                               ),
                               const SizedBox(
                                 width: 10.0,
@@ -112,15 +119,15 @@ class _InfoPiattoState extends State<InfoPiatto> {
                                 child: TextField(
                                   controller: nomeController,
                                   decoration:
-                                      ThemeAggiungiPiatto.TextFieldDecoration(),
+                                      themeInfoPiatto.TextFieldDecoration(),
                                 ),
                               ),
                               const SizedBox(
                                 width: 170.0,
                               ),
                               Text(
-                                "CODICE: ",
-                                style: ThemeAggiungiPiatto.textStyle2(),
+                                "TIPOLOGIA: ",
+                                style: themeInfoPiatto.textStyle2(),
                               ),
                               const SizedBox(
                                 width: 10.0,
@@ -128,18 +135,19 @@ class _InfoPiattoState extends State<InfoPiatto> {
                               Container(
                                 height: 50,
                                 width: 250,
-                                child: TextField(
+                                child: /*TextField(
                                   controller: codiceController,
                                   decoration:
-                                      ThemeAggiungiPiatto.TextFieldDecoration(),
-                                ),
+                                      themeInfoPiatto.TextFieldDecoration(),
+                                ),*/
+                                    customDropdown,
                               ),
                               const SizedBox(
                                 width: 170.0,
                               ),
                               Text(
                                 "PREZZO: ",
-                                style: ThemeAggiungiPiatto.textStyle2(),
+                                style: themeInfoPiatto.textStyle2(),
                               ),
                               const SizedBox(
                                 width: 10.0,
@@ -150,7 +158,7 @@ class _InfoPiattoState extends State<InfoPiatto> {
                                 child: TextField(
                                   controller: prezzoController,
                                   decoration:
-                                      ThemeAggiungiPiatto.TextFieldDecoration(),
+                                      themeInfoPiatto.TextFieldDecoration(),
                                 ),
                               ),
                               const SizedBox(
@@ -164,7 +172,7 @@ class _InfoPiattoState extends State<InfoPiatto> {
                         height: 20.0,
                       ),
                       Container(
-                        decoration: ThemeAggiungiPiatto.containerDecoration(),
+                        decoration: themeInfoPiatto.containerDecoration(),
                         child: Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Column(
@@ -173,7 +181,7 @@ class _InfoPiattoState extends State<InfoPiatto> {
                               const SizedBox(height: 5.0),
                               Text(
                                 "DESCRIZIONE",
-                                style: ThemeCreaAccount.textStyle(),
+                                style: themeInfoPiatto.textStyle(),
                               ),
                               const SizedBox(height: 5.0),
                               WhiteLine(),
@@ -187,7 +195,7 @@ class _InfoPiattoState extends State<InfoPiatto> {
                                   minLines: 7,
                                   maxLines: 7,
                                   decoration:
-                                      ThemeAggiungiPiatto.TextFieldDecoration(),
+                                      themeInfoPiatto.TextFieldDecoration(),
                                 ),
                               )
                             ],
@@ -230,14 +238,15 @@ class _InfoPiattoState extends State<InfoPiatto> {
                           child: ElevatedButton(
                             child: Text(
                               "SALVA",
-                              style: ThemeCreaAccount.textStyle2(),
+                              style: themeInfoPiatto.textStyle3(),
                             ),
                             onPressed: () {
                               String nome = nomeController.text;
-                              String codice = codiceController.text;
+
                               String prezzo = prezzoController.text;
                               String descrizione = descrizioneController.text;
 
+                              newTipologia = customDropdown.getSelectedValue()!;
                               // Ottieni i dati dagli IngredientiWidget
                               List<Ingrediente> ingredienti = ingredientiList;
 
@@ -248,7 +257,7 @@ class _InfoPiattoState extends State<InfoPiatto> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                        'Salvataggio avvenuto con successo!'),
+                                        'Salvataggio avvenuto con successo! '),
                                   ),
                                 );
                               } else {

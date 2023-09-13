@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:prova1/AdminUI/Themes/ThemeDispensaAdmin.dart';
 import 'package:prova1/AdminUI/Themes/ThemeMessaggiAdmin.dart';
+import 'package:prova1/AdminWidgets/AppBarLayout.dart';
 import 'package:prova1/AdminWidgets/ListDispensa.dart';
-import 'package:prova1/AdminWidgets/ListMessaggi.dart';
+import 'package:prova1/ClientsWidgets/ListMessaggi.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
+import 'package:prova1/Controller/Controller.dart';
 import 'package:prova1/Model/Ingrediente.dart';
 import 'package:prova1/Model/Messaggio.dart';
-import '../Themes/ThemeMain.dart';
+import '../../ClientsWidgets/ThemeMain.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/AdminWidgets/ControllerUI.dart';
-import 'package:prova1/ControllerAdmin/Controller.dart';
+import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 import '../Themes/ThemeDatiAccount.dart';
 
 class MessaggiAdmin extends StatefulWidget {
@@ -27,13 +29,13 @@ class _MessaggiAdminState extends State<MessaggiAdmin> {
   ThemeMain theme = ThemeMain();
   AppBarLayout AppBar = AppBarLayout();
   ThemeMessaggiAdmin themeMessaggiAdmin = ThemeMessaggiAdmin();
-  Admin admin = Controller().takeAdminInfoDB();
+  //Admin admin = Controller().takeAdminInfoDB();
 
   @override
   void initState() {
     super.initState();
     // Carica i dati iniziali per la dispensa
-    messaggi = Controller().TakeMessages();
+    messaggi = controller.TakeMessages();
     //initMessaggi = Controller().TakeMessages();
   }
 
@@ -45,15 +47,15 @@ class _MessaggiAdminState extends State<MessaggiAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    controller.setToZeroNotifications();
+    //controller.setToZeroNotifications();
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar.buildAppBar(context, admin),
+      appBar: AppBar.buildAppBar(context, widget.admin),
       body: theme.buildDecoratedBox(
         SafeArea(
           child: ListView(
             children: [
-              controllerUI.ButtonBarAdmin(context, admin),
+              controllerUI.ButtonBarAdmin(context, widget.admin),
               const SizedBox(height: 40.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0),
@@ -66,7 +68,7 @@ class _MessaggiAdminState extends State<MessaggiAdmin> {
                       const SizedBox(height: 5.0),
                       Text(
                         "MESSAGGI",
-                        style: ThemeMessaggiAdmin.textStyle(),
+                        style: themeMessaggiAdmin.textStyle(),
                       ),
                       const SizedBox(height: 5.0),
                       WhiteLine(),

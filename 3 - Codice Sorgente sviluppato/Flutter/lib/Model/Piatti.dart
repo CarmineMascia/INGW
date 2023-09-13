@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 class Piatti {
   String nome;
   String prezzo;
-  String codice;
+  String tipologia;
   String descrizione;
   List<Allergeni> allergeni;
   List<Ingrediente> ingredienti;
 
-  Piatti(this.nome, this.prezzo, this.codice, this.descrizione, this.allergeni,
-      this.ingredienti);
+  Piatti(this.nome, this.prezzo, this.tipologia, this.descrizione,
+      this.allergeni, this.ingredienti);
 }

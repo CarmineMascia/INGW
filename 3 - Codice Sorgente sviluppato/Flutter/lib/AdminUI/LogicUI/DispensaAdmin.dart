@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:prova1/AdminUI/Themes/ThemeDispensaAdmin.dart';
+import 'package:prova1/AdminWidgets/AppBarLayout.dart';
 import 'package:prova1/AdminWidgets/ListDispensa.dart';
-import 'package:prova1/AdminWidgets/SearchBarWidget.dart';
+import 'package:prova1/ClientsWidgets/SearchBarWidget.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
+import 'package:prova1/Controller/Controller.dart';
 import 'package:prova1/Model/Ingrediente.dart';
-import '../Themes/ThemeMain.dart';
+import '../../ClientsWidgets/ThemeMain.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/AdminWidgets/ControllerUI.dart';
-import 'package:prova1/ControllerAdmin/Controller.dart';
+import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 import '../Themes/ThemeDatiAccount.dart';
 
 class DispensaAdmin extends StatefulWidget {
@@ -21,17 +23,18 @@ class _DispensaAdminState extends State<DispensaAdmin> {
   List<Ingrediente> dispensa = []; // Inizializza con i dati iniziali
   List<Ingrediente> initDispensa = []; // Dispensa completa
   ControllerUI controllerUI = ControllerUI();
-  Controller controller = Controller();
+  //ControllerAdmin controllerAdmin = ControllerAdmin();
   ThemeMain theme = ThemeMain();
   AppBarLayout AppBar = AppBarLayout();
-  ThemeDispensaAdmin themeDatiAccount = ThemeDispensaAdmin();
+  ThemeDispensaAdmin themeDispensaAdmin = ThemeDispensaAdmin();
+  Controller controller = Controller();
 
   @override
   void initState() {
     super.initState();
     // Carica i dati iniziali per la dispensa
-    dispensa = Controller().TakeDispensa();
-    initDispensa = Controller().TakeDispensa();
+    dispensa = controller.TakeDispensa();
+    initDispensa = controller.TakeDispensa();
   }
 
   void updateDispensa(List<Ingrediente> newDispensa) {
@@ -62,7 +65,7 @@ class _DispensaAdminState extends State<DispensaAdmin> {
                       const SizedBox(height: 5.0),
                       Text(
                         "DISPENSA",
-                        style: ThemeDispensaAdmin.textStyle(),
+                        style: themeDispensaAdmin.textStyle(),
                       ),
                       const SizedBox(height: 5.0),
                       WhiteLine(),

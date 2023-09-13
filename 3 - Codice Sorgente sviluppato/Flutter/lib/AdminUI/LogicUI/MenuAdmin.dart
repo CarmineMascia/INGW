@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:prova1/AdminWidgets/AppBarLayout.dart';
 import 'package:prova1/AdminWidgets/MenuItemAdmin.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
+import 'package:prova1/Controller/Controller.dart';
 import 'package:prova1/Model/Piatti.dart';
-import '../Themes/ThemeMain.dart';
+import '../../ClientsWidgets/ThemeMain.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/AdminWidgets/ControllerUI.dart';
-import 'package:prova1/ControllerAdmin/Controller.dart';
+import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 import '../Themes/ThemeMenuAdmin.dart';
 
 class MenuAdmin extends StatelessWidget {
   @override
   final Admin admin;
+  ControllerAdmin controllerAdmin = ControllerAdmin();
   Controller controller = Controller();
   ControllerUI controllerUI = ControllerUI();
   ThemeMain theme = ThemeMain();
   AppBarLayout AppBar = AppBarLayout();
   ThemeMenuAdmin themeMenuAdmin = ThemeMenuAdmin();
-  List<List<Piatti>> piatti = Controller().takeAllPiatti();
-  List<String> menuTitles = ThemeMenuAdmin.menuTitles();
+  List<List<Piatti>> piatti = [[]];
+  List<String> menuTitles = [];
 
   MenuAdmin({super.key, required this.admin});
 
   @override
   Widget build(BuildContext context) {
+    piatti = controller.takeAllPiatti();
+    menuTitles = themeMenuAdmin.menuTitles();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar.buildAppBar(context, admin),
@@ -46,7 +51,7 @@ class MenuAdmin extends StatelessWidget {
                       const SizedBox(height: 5.0),
                       Text(
                         "MENU",
-                        style: ThemeMenuAdmin.textStyle(),
+                        style: themeMenuAdmin.textStyle(),
                       ),
                       const SizedBox(height: 5.0),
                       WhiteLine(),

@@ -22,7 +22,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
       width: 500.0,
       height: 50.0,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4.0),
+        borderRadius: BorderRadius.circular(10.0),
         border: Border.all(color: borderColor()),
         color: Colors.white,
       ),
@@ -53,6 +53,6 @@ class _CustomDropdownState extends State<CustomDropdown> {
   }
 
   static Color borderColor() {
-    return Color.fromARGB(165, 0, 0, 0);
+    return Color.fromARGB(255, 0, 0, 0).withOpacity(0.6);
   }
 }

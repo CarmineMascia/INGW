@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:prova1/AdminUI/Themes/ThemeCreaAccount.dart';
+import 'package:prova1/AdminWidgets/AppBarLayout.dart';
 import 'package:prova1/AdminWidgets/CreaAccountFieldsWidget.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
-import '../Themes/ThemeMain.dart';
+import '../../ClientsWidgets/ThemeMain.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/AdminWidgets/ControllerUI.dart';
-import 'package:prova1/ControllerAdmin/Controller.dart';
+import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 import '../Themes/ThemeDatiAccount.dart';
 import 'package:prova1/ClientsWidgets/CustomDropdown.dart';
 
@@ -20,11 +21,11 @@ class CreaAccount extends StatefulWidget {
 class _InputCreaAccount extends State<CreaAccount> {
   @override
   //Oggetti per la creazione della schermata
-  Controller controller = Controller();
+  ControllerAdmin controller = ControllerAdmin();
   ControllerUI controllerUI = ControllerUI();
   ThemeMain theme = ThemeMain();
   AppBarLayout AppBar = AppBarLayout();
-  ThemeCreaAccount themeDatiAccount = ThemeCreaAccount();
+  ThemeCreaAccount themeCreaAccount = ThemeCreaAccount();
   List<String> fields = ["Nome", "Cognome", "Email", "Password"];
   List<String> jobs = ['Cucina', 'Supervisore', 'Sala'];
   String hint = 'Ruolo';
@@ -113,7 +114,7 @@ Puoi personalizzare ulteriormente il `TextField` e l'aspetto dei widget a tuo pi
                       const SizedBox(height: 5.0),
                       Text(
                         "CREA ACCOUNT",
-                        style: ThemeCreaAccount.textStyle(),
+                        style: themeCreaAccount.textStyle(),
                       ),
                       const SizedBox(height: 5.0),
                       WhiteLine(),
@@ -133,7 +134,7 @@ Puoi personalizzare ulteriormente il `TextField` e l'aspetto dei widget a tuo pi
                           child: ElevatedButton(
                             child: Text(
                               "SALVA",
-                              style: ThemeCreaAccount.textStyle2(),
+                              style: themeCreaAccount.textStyle2(),
                             ),
                             onPressed: () {
                               String? accountType =

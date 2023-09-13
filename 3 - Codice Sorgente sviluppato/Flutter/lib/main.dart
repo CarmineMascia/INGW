@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:prova1/AdminUI/LogicUI/DatiAccountAdmin.dart';
-import 'package:prova1/AdminUI/Themes/ThemeMain.dart';
-import 'package:prova1/ControllerAdmin/Controller.dart';
+import 'package:prova1/ClientsWidgets/ThemeMain.dart';
+import 'package:prova1/Controller/Controller.dart';
+
+import 'package:prova1/CucinaUI/LogicUI/DatiAccountCucina.dart';
 import 'package:prova1/Model/Admin.dart';
+import 'package:prova1/Model/Cucina.dart';
+import 'package:prova1/Model/Supervisore.dart';
+import 'package:prova1/SupervisoreUI/LogicUI/DatiAccountSupervisore.dart';
 
 void main() {
   runApp(const MyApp());
@@ -117,8 +122,24 @@ class HomePage extends StatelessWidget {
                               );
                               break;
                             case 2:
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => DatiAccountCucina(
+                                          cucina: Cucina.emailAndPassword(
+                                              email, password),
+                                        )),
+                              );
                               break;
                             case 3:
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DatiAccountSupervisore(
+                                          supervisore:
+                                              Supervisore.emailAndPassword(
+                                                  email, password),
+                                        )),
+                              );
                               break;
                             case 4:
                               break;
