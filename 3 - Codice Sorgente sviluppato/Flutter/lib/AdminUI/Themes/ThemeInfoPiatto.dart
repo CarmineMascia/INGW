@@ -56,6 +56,22 @@ class ThemeInfoPiatto {
     );
   }
 
+  InputDecoration TextFieldDecoration2() {
+    return InputDecoration(
+      filled: true,
+      fillColor: Colors.white,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: BorderSide(color: Colors.black),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: BorderSide(color: Colors.black),
+      ),
+      hintText: 'Enter text...',
+    );
+  }
+
   List<String> takeTipologie() {
     return [
       'Primo',

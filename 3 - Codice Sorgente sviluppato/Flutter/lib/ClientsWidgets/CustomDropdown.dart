@@ -14,6 +14,11 @@ class CustomDropdown extends StatefulWidget {
 
 class _CustomDropdownState extends State<CustomDropdown> {
   static String? dropdownValue;
+  @override
+  void initState() {
+    // TODO: implement initState
+    dropdownValue = widget.hint;
+  }
   //List<String> options = ['Admin', 'Cucina', 'Supervisore', 'Sala'];
 
   @override

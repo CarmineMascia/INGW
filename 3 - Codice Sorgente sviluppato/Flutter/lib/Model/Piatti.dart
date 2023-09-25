@@ -7,7 +7,7 @@ class Piatti {
   String prezzo;
   String tipologia;
   String descrizione;
-  List<Allergeni> allergeni;
+  String allergeni;
   List<Ingrediente> ingredienti;
 
   Piatti(this.nome, this.prezzo, this.tipologia, this.descrizione,

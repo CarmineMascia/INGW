@@ -33,32 +33,31 @@ class _InfoPiattoSupervisoreState extends State<InfoPiattoSupervisore> {
   ThemeMain theme = ThemeMain();
   AppBarLayoutSupervisore AppBar = AppBarLayoutSupervisore();
   ThemeInfoPiattoSupervisore themeInfoPiatto = ThemeInfoPiattoSupervisore();
-  ControllerSupervisore controllerAdmin = ControllerSupervisore();
+  ControllerSupervisore controllerSupervisore = ControllerSupervisore();
   Controller controller = Controller();
-  late String newScadenza;
+
   late CustomDropdown customDropdown;
 
   TextEditingController nomeController = TextEditingController();
   TextEditingController descrizioneController = TextEditingController();
   //TextEditingController codiceController = TextEditingController();
   TextEditingController prezzoController = TextEditingController();
+  TextEditingController allergeniController = TextEditingController();
 
   List<Ingrediente> ingredientiList = [];
-  List<Allergeni> allergeniList = [];
 
   @override
   void initState() {
     //super.initState();
     piatto = widget.piatto;
     ingredientiList = piatto.ingredienti;
-    allergeniList = piatto.allergeni;
+    allergeniController.text = piatto.allergeni;
     nomeController.text = piatto.nome;
     descrizioneController.text = piatto.descrizione;
     //codiceController.text = piatto.codice;
     prezzoController.text = piatto.prezzo;
     customDropdown = CustomDropdown(
         options: themeInfoPiatto.takeTipologie(), hint: piatto.tipologia);
-    newScadenza = piatto.tipologia;
   }
 
   @override
@@ -197,14 +196,50 @@ class _InfoPiattoSupervisoreState extends State<InfoPiattoSupervisore> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      AllergeniWidgetInfoPiatto(
-                        optionsList: controller.takeAllergeni(),
+                      /*AllergeniWidgetInfoPiatto(
                         onUpdateSelection: (updatedSelection) {
-                          setState(() {
-                            allergeniList = updatedSelection;
-                          });
+                          allergeni = updatedSelection;
                         },
-                        allergeniList: allergeniList,
+                        allergeniIniziali: allergeni,
+                      ),*/
+                      Container(
+                        height: 220,
+                        decoration: themeInfoPiatto.containerDecoration(),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              WhiteLine(),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Text(
+                                'ALLERGENI',
+                                style: themeInfoPiatto.textStyle(),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              WhiteLine(),
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 30.0),
+                                  child: Container(
+                                    child: TextField(
+                                      controller: allergeniController,
+                                      minLines: 7,
+                                      maxLines: 7,
+                                      decoration:
+                                          themeInfoPiatto.TextFieldDecoration(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 20.0,
@@ -233,23 +268,25 @@ class _InfoPiattoSupervisoreState extends State<InfoPiattoSupervisore> {
                               style: themeInfoPiatto.textStyle3(),
                             ),
                             onPressed: () {
-                              String nome = nomeController.text;
+                              piatto.nome = nomeController.text;
 
-                              String prezzo = prezzoController.text;
-                              String descrizione = descrizioneController.text;
+                              piatto.prezzo = prezzoController.text;
+                              piatto.descrizione = descrizioneController.text;
 
-                              newScadenza = customDropdown.getSelectedValue()!;
+                              piatto.tipologia =
+                                  customDropdown.getSelectedValue()!;
                               // Ottieni i dati dagli IngredientiWidget
-                              List<Ingrediente> ingredienti = ingredientiList;
+                              piatto.ingredienti = ingredientiList;
 
                               // Ottieni i dati dagli AllergeniWidget
-                              List<Allergeni> allergeni = allergeniList;
+                              piatto.allergeni = allergeniController.text;
 
                               if (controller.UpdatePiatto(piatto)) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                        'Salvataggio avvenuto con successo!'),
+                                        'Salvataggio avvenuto con successo!' +
+                                            piatto.tipologia),
                                   ),
                                 );
                               } else {

@@ -1,13 +1,10 @@
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/Model/Allergeni.dart';
-import 'package:prova1/Model/Cucina.dart';
 import 'package:prova1/Model/Ingrediente.dart';
 import 'package:prova1/Connection/AdminConnessioneDB.dart';
 import 'package:prova1/Model/Messaggio.dart';
 import 'package:flutter/material.dart';
 import 'package:prova1/Model/Piatti.dart';
-import 'package:prova1/Model/Sala.dart';
-import 'package:prova1/Model/Supervisore.dart';
 import 'dart:math'; //ricorda di levarlo poi
 
 class Controller {

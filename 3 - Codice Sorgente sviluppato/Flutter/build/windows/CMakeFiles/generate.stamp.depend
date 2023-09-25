@@ -1,0 +1,21 @@
+# CMake generation dependency list for this directory.
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/CMakeCXXInformation.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/CMakeCommonLanguageInclude.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/CMakeGenericSystem.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/CMakeInitializeConfigs.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/CMakeLanguageInformation.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/CMakeRCInformation.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/CMakeSystemSpecificInformation.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/CMakeSystemSpecificInitialize.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/Compiler/MSVC-CXX.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/Compiler/MSVC.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/Platform/Windows-MSVC-CXX.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/Platform/Windows-MSVC.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/Platform/Windows.cmake
+D:/VisualStudio/IDE/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.25/Modules/Platform/WindowsPaths.cmake
+D:/flutter projects/prova1/build/windows/CMakeFiles/3.25.1-msvc1/CMakeCXXCompiler.cmake
+D:/flutter projects/prova1/build/windows/CMakeFiles/3.25.1-msvc1/CMakeRCCompiler.cmake
+D:/flutter projects/prova1/build/windows/CMakeFiles/3.25.1-msvc1/CMakeSystem.cmake
+D:/flutter projects/prova1/windows/CMakeLists.txt
+D:/flutter projects/prova1/windows/flutter/generated_plugins.cmake

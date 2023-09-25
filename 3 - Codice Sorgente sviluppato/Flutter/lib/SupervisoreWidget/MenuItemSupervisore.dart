@@ -213,6 +213,7 @@ class _MenuItemSupervisoreState extends State<MenuItemSupervisore> {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => AggiungiPiattoSupervisore(
                                 supervisore: widget.supervisore,
+                                tipologia: convertiStringa(widget.nome),
                               )));
                     },
                     icon: const Icon(Icons.add),
@@ -233,13 +234,20 @@ class _MenuItemSupervisoreState extends State<MenuItemSupervisore> {
                   ),
                   IconButton(
                     onPressed: () {
-                      // Aggiungi logica per il pulsante cestino
-                      setState(() {
-                        widget.controller.DeletePiatti(selectedPiatti);
-                        for (var item in selectedPiatti) {
-                          piatti.remove(item);
-                        }
-                      });
+                      if (selectedPiatti.length == 0) {
+                        SnackBar snackBar = const SnackBar(
+                            content: Text(
+                                'Non hai selezionato elementi da eliminare'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        // Aggiungi logica per il pulsante cestino
+                        setState(() {
+                          widget.controller.DeletePiatti(selectedPiatti);
+                          for (var item in selectedPiatti) {
+                            piatti.remove(item);
+                          }
+                        });
+                      }
                     },
                     icon: const Icon(Icons.delete),
                   ),
@@ -249,5 +257,16 @@ class _MenuItemSupervisoreState extends State<MenuItemSupervisore> {
         ),
       ),
     );
+  }
+
+  String convertiStringa(String input) {
+    Map<String, String> conversione = {
+      'PRIMI': 'Primo',
+      'SECONDI': 'Secondo',
+      'CONTORNI': 'Contorno',
+      'BEVANDE': 'Bevanda',
+      'DOLCI': 'Dolce',
+    };
+    return conversione[input]!;
   }
 }

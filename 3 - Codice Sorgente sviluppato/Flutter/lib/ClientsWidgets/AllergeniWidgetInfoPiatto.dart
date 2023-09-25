@@ -3,48 +3,21 @@ import 'package:prova1/AdminUI/Themes/ThemeInfoPiatto.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
 import 'package:prova1/Model/Allergeni.dart';
 
-class AllergeniWidgetInfoPiatto extends StatefulWidget {
-  List<Allergeni> optionsList;
-  final Function(List<Allergeni>) onUpdateSelection;
-  final List<Allergeni> allergeniList;
+class AllergeniWidgetInfoPiatto extends StatelessWidget {
+  final Function(String) onUpdateSelection;
+  final String allergeniIniziali;
   ThemeInfoPiatto themeInfoPiatto = ThemeInfoPiatto();
+  TextEditingController controllerAllergeni = TextEditingController();
 
   AllergeniWidgetInfoPiatto(
-      {required this.optionsList,
-      required this.onUpdateSelection,
-      required this.allergeniList});
-
-  @override
-  _AllergeniWidgetInfoPiattoState createState() =>
-      _AllergeniWidgetInfoPiattoState();
-}
-
-class _AllergeniWidgetInfoPiattoState extends State<AllergeniWidgetInfoPiatto> {
-  List<Allergeni> optionsList = [];
-  List<Allergeni> selectedItems = [];
-
-  void addItemToList(String item) {
-    setState(() {
-      selectedItems.add(Allergeni(item));
-      optionsList.removeWhere((elem) => elem.nome == item);
-      widget.onUpdateSelection(selectedItems);
-    });
-  }
-
-  @override
-  void initState() {
-    optionsList = widget.optionsList;
-    widget.allergeniList.forEach((element) {
-      optionsList.removeWhere((elem) => elem.nome == element.nome);
-      selectedItems.add(element);
-    });
-  }
+      {required this.onUpdateSelection, required this.allergeniIniziali});
 
   @override
   Widget build(BuildContext context) {
+    controllerAllergeni.text = allergeniIniziali;
     return Container(
       height: 220,
-      decoration: widget.themeInfoPiatto.containerDecoration(),
+      decoration: themeInfoPiatto.containerDecoration(),
       child: Padding(
         padding: EdgeInsets.all(10.0),
         child: Column(
@@ -56,14 +29,30 @@ class _AllergeniWidgetInfoPiattoState extends State<AllergeniWidgetInfoPiatto> {
             ),
             Text(
               'ALLERGENI',
-              style: widget.themeInfoPiatto.textStyle(),
+              style: themeInfoPiatto.textStyle(),
               textAlign: TextAlign.center,
             ),
             SizedBox(
               height: 5.0,
             ),
             WhiteLine(),
-            Container(
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 30.0),
+                child: Container(
+                  child: TextField(
+                    controller: controllerAllergeni,
+                    minLines: 7,
+                    maxLines: 7,
+                    decoration: themeInfoPiatto.TextFieldDecoration(),
+                    onEditingComplete: () {
+                      onUpdateSelection(controllerAllergeni.text);
+                    },
+                  ),
+                ),
+              ),
+            )
+            /*Container(
               // Altezza specifica per evitare problemi di layout
               padding: const EdgeInsets.all(20.0),
               child: SingleChildScrollView(
@@ -122,7 +111,7 @@ class _AllergeniWidgetInfoPiattoState extends State<AllergeniWidgetInfoPiatto> {
                   child: Icon(Icons.add),
                 ),
               ),
-            ),
+            ),*/
           ],
         ),
       ),

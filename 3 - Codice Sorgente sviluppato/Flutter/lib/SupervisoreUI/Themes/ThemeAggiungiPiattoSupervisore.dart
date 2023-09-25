@@ -56,4 +56,14 @@ class ThemeAggiungiPiattoSupervisore {
       hintText: 'Enter text...',
     );
   }
+
+  List<String> takeTipologie() {
+    return [
+      'Primo',
+      'Secondo',
+      'Contorno',
+      'Dolce',
+      'Bevanda',
+    ];
+  }
 }

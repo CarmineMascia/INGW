@@ -124,7 +124,7 @@ class SearchBarWidget extends StatefulWidget {
   final void Function(List<Ingrediente>) update;
   List<Ingrediente> dispensa;
 
-  SearchBarWidget({
+  SearchBarWidget({super.key, 
     required this.update,
     required this.dispensa,
   });
@@ -138,7 +138,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 500.0,
       height: 50.0,
       child: SearchBar(
@@ -200,7 +200,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           ),
         ],
         backgroundColor: MaterialStateProperty.all(
-          Color.fromARGB(190, 255, 255, 255),
+          const Color.fromARGB(190, 255, 255, 255),
         ),
         shape: MaterialStateProperty.all(
           const ContinuousRectangleBorder(

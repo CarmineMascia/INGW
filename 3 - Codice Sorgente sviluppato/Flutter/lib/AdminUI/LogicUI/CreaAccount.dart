@@ -28,7 +28,7 @@ class _InputCreaAccount extends State<CreaAccount> {
   ThemeCreaAccount themeCreaAccount = ThemeCreaAccount();
   List<String> fields = ["Nome", "Cognome", "Email", "Password"];
   List<String> jobs = ['Cucina', 'Supervisore', 'Sala'];
-  String hint = 'Ruolo';
+  String hint = 'Cucina';
 
   //Stringhe per Account nuovo
   //creare superclasse account

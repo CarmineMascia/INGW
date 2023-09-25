@@ -508,8 +508,8 @@ class IngredientiWidget extends StatefulWidget {
   final List<Ingrediente> optionsList;
   final Function(List<Ingrediente>) onUpdateSelection;
 
-  IngredientiWidget(
-      {required this.optionsList, required this.onUpdateSelection});
+  const IngredientiWidget(
+      {super.key, required this.optionsList, required this.onUpdateSelection});
 
   @override
   _IngredientiWidgetState createState() => _IngredientiWidgetState();
@@ -544,7 +544,7 @@ class _IngredientiWidgetState extends State<IngredientiWidget> {
       height: 250,
       decoration: ThemeAggiungiPiatto.containerDecoration(),
       child: Padding(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -573,13 +573,13 @@ class _IngredientiWidgetState extends State<IngredientiWidget> {
                       Chip(
                         label: Column(
                           children: [
-                            Text('$item', style: TextStyle(fontSize: 14)),
+                            Text(item, style: const TextStyle(fontSize: 14)),
                             Text(
                                 '${selectedIngredients.firstWhere((elem) => elem.nome == item).quantita} g',
-                                style: TextStyle(fontSize: 12)),
+                                style: const TextStyle(fontSize: 12)),
                           ],
                         ),
-                        deleteIcon: Icon(Icons.cancel),
+                        deleteIcon: const Icon(Icons.cancel),
                         onDeleted: () {
                           setState(() {
                             selectedItems.remove(item);
@@ -596,7 +596,7 @@ class _IngredientiWidgetState extends State<IngredientiWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(15.0),
               child: Align(
                 alignment: Alignment.center,
                 child: FloatingActionButton(
@@ -605,11 +605,11 @@ class _IngredientiWidgetState extends State<IngredientiWidget> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text('Seleziona un elemento'),
+                          title: const Text('Seleziona un elemento'),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
+                              const Text(
                                 'Inserisci la quantità in grammi',
                                 style:
                                     TextStyle(fontSize: 12, color: Colors.grey),
@@ -629,10 +629,10 @@ class _IngredientiWidgetState extends State<IngredientiWidget> {
                                             width: 60,
                                             child: TextField(
                                               controller: quantityController,
-                                              keyboardType: TextInputType
+                                              keyboardType: const TextInputType
                                                   .numberWithOptions(
                                                       decimal: true),
-                                              decoration: InputDecoration(
+                                              decoration: const InputDecoration(
                                                 labelText: 'Quantità',
                                               ),
                                             ),
@@ -657,7 +657,7 @@ class _IngredientiWidgetState extends State<IngredientiWidget> {
                   },
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
-                  child: Icon(Icons.add),
+                  child: const Icon(Icons.add),
                 ),
               ),
             ),

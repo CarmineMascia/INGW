@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:prova1/AdminUI/Themes/ThemeAggiungiPiatto.dart';
 import 'package:prova1/AdminUI/Themes/ThemeCreaAccount.dart';
-import 'package:prova1/AdminWidgets/AllergeniWidget.dart';
+import 'package:prova1/ClientsWidgets/AllergeniWidget.dart';
 import 'package:prova1/AdminWidgets/AppBarLayout.dart';
 import 'package:prova1/ClientsWidgets/IngredientiWidget.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
@@ -9,6 +10,7 @@ import 'package:prova1/Controller/Controller.dart';
 import 'package:prova1/Model/Allergeni.dart';
 import 'package:prova1/Model/Ingrediente.dart';
 import 'package:prova1/Model/Piatti.dart';
+import 'package:prova1/provaOpenFoodFact.dart';
 import '../../ClientsWidgets/ThemeMain.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/AdminWidgets/ControllerUI.dart';
@@ -18,7 +20,9 @@ import 'package:prova1/ClientsWidgets/CustomDropdown.dart';
 
 class AggiungiPiatto extends StatefulWidget {
   final Admin admin;
-  const AggiungiPiatto({super.key, required this.admin});
+  final String tipologia;
+  const AggiungiPiatto(
+      {super.key, required this.admin, required this.tipologia});
 
   @override
   _HomeAggiungiPiatto createState() => _HomeAggiungiPiatto();
@@ -26,6 +30,9 @@ class AggiungiPiatto extends StatefulWidget {
 
 class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
   @override
+  //animazione flag
+  bool isFunctionInProgress = false;
+  //
   //Oggetti per la creazione della schermata
   ControllerUI controllerUI = ControllerUI();
   ThemeMain theme = ThemeMain();
@@ -36,11 +43,25 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
 
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController descrizioneController = TextEditingController();
-  final TextEditingController codiceController = TextEditingController();
+  late CustomDropdown customDropdown;
   final TextEditingController prezzoController = TextEditingController();
+  void setIsFunctionInProgress(bool newValue) {
+    setState(() {
+      isFunctionInProgress = newValue;
+    });
+  }
 
   List<Ingrediente> ingredientiList = [];
-  List<Allergeni> allergeniList = [];
+  final TextEditingController allergeniController = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    customDropdown = CustomDropdown(
+      hint: widget.tipologia,
+      options: themeAggiungiPiatto.takeTipologie(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +125,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                                 width: 170.0,
                               ),
                               Text(
-                                "CODICE: ",
+                                "TIPOLOGIA: ",
                                 style: themeAggiungiPiatto.textStyle2(),
                               ),
                               const SizedBox(
@@ -113,11 +134,12 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                               Container(
                                 height: 50,
                                 width: 250,
-                                child: TextField(
+                                child: /*TextField(
                                   controller: codiceController,
                                   decoration:
-                                      themeAggiungiPiatto.TextFieldDecoration(),
-                                ),
+                                      themeInfoPiatto.TextFieldDecoration(),
+                                ),*/
+                                    customDropdown,
                               ),
                               const SizedBox(
                                 width: 170.0,
@@ -136,6 +158,12 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                                   controller: prezzoController,
                                   decoration:
                                       themeAggiungiPiatto.TextFieldDecoration(),
+                                  keyboardType: TextInputType.numberWithOptions(
+                                      decimal: true),
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'^\d+(\.\d*)?$')),
+                                  ],
                                 ),
                               ),
                               const SizedBox(
@@ -182,13 +210,99 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      AllergeniWidget(
-                        optionsList: controller.takeAllergeni(),
+                      /*AllergeniWidget(
                         onUpdateSelection: (updatedSelection) {
                           setState(() {
-                            allergeniList = updatedSelection;
+                            allergeni = updatedSelection;
                           });
                         },
+                      ),*/
+                      Container(
+                        height: 220,
+                        decoration: themeAggiungiPiatto.containerDecoration(),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              WhiteLine(),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Row(
+                                children: [
+                                  const Spacer(
+                                    flex: 3,
+                                  ),
+                                  Text(
+                                    'ALLERGENI',
+                                    style: themeAggiungiPiatto.textStyle(),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  const Spacer(
+                                    flex: 3,
+                                  ),
+                                  Stack(children: [
+                                    if (isFunctionInProgress)
+                                      const CircularProgressIndicator(),
+                                    IconButton(
+                                        onPressed: () async {
+                                          if (nomeController.text.isEmpty) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content:
+                                                    Text('INSERISCI IL NOME'),
+                                              ),
+                                            );
+                                          } else {
+                                            try {
+                                              String data =
+                                                  await takeDataForPlatesOnline(
+                                                      setIsFunctionInProgress,
+                                                      nomeController.text,
+                                                      context);
+                                              allergeniController.text = data;
+                                            } catch (e) {
+                                              setState(() {
+                                                isFunctionInProgress = false;
+                                              });
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                      'ERRORE NELL\'ACQUISIZIONE DEI DATI!'),
+                                                ),
+                                              );
+                                            }
+                                          }
+                                        },
+                                        icon:
+                                            const Icon(Icons.settings_suggest)),
+                                  ]),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              WhiteLine(),
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 30.0),
+                                  child: Container(
+                                    child: TextField(
+                                      controller: allergeniController,
+                                      minLines: 7,
+                                      maxLines: 7,
+                                      decoration: themeAggiungiPiatto
+                                          .TextFieldDecoration(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 20.0,
@@ -212,24 +326,41 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                           child: ElevatedButton(
                             child: Text(
                               "SALVA",
-                              style: themeAggiungiPiatto.textStyle2(),
+                              style: themeAggiungiPiatto.textStyle3(),
                             ),
                             onPressed: () {
                               String nome = nomeController.text;
-                              String codice = codiceController.text;
+
                               String prezzo = prezzoController.text;
                               String descrizione = descrizioneController.text;
-
+                              String allergeni = allergeniController.text;
                               // Ottieni i dati dagli IngredientiWidget
                               List<Ingrediente> ingredienti = ingredientiList;
 
                               // Ottieni i dati dagli AllergeniWidget
-                              List<Allergeni> allergeni = allergeniList;
+                              /*if (customDropdown.getSelectedValue() == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('MAMMT'),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        customDropdown.getSelectedValue()! +
+                                            nome +
+                                            prezzo +
+                                            descrizione +
+                                            ingredienti.first.nome),
+                                  ),
+                                );
+                              }*/
 
                               if (controller.SavePiatto(Piatti(
                                   nome,
                                   prezzo,
-                                  codice,
+                                  customDropdown.getSelectedValue()!,
                                   descrizione,
                                   allergeni,
                                   ingredienti))) {

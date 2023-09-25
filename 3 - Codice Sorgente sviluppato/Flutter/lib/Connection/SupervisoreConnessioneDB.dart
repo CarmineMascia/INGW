@@ -8,7 +8,7 @@ class SupervisoreConnessioneDB {
   }
 
   int notifica() {
-    return 3;
+    return 4;
   }
 
   bool chiudiTavoloDB(Tavolo tavolo) {

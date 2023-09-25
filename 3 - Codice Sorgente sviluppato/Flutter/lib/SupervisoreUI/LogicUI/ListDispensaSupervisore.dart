@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:prova1/ClientsWidgets/AlertDialogCustom.dart';
 
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
+import 'package:prova1/Controller/Controller.dart';
 
 import 'package:prova1/Model/Ingrediente.dart';
 import 'package:prova1/Model/Supervisore.dart';
@@ -56,16 +58,33 @@ class _ListDispensaSupervisoreState extends State<ListDispensaSupervisore> {
   }
 }
 
-class ItemListDispensaSupervisore extends StatelessWidget {
-  Supervisore supervisore;
+class ItemListDispensaSupervisore extends StatefulWidget {
   final Ingrediente ingrediente;
-  ThemeDispensaSupervisore themeDispensaAdmin = ThemeDispensaSupervisore();
-  void Function(Ingrediente) eliminaIngrediente;
+  final void Function(Ingrediente) eliminaIngrediente;
+  final Supervisore supervisore;
 
-  ItemListDispensaSupervisore(
-      {required this.ingrediente,
-      required this.eliminaIngrediente,
-      required this.supervisore});
+  ItemListDispensaSupervisore({
+    required this.ingrediente,
+    required this.eliminaIngrediente,
+    required this.supervisore,
+  });
+
+  @override
+  _ItemListDispensaSupervisoreState createState() =>
+      _ItemListDispensaSupervisoreState();
+}
+
+class _ItemListDispensaSupervisoreState
+    extends State<ItemListDispensaSupervisore> {
+  Controller controller = Controller();
+  TextEditingController quantitaMinimaController = TextEditingController();
+  ThemeDispensaSupervisore themeDispensaAdmin = ThemeDispensaSupervisore();
+
+  @override
+  void initState() {
+    super.initState();
+    quantitaMinimaController.text = widget.ingrediente.sogliaMinima;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,32 +117,94 @@ class ItemListDispensaSupervisore extends StatelessWidget {
                   width: 15.0,
                 ),
                 Text(
-                  ingrediente.nome,
+                  widget.ingrediente.nome,
                   style: themeDispensaAdmin.textStyle2(),
                 ),
                 const SizedBox(
                   width: 50.0,
                 ),
                 Text(
-                  ingrediente.codice,
+                  widget.ingrediente.codice,
                   style: themeDispensaAdmin.textStyle2(),
                 ),
-                const SizedBox(
-                  width: 300.0,
+                Spacer(
+                  flex: 1,
+                ),
+                TextButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Seleziona un elemento'),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('Inserisci la quantità in KG'),
+                                TextField(
+                                  controller: quantitaMinimaController,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                          decimal: true),
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'^\d+\.?\d{0,2}'))
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                ElevatedButton(
+                                    style: themeDispensaAdmin.buttonStyle(),
+                                    onPressed: () {
+                                      bool flag = controller.setSogliaMinima(
+                                          widget.ingrediente,
+                                          quantitaMinimaController.text);
+                                      if (flag) {
+                                        SnackBar snackBar = const SnackBar(
+                                            content:
+                                                Text('SOGLIA MINIMA SALVATA!'));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                        setState(() {
+                                          widget.ingrediente.sogliaMinima =
+                                              quantitaMinimaController.text;
+                                        });
+                                      } else {
+                                        SnackBar snackBar = const SnackBar(
+                                            content: Text(
+                                                'ERRORE NEL SALVATAGGIO DELLA SOGLIA MINIMA, RIPROVARE!'));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                    child: Text("CONFERMA")),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Text(
+                      "SOGLIA MINIMA : ${widget.ingrediente.sogliaMinima}Kg",
+                      style: themeDispensaAdmin.textStyle2(),
+                    )),
+                Spacer(
+                  flex: 1,
                 ),
                 Text(
-                  ingrediente.quantita + ' Kg',
+                  widget.ingrediente.quantita + ' Kg',
                   style: themeDispensaAdmin.textStyle2(),
                 ),
-                const SizedBox(
-                  width: 300.0,
+                Spacer(
+                  flex: 1,
                 ),
                 Text(
-                  ingrediente.scadenza.day.toString() +
+                  widget.ingrediente.scadenza.day.toString() +
                       "/" +
-                      ingrediente.scadenza.month.toString() +
+                      widget.ingrediente.scadenza.month.toString() +
                       "/" +
-                      ingrediente.scadenza.year.toString(),
+                      widget.ingrediente.scadenza.year.toString(),
                   style: themeDispensaAdmin.textStyle2(),
                 ),
                 Spacer(
@@ -137,8 +218,8 @@ class ItemListDispensaSupervisore extends StatelessWidget {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => /*DispensaAdmin()*/
                                 InfoIngredienteSupervisore(
-                                  supervisore: supervisore,
-                                  ingrediente: ingrediente,
+                                  supervisore: widget.supervisore,
+                                  ingrediente: widget.ingrediente,
                                 )));
                       },
                       icon: Icon(
@@ -162,7 +243,7 @@ class ItemListDispensaSupervisore extends StatelessWidget {
                           },
                         );
                         if (userConfirmed == true) {
-                          eliminaIngrediente(ingrediente);
+                          widget.eliminaIngrediente(widget.ingrediente);
                         }
                       },
                       icon: Icon(
@@ -192,7 +273,7 @@ class ItemListDispensaSupervisore extends StatelessWidget {
                     padding: const EdgeInsets.all(5.0),
                     color: Colors.white,
                     child: SingleChildScrollView(
-                      child: Text(ingrediente.descrizione),
+                      child: Text(widget.ingrediente.descrizione),
                     ),
                   ),
                 ),

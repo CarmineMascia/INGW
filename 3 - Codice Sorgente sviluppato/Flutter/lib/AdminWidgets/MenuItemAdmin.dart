@@ -209,6 +209,7 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => AggiungiPiatto(
                                 admin: widget.admin,
+                                tipologia: convertiStringa(widget.nome),
                               )));
                     },
                     icon: const Icon(Icons.add),
@@ -223,19 +224,31 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
                     onPressed: () {
                       setState(() {
                         isEditMode = false;
+                        //selectedPiatti = [];
                       });
                     },
                     icon: const Icon(Icons.arrow_back),
                   ),
                   IconButton(
                     onPressed: () {
-                      // Aggiungi logica per il pulsante cestino
-                      setState(() {
-                        widget.controller.DeletePiatti(selectedPiatti);
-                        for (var item in selectedPiatti) {
-                          piatti.remove(item);
-                        }
-                      });
+                      //String prova = selectedPiatti.length.toString();
+                      //SnackBar snackBar = SnackBar(content: Text(prova));
+                      //ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      if (selectedPiatti.isEmpty) {
+                        SnackBar snackBar = const SnackBar(
+                            content: Text(
+                                'Non hai selezionato elementi da eliminare'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else {
+                        // Aggiungi logica per il pulsante cestino
+                        setState(() {
+                          widget.controller.DeletePiatti(selectedPiatti);
+                          for (var item in selectedPiatti) {
+                            piatti.remove(item);
+                          }
+                        });
+                      }
+                      ;
                     },
                     icon: const Icon(Icons.delete),
                   ),
@@ -245,5 +258,16 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
         ),
       ),
     );
+  }
+
+  String convertiStringa(String input) {
+    Map<String, String> conversione = {
+      'PRIMI': 'Primo',
+      'SECONDI': 'Secondo',
+      'CONTORNI': 'Contorno',
+      'BEVANDE': 'Bevanda',
+      'DOLCI': 'Dolce',
+    };
+    return conversione[input]!;
   }
 }

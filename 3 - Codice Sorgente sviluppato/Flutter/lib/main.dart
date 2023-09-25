@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:prova1/AdminUI/LogicUI/DatiAccountAdmin.dart';
 import 'package:prova1/ClientsWidgets/ThemeMain.dart';
 import 'package:prova1/Controller/Controller.dart';
-
+import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:prova1/CucinaUI/LogicUI/DatiAccountCucina.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/Model/Cucina.dart';
 import 'package:prova1/Model/Supervisore.dart';
+import 'package:prova1/PrimoCambioPassword.dart';
 import 'package:prova1/SupervisoreUI/LogicUI/DatiAccountSupervisore.dart';
+import 'package:prova1/provaOpenFoodFact.dart';
+import 'package:prova1/recuperaPassword.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,6 +43,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    OpenFoodAPIConfiguration.userAgent = const UserAgent(name: 'RATATOUILLE23');
+    OpenFoodAPIConfiguration.globalLanguages = <OpenFoodFactsLanguage>[
+      OpenFoodFactsLanguage.ITALIAN
+    ];
+
+    OpenFoodAPIConfiguration.globalCountry = OpenFoodFactsCountry.ITALY;
+
     return Scaffold(
       body: theme.buildDecoratedBox(
         Center(
@@ -92,7 +102,12 @@ class HomePage extends StatelessWidget {
                     Align(
                       alignment: AlignmentDirectional.topStart,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) => RecuperaPassword()),
+                          );
+                        },
                         child: const Text('Hai dimenticato la password?'),
                       ),
                     ),
@@ -120,26 +135,43 @@ class HomePage extends StatelessWidget {
                                               email, password),
                                         )),
                               );
+
                               break;
                             case 2:
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => DatiAccountCucina(
-                                          cucina: Cucina.emailAndPassword(
-                                              email, password),
-                                        )),
-                              );
+                              if (controller.checkFirstTime()) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PrimoCambioPassword()),
+                                );
+                              } else {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) => DatiAccountCucina(
+                                            cucina: Cucina.emailAndPassword(
+                                                email, password),
+                                          )),
+                                );
+                              }
                               break;
                             case 3:
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        DatiAccountSupervisore(
-                                          supervisore:
-                                              Supervisore.emailAndPassword(
-                                                  email, password),
-                                        )),
-                              );
+                              if (controller.checkFirstTime()) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PrimoCambioPassword()),
+                                );
+                              } else {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          DatiAccountSupervisore(
+                                            supervisore:
+                                                Supervisore.emailAndPassword(
+                                                    email, password),
+                                          )),
+                                );
+                              }
                               break;
                             case 4:
                               break;

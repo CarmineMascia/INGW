@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prova1/AdminUI/Themes/ThemeDispensaAdmin.dart';
 import 'package:prova1/AdminUI/Themes/ThemeMessaggiAdmin.dart';
+import 'package:prova1/ClientsWidgets/AlertDialogCustom.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
 import 'package:prova1/Controller/Controller.dart';
 import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
@@ -73,8 +74,15 @@ class _ItemListTavoliState extends State<ItemListTavoli> {
                     if (widget.tavolo.attivo)
                       ElevatedButton(
                         child: const Text('CHIUDI IL TAVOLO'),
-                        onPressed: () {
-                          if (controller.chiudiTavolo(widget.tavolo)) {
+                        onPressed: () async {
+                          bool userConfirmed = await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialogCustom();
+                            },
+                          );
+                          if (userConfirmed == true &&
+                              controller.chiudiTavolo(widget.tavolo)) {
                             setState(() {
                               widget.tavolo.attivo = false;
                             });
@@ -90,8 +98,15 @@ class _ItemListTavoliState extends State<ItemListTavoli> {
                       ),
                     if (!widget.tavolo.attivo)
                       ElevatedButton(
-                        onPressed: () {
-                          if (controller.apriTavolo(widget.tavolo)) {
+                        onPressed: () async {
+                          bool userConfirmed = await showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialogCustom();
+                            },
+                          );
+                          if (userConfirmed == true &&
+                              controller.apriTavolo(widget.tavolo)) {
                             setState(() {
                               widget.tavolo.attivo = true;
                             });

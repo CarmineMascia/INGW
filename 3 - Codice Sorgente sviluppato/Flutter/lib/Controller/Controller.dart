@@ -33,7 +33,15 @@ class Controller {
   }
 
   bool UpdatePiatto(Piatti piatti) {
-    return clientsConnessioneDB.UpdatePiattoDB(piatti);
+    if (piatti.nome.isEmpty ||
+        piatti.tipologia.isEmpty ||
+        piatti.descrizione.isEmpty ||
+        piatti.ingredienti.isEmpty ||
+        piatti.allergeni.isEmpty) {
+      return false;
+    } else {
+      return clientsConnessioneDB.UpdatePiattoDB(piatti);
+    }
   }
 
   bool SavePiatto(Piatti piatti) {
@@ -43,19 +51,44 @@ class Controller {
         piatti.ingredienti.isEmpty ||
         piatti.allergeni.isEmpty) {
       return false;
+    } else {
+      return clientsConnessioneDB.SavePiattoDB(piatti);
     }
-    return clientsConnessioneDB.SavePiattoDB(piatti);
   }
 
   bool AggiungiIngrediente(Ingrediente ingrediente) {
+    if (ingrediente.nome.isEmpty ||
+        ingrediente.descrizione.isEmpty ||
+        ingrediente.codice.isEmpty ||
+        ingrediente.quantita.isEmpty) {
+      return false;
+    }
     return clientsConnessioneDB.AggiungiIngredienteDB(ingrediente);
   }
 
   bool UpdateIngrediente(Ingrediente ingrediente) {
+    if (ingrediente.nome.isEmpty ||
+        ingrediente.descrizione.isEmpty ||
+        ingrediente.codice.isEmpty ||
+        ingrediente.quantita.isEmpty) {
+      return false;
+    }
     return clientsConnessioneDB.UpdateIngredienteDB(ingrediente);
   }
 
   List<Tavolo> TakeTavoli() {
     return clientsConnessioneDB.TakeTavoli();
+  }
+
+  bool checkFirstTime() {
+    return clientsConnessioneDB.checkFirstTime();
+  }
+
+  bool setNewPassword(String text) {
+    return false;
+  }
+
+  bool setSogliaMinima(Ingrediente ingrediente, String sogliaMinima) {
+    return clientsConnessioneDB.setSogliaMinima(ingrediente, sogliaMinima);
   }
 }

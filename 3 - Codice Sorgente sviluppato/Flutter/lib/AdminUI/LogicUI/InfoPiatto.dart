@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:prova1/AdminUI/Themes/ThemeAggiungiPiatto.dart';
 import 'package:prova1/AdminUI/Themes/ThemeCreaAccount.dart';
 import 'package:prova1/AdminUI/Themes/ThemeInfoPiatto.dart';
-import 'package:prova1/AdminWidgets/AllergeniWidget.dart';
+import 'package:prova1/ClientsWidgets/AllergeniWidget.dart';
 import 'package:prova1/ClientsWidgets/AllergeniWidgetInfoPiatto.dart';
 import 'package:prova1/AdminWidgets/AppBarLayout.dart';
 import 'package:prova1/ClientsWidgets/IngredientiWidget.dart';
@@ -43,10 +43,11 @@ class _InfoPiattoState extends State<InfoPiatto> {
   TextEditingController nomeController = TextEditingController();
   TextEditingController descrizioneController = TextEditingController();
   TextEditingController prezzoController = TextEditingController();
+  TextEditingController allergeniController = TextEditingController();
   late CustomDropdown customDropdown;
 
   List<Ingrediente> ingredientiList = [];
-  List<Allergeni> allergeniList = [];
+  //String allergeni = "";
   late String newTipologia;
 
   @override
@@ -54,7 +55,8 @@ class _InfoPiattoState extends State<InfoPiatto> {
     //super.initState();
     piatto = widget.piatto;
     ingredientiList = piatto.ingredienti;
-    allergeniList = piatto.allergeni;
+    //allergeni = piatto.allergeni;
+    allergeniController.text = piatto.allergeni;
     nomeController.text = piatto.nome;
     descrizioneController.text = piatto.descrizione;
 
@@ -205,14 +207,52 @@ class _InfoPiattoState extends State<InfoPiatto> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      AllergeniWidgetInfoPiatto(
-                        optionsList: controller.takeAllergeni(),
+                      /*AllergeniWidgetInfoPiatto(
                         onUpdateSelection: (updatedSelection) {
                           setState(() {
-                            allergeniList = updatedSelection;
+                            allergeni = updatedSelection;
                           });
                         },
-                        allergeniList: allergeniList,
+                        allergeniIniziali: allergeni,
+                      ),*/
+                      Container(
+                        height: 220,
+                        decoration: themeInfoPiatto.containerDecoration(),
+                        child: Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              WhiteLine(),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              Text(
+                                'ALLERGENI',
+                                style: themeInfoPiatto.textStyle(),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(
+                                height: 5.0,
+                              ),
+                              WhiteLine(),
+                              Expanded(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 30.0),
+                                  child: Container(
+                                    child: TextField(
+                                      controller: allergeniController,
+                                      minLines: 7,
+                                      maxLines: 7,
+                                      decoration:
+                                          themeInfoPiatto.TextFieldDecoration(),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                       const SizedBox(
                         height: 20.0,
@@ -241,23 +281,25 @@ class _InfoPiattoState extends State<InfoPiatto> {
                               style: themeInfoPiatto.textStyle3(),
                             ),
                             onPressed: () {
-                              String nome = nomeController.text;
+                              piatto.nome = nomeController.text;
+                              piatto.allergeni = allergeniController.text;
 
-                              String prezzo = prezzoController.text;
-                              String descrizione = descrizioneController.text;
+                              piatto.prezzo = prezzoController.text;
+                              piatto.descrizione = descrizioneController.text;
 
-                              newTipologia = customDropdown.getSelectedValue()!;
+                              piatto.tipologia =
+                                  customDropdown.getSelectedValue()!;
                               // Ottieni i dati dagli IngredientiWidget
-                              List<Ingrediente> ingredienti = ingredientiList;
+                              piatto.ingredienti = ingredientiList;
 
                               // Ottieni i dati dagli AllergeniWidget
-                              List<Allergeni> allergeni = allergeniList;
 
                               if (controller.UpdatePiatto(piatto)) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                        'Salvataggio avvenuto con successo! '),
+                                        'Salvataggio avvenuto con successo!' +
+                                            piatto.allergeni),
                                   ),
                                 );
                               } else {

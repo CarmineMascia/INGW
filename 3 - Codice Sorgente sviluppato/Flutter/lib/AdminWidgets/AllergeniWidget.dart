@@ -8,7 +8,7 @@ class AllergeniWidget extends StatefulWidget {
   final Function(List<Allergeni>) onUpdateSelection;
   ThemeAggiungiPiatto themeAggiungiPiatto = ThemeAggiungiPiatto();
 
-  AllergeniWidget({required this.optionsList, required this.onUpdateSelection});
+  AllergeniWidget({super.key, required this.optionsList, required this.onUpdateSelection});
 
   @override
   _AllergeniWidgetState createState() => _AllergeniWidgetState();
@@ -38,12 +38,12 @@ class _AllergeniWidgetState extends State<AllergeniWidget> {
       height: 220,
       decoration: widget.themeAggiungiPiatto.containerDecoration(),
       child: Padding(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             WhiteLine(),
-            SizedBox(
+            const SizedBox(
               height: 5.0,
             ),
             Text(
@@ -51,7 +51,7 @@ class _AllergeniWidgetState extends State<AllergeniWidget> {
               style: widget.themeAggiungiPiatto.textStyle(),
               textAlign: TextAlign.center,
             ),
-            SizedBox(
+            const SizedBox(
               height: 5.0,
             ),
             WhiteLine(),
@@ -67,7 +67,7 @@ class _AllergeniWidgetState extends State<AllergeniWidget> {
                     for (Allergeni item in selectedItems)
                       Chip(
                         label: Text(item.nome),
-                        deleteIcon: Icon(Icons.cancel),
+                        deleteIcon: const Icon(Icons.cancel),
                         onDeleted: () {
                           setState(() {
                             selectedItems.remove(item);
@@ -81,7 +81,7 @@ class _AllergeniWidgetState extends State<AllergeniWidget> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(15.0),
               child: Align(
                 alignment: Alignment.center,
                 child: FloatingActionButton(
@@ -90,7 +90,7 @@ class _AllergeniWidgetState extends State<AllergeniWidget> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text('Seleziona un elemento'),
+                          title: const Text('Seleziona un elemento'),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -111,7 +111,7 @@ class _AllergeniWidgetState extends State<AllergeniWidget> {
                   backgroundColor: Colors.black, // Colore di sfondo del bottone
                   foregroundColor:
                       Colors.white, // Colore dell'icona del bottone
-                  child: Icon(Icons.add),
+                  child: const Icon(Icons.add),
                 ),
               ),
             ),

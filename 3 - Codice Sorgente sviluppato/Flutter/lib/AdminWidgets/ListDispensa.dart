@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:prova1/AdminUI/Themes/ThemeDispensaAdmin.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
+import 'package:prova1/Controller/Controller.dart';
 import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 import 'package:prova1/Model/Ingrediente.dart';
 
@@ -23,10 +25,25 @@ class ListDispensa extends StatelessWidget {
   }
 }
 
-class ItemListDispensa extends StatelessWidget {
+class ItemListDispensa extends StatefulWidget {
   final Ingrediente ingrediente;
-  ThemeDispensaAdmin themeDispensaAdmin = ThemeDispensaAdmin();
+
   ItemListDispensa({required this.ingrediente});
+
+  @override
+  _ItemListDispensaState createState() => _ItemListDispensaState();
+}
+
+class _ItemListDispensaState extends State<ItemListDispensa> {
+  Controller controller = Controller();
+  TextEditingController quantitaMinimaController = TextEditingController();
+  ThemeDispensaAdmin themeDispensaAdmin = ThemeDispensaAdmin();
+
+  @override
+  void initState() {
+    super.initState();
+    quantitaMinimaController.text = widget.ingrediente.sogliaMinima;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,32 +73,94 @@ class ItemListDispensa extends StatelessWidget {
                   width: 15.0,
                 ),
                 Text(
-                  ingrediente.nome,
+                  widget.ingrediente.nome,
                   style: themeDispensaAdmin.textStyle2(),
                 ),
                 const SizedBox(
                   width: 50.0,
                 ),
                 Text(
-                  ingrediente.codice,
+                  widget.ingrediente.codice,
                   style: themeDispensaAdmin.textStyle2(),
                 ),
-                Spacer(
+                const Spacer(
+                  flex: 1,
+                ),
+                TextButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Seleziona un elemento'),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Text('Inserisci la quantità in KG'),
+                                TextField(
+                                  controller: quantitaMinimaController,
+                                  keyboardType:
+                                      const TextInputType.numberWithOptions(
+                                          decimal: true),
+                                  inputFormatters: <TextInputFormatter>[
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp(r'^\d+\.?\d{0,2}'))
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                ElevatedButton(
+                                    style: themeDispensaAdmin.buttonStyle(),
+                                    onPressed: () {
+                                      bool flag = controller.setSogliaMinima(
+                                          widget.ingrediente,
+                                          quantitaMinimaController.text);
+                                      if (flag) {
+                                        SnackBar snackBar = const SnackBar(
+                                            content:
+                                                Text('SOGLIA MINIMA SALVATA!'));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                        setState(() {
+                                          widget.ingrediente.sogliaMinima =
+                                              quantitaMinimaController.text;
+                                        });
+                                      } else {
+                                        SnackBar snackBar = const SnackBar(
+                                            content: Text(
+                                                'ERRORE NEL SALVATAGGIO DELLA SOGLIA MINIMA, RIPROVARE!'));
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(snackBar);
+                                      }
+                                    },
+                                    child: const Text("CONFERMA")),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Text(
+                      "SOGLIA MINIMA : ${widget.ingrediente.sogliaMinima}Kg",
+                      style: themeDispensaAdmin.textStyle2(),
+                    )),
+                const Spacer(
                   flex: 1,
                 ),
                 Text(
-                  ingrediente.quantita + ' Kg',
+                  widget.ingrediente.quantita + ' Kg',
                   style: themeDispensaAdmin.textStyle2(),
                 ),
-                Spacer(
+                const Spacer(
                   flex: 1,
                 ),
                 Text(
-                  ingrediente.scadenza.day.toString() +
+                  widget.ingrediente.scadenza.day.toString() +
                       "/" +
-                      ingrediente.scadenza.month.toString() +
+                      widget.ingrediente.scadenza.month.toString() +
                       "/" +
-                      ingrediente.scadenza.year.toString(),
+                      widget.ingrediente.scadenza.year.toString(),
                   style: themeDispensaAdmin.textStyle2(),
                 ),
               ],
@@ -107,7 +186,7 @@ class ItemListDispensa extends StatelessWidget {
                     padding: const EdgeInsets.all(5.0),
                     color: Colors.white,
                     child: SingleChildScrollView(
-                      child: Text(ingrediente.descrizione),
+                      child: Text(widget.ingrediente.descrizione),
                     ),
                   ),
                 ),

@@ -233,7 +233,7 @@ class _InfoPiattoCucinaState extends State<InfoPiattoCucina> {
                                   child: Padding(
                                     padding: EdgeInsets.all(10.0),
                                     child: Text(
-                                      createStringAllergeni(piatto.allergeni),
+                                      piatto.allergeni,
                                       style: themeInfoPiattoCucina.textStyle3(),
                                     ),
                                   ),

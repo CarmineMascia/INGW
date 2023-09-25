@@ -8,8 +8,8 @@ class IngredientiWidgetInfoPiatto extends StatefulWidget {
   final Function(List<Ingrediente>) onUpdateSelection;
   final List<Ingrediente> ingredientiList;
 
-  IngredientiWidgetInfoPiatto(
-      {required this.optionsList,
+  const IngredientiWidgetInfoPiatto(
+      {super.key, required this.optionsList,
       required this.onUpdateSelection,
       required this.ingredientiList});
 
@@ -40,11 +40,11 @@ class _IngredientiWidgetInfoPiattoState
   void initState() {
     // TODO: implement initState
     optionsList = widget.optionsList;
-    widget.ingredientiList.forEach((element) {
+    for (var element in widget.ingredientiList) {
       optionsList.removeWhere((elem) => elem.codice == element.codice);
       selectedItems.add(element.nome);
       selectedIngredients.add(element);
-    });
+    }
   }
 
   @override
@@ -53,7 +53,7 @@ class _IngredientiWidgetInfoPiattoState
       height: 250,
       decoration: ThemeAggiungiPiatto.containerDecoration(),
       child: Padding(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -82,13 +82,13 @@ class _IngredientiWidgetInfoPiattoState
                       Chip(
                         label: Column(
                           children: [
-                            Text('$item', style: TextStyle(fontSize: 14)),
+                            Text(item, style: const TextStyle(fontSize: 14)),
                             Text(
                                 '${selectedIngredients.firstWhere((elem) => elem.nome == item).quantita} g',
-                                style: TextStyle(fontSize: 12)),
+                                style: const TextStyle(fontSize: 12)),
                           ],
                         ),
-                        deleteIcon: Icon(Icons.cancel),
+                        deleteIcon: const Icon(Icons.cancel),
                         onDeleted: () {
                           setState(() {
                             selectedItems.remove(item);
@@ -105,7 +105,7 @@ class _IngredientiWidgetInfoPiattoState
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(15.0),
               child: Align(
                 alignment: Alignment.center,
                 child: FloatingActionButton(
@@ -114,11 +114,11 @@ class _IngredientiWidgetInfoPiattoState
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text('Seleziona un elemento'),
+                          title: const Text('Seleziona un elemento'),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Text(
+                              const Text(
                                 'Inserisci la quantità in grammi',
                                 style:
                                     TextStyle(fontSize: 12, color: Colors.grey),
@@ -138,10 +138,10 @@ class _IngredientiWidgetInfoPiattoState
                                             width: 60,
                                             child: TextField(
                                               controller: quantityController,
-                                              keyboardType: TextInputType
+                                              keyboardType: const TextInputType
                                                   .numberWithOptions(
                                                       decimal: true),
-                                              decoration: InputDecoration(
+                                              decoration: const InputDecoration(
                                                 labelText: 'Quantità',
                                               ),
                                             ),
@@ -166,7 +166,7 @@ class _IngredientiWidgetInfoPiattoState
                   },
                   backgroundColor: Colors.black,
                   foregroundColor: Colors.white,
-                  child: Icon(Icons.add),
+                  child: const Icon(Icons.add),
                 ),
               ),
             ),

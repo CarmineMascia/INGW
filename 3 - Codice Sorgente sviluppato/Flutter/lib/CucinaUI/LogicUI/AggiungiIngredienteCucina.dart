@@ -73,7 +73,7 @@ class _AggiungiIngredienteCucinaState extends State<AggiungiIngredienteCucina> {
                       WhiteLine(),
                       const SizedBox(height: 5.0),
                       Text(
-                        "INFO INGREDIENTE",
+                        "AGGIUNGI INGREDIENTE",
                         style: themeInfoPiatto.textStyle(),
                       ),
                       const SizedBox(height: 5.0),
@@ -218,12 +218,13 @@ class _AggiungiIngredienteCucinaState extends State<AggiungiIngredienteCucina> {
                               style: themeInfoPiatto.textStyle4(),
                             ),
                             onPressed: () {
-                              Ingrediente ingrediente = Ingrediente(
-                                  nomeController.text,
-                                  codiceController.text,
-                                  quantitaController.text,
-                                  newScadenza,
-                                  descrizioneController.text);
+                              Ingrediente ingrediente =
+                                  Ingrediente.noSogliaMinima(
+                                      nomeController.text,
+                                      codiceController.text,
+                                      myButtonQuantita.getQuantita(),
+                                      newScadenza,
+                                      descrizioneController.text);
 
                               if (controller.AggiungiIngrediente(ingrediente)) {
                                 ScaffoldMessenger.of(context).showSnackBar(

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:prova1/AdminUI/Themes/ThemeDispensaAdmin.dart';
-import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
-import 'package:prova1/ControllerAdmin/Controller.dart';
-import 'package:prova1/Model/Ingrediente.dart';
 import 'package:prova1/Model/Messaggio.dart';
 
 class ListMessaggi extends StatelessWidget {
   final List<Messaggio> messaggi;
 
-  ListMessaggi({required this.messaggi});
+  const ListMessaggi({super.key, required this.messaggi});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +23,7 @@ class ListMessaggi extends StatelessWidget {
 
 class ItemListMessaggi extends StatelessWidget {
   final Messaggio messaggio;
-  ItemListMessaggi({required this.messaggio});
+  const ItemListMessaggi({super.key, required this.messaggio});
 
   @override
   Widget build(BuildContext context) {
@@ -63,16 +60,12 @@ class ItemListMessaggi extends StatelessWidget {
                       height: 15.0,
                     ),
                     Text(
-                      messaggio.data.day.toString() +
-                          '/' +
-                          messaggio.data.month.toString() +
-                          '/' +
-                          messaggio.data.year.toString(),
+                      '${messaggio.data.day}/${messaggio.data.month}/${messaggio.data.year}',
                       style: ThemeDispensaAdmin.textStyle2(),
                     ),
                   ],
                 ),
-                SizedBox(width: 10.0),
+                const SizedBox(width: 10.0),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(15.0),

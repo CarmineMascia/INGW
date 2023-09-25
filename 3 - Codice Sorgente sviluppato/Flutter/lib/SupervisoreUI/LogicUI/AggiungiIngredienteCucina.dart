@@ -84,7 +84,7 @@ class _AggiungiIngredienteSupervisoreState
                         decoration: themeInfoPiatto.containerDecoration(),
                         height: 100.0,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 10.0,
                             horizontal: 250.0,
                           ),
@@ -94,7 +94,7 @@ class _AggiungiIngredienteSupervisoreState
                                 "NOME: ",
                                 style: themeInfoPiatto.textStyle2(),
                               ),
-                              Container(
+                              SizedBox(
                                 height: 50,
                                 width: 250,
                                 child: TextField(
@@ -113,7 +113,7 @@ class _AggiungiIngredienteSupervisoreState
                               const SizedBox(
                                 width: 10.0,
                               ),
-                              Container(
+                              SizedBox(
                                 height: 50,
                                 width: 250,
                                 child: TextField(
@@ -130,7 +130,7 @@ class _AggiungiIngredienteSupervisoreState
                         decoration: themeInfoPiatto.containerDecoration(),
                         height: 100.0,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 10.0,
                             horizontal: 250.0,
                           ),
@@ -143,7 +143,7 @@ class _AggiungiIngredienteSupervisoreState
                               const SizedBox(
                                 width: 10.0,
                               ),
-                              Container(
+                              SizedBox(
                                 height: 50,
                                 width: 250,
                                 child: TextField(
@@ -152,7 +152,7 @@ class _AggiungiIngredienteSupervisoreState
                                       themeInfoPiatto.TextFieldDecoration(),
                                 ),
                               ),
-                              Spacer(
+                              const Spacer(
                                 flex: 1,
                               ),
                               Text(
@@ -162,17 +162,13 @@ class _AggiungiIngredienteSupervisoreState
                               const SizedBox(
                                 width: 10.0,
                               ),
-                              Container(
+                              SizedBox(
                                   height: 50,
                                   width: 250,
                                   child: ElevatedButton(
                                       style: themeInfoPiatto.myButtonStyle(),
                                       onPressed: () => selectDate(),
-                                      child: Text(newScadenza.day.toString() +
-                                          '/' +
-                                          newScadenza.month.toString() +
-                                          '/' +
-                                          newScadenza.year.toString()))),
+                                      child: Text('${newScadenza.day}/${newScadenza.month}/${newScadenza.year}'))),
                             ],
                           ),
                         ),
@@ -183,7 +179,7 @@ class _AggiungiIngredienteSupervisoreState
                       Container(
                         decoration: themeInfoPiatto.containerDecoration(),
                         child: Padding(
-                          padding: EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(10.0),
                           child: Column(
                             children: [
                               WhiteLine(),
@@ -197,7 +193,7 @@ class _AggiungiIngredienteSupervisoreState
                               const SizedBox(
                                 height: 30.0,
                               ),
-                              Container(
+                              SizedBox(
                                 height: 200.0,
                                 child: TextField(
                                   controller: descrizioneController,
@@ -220,10 +216,6 @@ class _AggiungiIngredienteSupervisoreState
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton(
-                            child: Text(
-                              "SALVA",
-                              style: themeInfoPiatto.textStyle4(),
-                            ),
                             onPressed: () {
                               Ingrediente ingrediente = Ingrediente(
                                   nomeController.text,
@@ -234,14 +226,14 @@ class _AggiungiIngredienteSupervisoreState
 
                               if (controller.AggiungiIngrediente(ingrediente)) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text(
                                         'Salvataggio avvenuto con successo!'),
                                   ),
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text('Salvataggio fallito!'),
                                   ),
                                 );
@@ -251,6 +243,10 @@ class _AggiungiIngredienteSupervisoreState
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
                               minimumSize: const Size(200, 40),
+                            ),
+                            child: Text(
+                              "SALVA",
+                              style: themeInfoPiatto.textStyle4(),
                             ),
                           ),
                         ),

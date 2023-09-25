@@ -17,6 +17,14 @@ class ThemeAggiungiPiatto {
     );
   }
 
+  TextStyle textStyle3() {
+    return const TextStyle(
+      color: Colors.white,
+      fontSize: 15.0,
+      fontWeight: FontWeight.bold,
+    );
+  }
+
   BoxDecoration containerDecoration() {
     return BoxDecoration(
       boxShadow: [
@@ -47,5 +55,15 @@ class ThemeAggiungiPiatto {
       ),
       hintText: 'Enter text...',
     );
+  }
+
+  List<String> takeTipologie() {
+    return [
+      'Primo',
+      'Secondo',
+      'Contorno',
+      'Dolce',
+      'Bevanda',
+    ];
   }
 }

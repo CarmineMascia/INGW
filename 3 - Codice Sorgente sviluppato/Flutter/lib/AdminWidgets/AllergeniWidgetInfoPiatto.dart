@@ -9,7 +9,7 @@ class AllergeniWidgetInfoPiatto extends StatefulWidget {
   final List<Allergeni> allergeniList;
 
   AllergeniWidgetInfoPiatto(
-      {required this.optionsList,
+      {super.key, required this.optionsList,
       required this.onUpdateSelection,
       required this.allergeniList});
 
@@ -33,10 +33,10 @@ class _AllergeniWidgetInfoPiattoState extends State<AllergeniWidgetInfoPiatto> {
   @override
   void initState() {
     optionsList = widget.optionsList;
-    widget.allergeniList.forEach((element) {
+    for (var element in widget.allergeniList) {
       optionsList.removeWhere((elem) => elem.nome == element.nome);
       selectedItems.add(element);
-    });
+    }
   }
 
   @override
@@ -45,12 +45,12 @@ class _AllergeniWidgetInfoPiattoState extends State<AllergeniWidgetInfoPiatto> {
       height: 220,
       decoration: ThemeInfoPiatto.containerDecoration(),
       child: Padding(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             WhiteLine(),
-            SizedBox(
+            const SizedBox(
               height: 5.0,
             ),
             Text(
@@ -58,7 +58,7 @@ class _AllergeniWidgetInfoPiattoState extends State<AllergeniWidgetInfoPiatto> {
               style: ThemeInfoPiatto.textStyle(),
               textAlign: TextAlign.center,
             ),
-            SizedBox(
+            const SizedBox(
               height: 5.0,
             ),
             WhiteLine(),
@@ -74,7 +74,7 @@ class _AllergeniWidgetInfoPiattoState extends State<AllergeniWidgetInfoPiatto> {
                     for (Allergeni item in selectedItems)
                       Chip(
                         label: Text(item.nome),
-                        deleteIcon: Icon(Icons.cancel),
+                        deleteIcon: const Icon(Icons.cancel),
                         onDeleted: () {
                           setState(() {
                             selectedItems.remove(item);
@@ -88,7 +88,7 @@ class _AllergeniWidgetInfoPiattoState extends State<AllergeniWidgetInfoPiatto> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(15.0),
               child: Align(
                 alignment: Alignment.center,
                 child: FloatingActionButton(
@@ -97,7 +97,7 @@ class _AllergeniWidgetInfoPiattoState extends State<AllergeniWidgetInfoPiatto> {
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text('Seleziona un elemento'),
+                          title: const Text('Seleziona un elemento'),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -118,7 +118,7 @@ class _AllergeniWidgetInfoPiattoState extends State<AllergeniWidgetInfoPiatto> {
                   backgroundColor: Colors.black, // Colore di sfondo del bottone
                   foregroundColor:
                       Colors.white, // Colore dell'icona del bottone
-                  child: Icon(Icons.add),
+                  child: const Icon(Icons.add),
                 ),
               ),
             ),

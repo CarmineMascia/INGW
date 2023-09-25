@@ -6,7 +6,7 @@ import 'package:prova1/Controller/ControllerCucina/ControllerCucina.dart';
 
 import 'package:prova1/Model/Ingrediente.dart';
 import 'package:prova1/Model/Supervisore.dart';
-import 'package:prova1/SupervisoreUI/LogicUI/AggiungiIngredienteCucina.dart';
+import 'package:prova1/SupervisoreUI/LogicUI/AggiungiIngredienteSupervisore.dart';
 import 'package:prova1/SupervisoreUI/LogicUI/ListDispensaSupervisore.dart';
 import 'package:prova1/SupervisoreUI/Themes/ThemeDispensaSupervisore.dart';
 import 'package:prova1/SupervisoreWidget/AppBarLayoutSupervisore.dart';

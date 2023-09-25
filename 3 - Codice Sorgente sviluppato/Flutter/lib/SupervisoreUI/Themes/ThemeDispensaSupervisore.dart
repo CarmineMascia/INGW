@@ -52,4 +52,9 @@ class ThemeDispensaSupervisore {
       ],
     );
   }
+
+  ButtonStyle buttonStyle() {
+    return ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.black));
+  }
 }
