@@ -1,9 +1,4 @@
 # INGW
-# PER GIGGI
-1) fare una funzione che ritorna il conto in modo che non ci siano duplicazioni, bensì sia presente un campo quantità per ogni oggetto
-
-
-
 Ratatouille23 è  un   sistema  finalizzato  al  supporto  alla  gestione  e  all’operatività  di  attività  di ristorazione. Il sistema consiste in un’applicazione performante e affidabile,  attraverso  cui  gli  utenti possono fruire delle funzionalità del sistema in modo intuitivo, rapido e piacevole. Le principali funzionalità offerte da Ratatouille23 sono indicate di seguito:
 
 
