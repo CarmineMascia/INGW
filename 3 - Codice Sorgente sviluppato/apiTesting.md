@@ -9,9 +9,12 @@ GET http://127.0.0.1:8000/statistics/
 
 RESPONSE
 {
-    "total": 350.0,
-    "Expected value of receipt": 116.0,
-    "Expected value of total": 350.0
+    "total": 366.5,
+    "Expected value of receipt": 73.0,
+    "Expected value of total": 183.0,
+    "2023-09-04": 300.0,
+    "2023-09-05": 66.5,
+    "2023-09-06": 0.0
 }
 ```
 
