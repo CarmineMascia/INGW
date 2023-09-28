@@ -11,6 +11,7 @@ class Dish(models.Model):
     name = models.CharField(max_length=100)
     cost = models.FloatField()
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    allergens = models.CharField(max_length=500, default='/')
     description = models.CharField(max_length=255)
 
 class Ingredients(models.Model):
@@ -20,7 +21,6 @@ class Ingredients(models.Model):
     quantity = models.FloatField() # in kg
     cost = models.FloatField() # for kg
     # type = kg or lt
-    isAllergen = models.BooleanField(default=False)
     minThreshold = models.IntegerField()
 
 class IngredientsInDish(models.Model):
@@ -40,6 +40,7 @@ class DishesOfOrder(models.Model):
     id = models.AutoField(primary_key=True)
     orderId = models.ForeignKey(Orders, on_delete=models.CASCADE)
     dishId = models.ForeignKey(Dish, on_delete=models.CASCADE)
+    count = models.IntegerField(default=1)
 
 class Notification(models.Model):
     id = models.AutoField(primary_key=True)

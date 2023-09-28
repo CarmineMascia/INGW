@@ -11,8 +11,12 @@ from managementApp.serializers import DishesOfOrderSerializer
 from managementApp.models import Ingredients
 from managementApp.serializers import IngredientsSerializer
 from managementApp.models import IngredientsInDish
+from managementApp.serializers import NotificationSerializer
 
 from django.db.models import F
+
+from django.db.models import Sum
+
 
 @csrf_exempt
 def statisticsAPI(request):
@@ -34,11 +38,17 @@ def statisticsAPI(request):
         expectedReceipt = total // n
         expectedTotal = total // m
 
-        return JsonResponse({ 
+        result = Orders.objects.filter(timestamp__range=(startDate, endDate)).values('timestamp') .annotate(total_cost=Sum('cost'))
+        response = { 
             "total": total, 
             "Expected value of receipt": expectedReceipt,
             "Expected value of total": expectedTotal
-        })
+        }
+
+        for entry in result:
+            response[entry['timestamp'].strftime('%Y-%m-%d')] = entry['total_cost']
+
+        return JsonResponse(response)
 
 @csrf_exempt
 def ingredientsAPI(request):
@@ -103,30 +113,45 @@ def dishAPI(request):
 def orderAPI(request):
         # This case is for when the supervisors need to see the order info aka receipt
         if request.method == 'GET':
-            # Take the tableNumber from the body of the request, take the only active order of that table
-            # then it takes every dishes of order related with that order
             data = JSONParser().parse(request)
-            order = Orders.objects.get(tableNumber=data['tableNumber'], isActive=True)
+            table_number = data['tableNumber']
+
+            # Find the active order for the given table number
+            order = Orders.objects.get(tableNumber=table_number, isActive=True)
+
+            # Find all dishes associated with this order
             dishes_of_order = DishesOfOrder.objects.filter(orderId=order)
-            
-            # Take every dish id of that order, then sum the costs
-            dish_ids = [dish_of_order.dishId.id for dish_of_order in dishes_of_order]
-            dishes = Dish.objects.filter(id__in=dish_ids)
-            total_cost = sum(dish.cost for dish in dishes)
-            # Update the 'cost' field and save the updated order
-            order.cost = total_cost  
+
+            # Calculate the total cost of all dishes
+            total_cost = sum(dish_order.dishId.cost for dish_order in dishes_of_order)
+
+            # Update the 'cost' field of the order
+            order.cost = total_cost
             order.save()
 
-            # For each dish, i take the infos and i append them in the list
+            # Create a list to hold the serialized dish data
             dish_data = []
-            for dish in dishes:
+
+            for dish_order in dishes_of_order:
+                dish = dish_order.dishId
+
+                # Serialize the dish
                 dish_serializer = DishSerializer(dish)
+
+                # Include the 'count' attribute from the DishesOfOrder model
                 dish_data.append({
-                    "dish": dish_serializer.data
-                })      
-            serializer=OrdersSerializer(order)
+                    "dish": dish_serializer.data,
+                    "count": dish_order.count  # Include the count
+                })
+
+            # Serialize the order
+            order_serializer = OrdersSerializer(order)
+
+            return JsonResponse({
+                "order": order_serializer.data,
+                "dishes": dish_data
+            })
             
-            return JsonResponse({"order": serializer.data,"dishes": dish_data})
         
         # This case is for the creation of an order, it must be done before adding any dish to the order 
         elif request.method == 'POST':
@@ -169,10 +194,18 @@ def dishOfOrderAPI(request):
         except:
             return JsonResponse({'Failed to add, order or dish not found'}, safe=False)
         
-        dishes_of_order = DishesOfOrder(orderId=order, dishId=dish)
-        dishes_of_order.save()
+        # Check if a tuple with the same orderId and dishId exists
+        existing_dish_of_order = DishesOfOrder.objects.filter(orderId=order, dishId=dish).first()
+        
+        if existing_dish_of_order:
+        # If it exists, increment the count
+            existing_dish_of_order.count += 1
+            existing_dish_of_order.save()
+        else:
+            # If it doesn't exist, create a new tuple
+            new_dish_of_order = DishesOfOrder(orderId=order, dishId=dish, count=1)
+            new_dish_of_order.save()
 
-        # TODO : Togliere la quantità dalla dispensa
         ingredients_used = IngredientsInDish.objects.filter(dishId=data['dishId'])
         for ingredient in ingredients_used:
             x = Ingredients.objects.get(id=ingredient.ingredientsId.id)
@@ -193,6 +226,21 @@ def ingredientsInDishAPI(request):
                 serializer.save()
                 return JsonResponse("Added successfully", safe=False)
             return JsonResponse("Failed to add", safe=False)
+
+@csrf_exempt
+def notificationAPI(request):
+    if request.method == 'GET':
+        notifications = Notification.objects.all()
+        serializer = NotificationSerializer(notifications, many=True)
+    
+        notification_count = notifications.count()
+
+        response_data = {
+            'notifications': serializer.data,
+            'notification_count': notification_count,
+        }
+
+        return JsonResponse(response_data, safe=False)
 
 # TODO : Gli ordini sono solo gli "scontrini" e l'informazione se sono ancora attivi, una volta che l'ordine è finito, non è più attivo
 # un tavolo sta venendo usato se c'è un ordine attivo su di esso.
