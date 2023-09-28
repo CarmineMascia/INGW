@@ -1,7 +1,6 @@
 # INGW
 # PER GIGGI
 1) fare una funzione che ritorna il conto in modo che non ci siano duplicazioni, bensì sia presente un campo quantità per ogni oggetto
-3) Modificare allergeni in modo che essi siano un attributo di un piatto
 
 
 
