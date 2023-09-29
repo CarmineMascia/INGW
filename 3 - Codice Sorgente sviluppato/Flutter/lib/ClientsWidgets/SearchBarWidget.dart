@@ -134,8 +134,6 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
-  bool filter = true; //true se è Nome, false se è codice
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -147,58 +145,17 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           // Esempio: updateDispensa(nuovaListaDispensa);
           List<Ingrediente> filteredList = [];
 
-          if (filter == true) {
-            for (int i = 0; i < widget.dispensa.length; i++) {
-              if (widget.dispensa[i].nome
-                  .toLowerCase()
-                  .startsWith(newText.toLowerCase())) {
-                filteredList.add(widget.dispensa[i]);
-              }
-            }
-          } else {
-            for (int i = 0; i < widget.dispensa.length; i++) {
-              if (widget.dispensa[i].codice.startsWith(newText)) {
-                filteredList.add(widget.dispensa[i]);
-              }
+          for (int i = 0; i < widget.dispensa.length; i++) {
+            if (widget.dispensa[i].nome
+                .toLowerCase()
+                .contains(newText.toLowerCase())) {
+              filteredList.add(widget.dispensa[i]);
             }
           }
 
           widget.update(filteredList);
         },
         leading: const Icon(Icons.search),
-        trailing: [
-          /*IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.filter_alt),
-          ),*/
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              PopupMenuButton<String>(
-                icon: const Icon(Icons.filter_alt),
-                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                  const PopupMenuItem<String>(
-                    value: 'Nome',
-                    child: Text('Nome'),
-                  ),
-                  const PopupMenuItem<String>(
-                    value: 'Codice',
-                    child: Text('Codice'),
-                  ),
-                ],
-                onSelected: (String value) {
-                  setState(() {
-                    if (value == 'Nome') {
-                      filter = true;
-                    } else if (value == 'Codice') {
-                      filter = false;
-                    }
-                  });
-                },
-              ),
-            ],
-          ),
-        ],
         backgroundColor: MaterialStateProperty.all(
           Color.fromARGB(190, 255, 255, 255),
         ),

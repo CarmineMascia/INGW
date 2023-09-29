@@ -73,14 +73,14 @@ class _ItemListDispensaState extends State<ItemListDispensa> {
                   width: 15.0,
                 ),
                 Text(
-                  widget.ingrediente.nome,
+                  widget.ingrediente.nome.toUpperCase(),
                   style: themeDispensaAdmin.textStyle2(),
                 ),
                 const SizedBox(
                   width: 50.0,
                 ),
                 Text(
-                  widget.ingrediente.codice,
+                  'COSTO: ${widget.ingrediente.costo}€',
                   style: themeDispensaAdmin.textStyle2(),
                 ),
                 const Spacer(
@@ -92,7 +92,10 @@ class _ItemListDispensaState extends State<ItemListDispensa> {
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text('Seleziona un elemento'),
+                            title: const Text(
+                              'SOGLIA MINIMA',
+                              textAlign: TextAlign.center,
+                            ),
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -149,18 +152,14 @@ class _ItemListDispensaState extends State<ItemListDispensa> {
                   flex: 1,
                 ),
                 Text(
-                  widget.ingrediente.quantita + ' Kg',
+                  'QNT: ${widget.ingrediente.quantita} Kg',
                   style: themeDispensaAdmin.textStyle2(),
                 ),
                 const Spacer(
                   flex: 1,
                 ),
                 Text(
-                  widget.ingrediente.scadenza.day.toString() +
-                      "/" +
-                      widget.ingrediente.scadenza.month.toString() +
-                      "/" +
-                      widget.ingrediente.scadenza.year.toString(),
+                  "SCADENZA :${widget.ingrediente.scadenza.day}/${widget.ingrediente.scadenza.month}/${widget.ingrediente.scadenza.year}",
                   style: themeDispensaAdmin.textStyle2(),
                 ),
               ],
@@ -174,7 +173,7 @@ class _ItemListDispensaState extends State<ItemListDispensa> {
             children: [
               const SizedBox(width: 20.0),
               Text(
-                "Descrizione: ",
+                "DESCRIZIONE: ",
                 style: themeDispensaAdmin.textStyle2(),
               ),
               const SizedBox(width: 10.0),

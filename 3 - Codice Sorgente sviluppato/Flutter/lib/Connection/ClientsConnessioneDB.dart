@@ -15,7 +15,7 @@ class ClientsConnessioneDB {
             'BUONO E GUSTOSO, UN PIATTO SEMPLICE CHE CONQUISTA TUTTI',
             'palla', [
           Ingrediente('Mozzarella', '00003', '5.0', DateTime(2024, 8, 3),
-              'Buono e gustoso gnam', '15.0')
+              'Buono e gustoso gnam', '15.0', '10')
         ]),
         Piatti('Spaghetti alla amatriciana', '15', '', '', 'glutine', []),
         Piatti('Spaghetti alla carbonara', '15', '', '', 'lala', []),
@@ -58,11 +58,12 @@ class ClientsConnessioneDB {
           '5.0',
           DateTime(2025, 8, 3),
           'Buono e gustoso gnamckospsniprkvpsmimo opf pwmorospvmsopigjsnvkpkm  mgpgwmdlskmgkewgpigkwrinpkwdfkmefowpgiwngkn gqpwfmkrdmslòfmsdkrnionkgsmkfmpsdksvmriongksi eipwkfmodlskmnkgirgnwbojcndlckamofpefèapvnddbu jngnjrspgkgjnsfnhgjpoae o pfiejaipfmkdkgnikdagpiengrujnjgaipefmoqdòklcvsnvriogn gefofeopa    ofejoppafpjoeaojpfopjafpjofefejofjojopfeapfaejoeevovuaaaaaaaaaaaaaaaa iojfeaeeeeeeeeeeeeeeeeeeeeeeeee paofnaudoavijoguhvjaeifaojncauofjaeionaceiaougnjcaidjpakwopdicmksljvdurjiapeugiacoqehaocjvnhryiu fuehajpsoiojiydfuoiefoneiduiosdjhayfuoinjhyudhifuiodjnhiyuofiajehhu ifaiuipodknjufiadjknjabgduivnk juivajdnjuivjdiuaejtudfj',
-          '1.0'),
+          '1.0',
+          '10'),
       Ingrediente('Prosciutto crudo', '00002', '5.0', DateTime(2026, 8, 3),
-          'Buono e gustoso gnam', '3.0'),
+          'Buono e gustoso gnam', '3.0', '15'),
       Ingrediente('Mozzarella', '00003', '5.0', DateTime(2024, 8, 3),
-          'Buono e gustoso gnam', '2.0'),
+          'Buono e gustoso gnam', '2.0', '15'),
     ];
   }
 
@@ -85,11 +86,12 @@ class ClientsConnessioneDB {
           '5.0',
           DateTime(2025, 8, 3),
           'Buono e gustoso gnamckospsniprkvpsmimo opf pwmorospvmsopigjsnvkpkm  mgpgwmdlskmgkewgpigkwrinpkwdfkmefowpgiwngkn gqpwfmkrdmslòfmsdkrnionkgsmkfmpsdksvmriongksi eipwkfmodlskmnkgirgnwbojcndlckamofpefèapvnddbu jngnjrspgkgjnsfnhgjpoae o pfiejaipfmkdkgnikdagpiengrujnjgaipefmoqdòklcvsnvriogn gefofeopa    ofejoppafpjoeaojpfopjafpjofefejofjojopfeapfaejoeevovuaaaaaaaaaaaaaaaa iojfeaeeeeeeeeeeeeeeeeeeeeeeeee paofnaudoavijoguhvjaeifaojncauofjaeionaceiaougnjcaidjpakwopdicmksljvdurjiapeugiacoqehaocjvnhryiu fuehajpsoiojiydfuoiefoneiduiosdjhayfuoinjhyudhifuiodjnhiyuofiajehhu ifaiuipodknjufiadjknjabgduivnk juivajdnjuivjdiuaejtudfj',
-          '1.0'),
+          '1.0',
+          '15'),
       Ingrediente('Prosciutto crudo', '00002', '5.0', DateTime(2026, 8, 3),
-          'Buono e gustoso gnam', '3.0'),
+          'Buono e gustoso gnam', '3.0', '15'),
       Ingrediente('Mozzarella', '00003', '5.0', DateTime(2024, 8, 3),
-          'Buono e gustoso gnam', '2.0'),
+          'Buono e gustoso gnam', '2.0', '10'),
     ];
   }
 

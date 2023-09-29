@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:prova1/ClientsWidgets/IngredientiWidgetInfoPiatto.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
@@ -31,14 +32,15 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
   late Ingrediente ingrediente;
   ThemeMain theme = ThemeMain();
   AppBarLayoutCucina AppBar = AppBarLayoutCucina();
-  ThemeInfoIngredienteCucina themeInfoPiatto = ThemeInfoIngredienteCucina();
+  ThemeInfoIngredienteCucina themeInfoIngredienteCucina =
+      ThemeInfoIngredienteCucina();
   ControllerCucina controllerCucina = ControllerCucina();
   Controller controller = Controller();
   late MyButtonQuantita myButtonQuantita;
 
   TextEditingController nomeController = TextEditingController();
   TextEditingController descrizioneController = TextEditingController();
-  TextEditingController codiceController = TextEditingController();
+  TextEditingController costoController = TextEditingController();
   //TextEditingController quantitaController = TextEditingController();
   TextEditingController scadenzaController = TextEditingController();
   late DateTime newScadenza;
@@ -57,7 +59,7 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
     ingrediente = widget.ingrediente;
     nomeController.text = ingrediente.nome;
     descrizioneController.text = ingrediente.descrizione;
-    codiceController.text = ingrediente.codice;
+    costoController.text = ingrediente.costo;
     //quantitaController.text = ingrediente.quantita;
     newScadenza = ingrediente.scadenza;
     myButtonQuantita = MyButtonQuantita(quantita: ingrediente.quantita);
@@ -88,7 +90,7 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                       const SizedBox(height: 5.0),
                       Text(
                         "INFO INGREDIENTE",
-                        style: themeInfoPiatto.textStyle(),
+                        style: themeInfoIngredienteCucina.textStyle(),
                       ),
                       const SizedBox(height: 5.0),
                       WhiteLine(),
@@ -96,7 +98,8 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                         height: 20.0,
                       ),
                       Container(
-                        decoration: themeInfoPiatto.containerDecoration(),
+                        decoration:
+                            themeInfoIngredienteCucina.containerDecoration(),
                         height: 100.0,
                         child: /*Padding(
                           padding: EdgeInsets.symmetric(
@@ -110,31 +113,54 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                             ),
                             Text(
                               "NOME: ",
-                              style: themeInfoPiatto.textStyle2(),
+                              style: themeInfoIngredienteCucina.textStyle2(),
                             ),
                             Container(
                               height: 50,
                               width: 200,
                               child: TextField(
                                 controller: nomeController,
-                                decoration:
-                                    themeInfoPiatto.TextFieldDecoration(),
+                                decoration: themeInfoIngredienteCucina
+                                    .TextFieldDecoration(),
                               ),
                             ),
                             const Spacer(
                               flex: 1,
                             ),
                             Text(
-                              "CODICE: ",
-                              style: themeInfoPiatto.textStyle2(),
+                              "COSTO: ",
+                              style: themeInfoIngredienteCucina.textStyle2(),
                             ),
                             Container(
+                              decoration:
+                                  themeInfoIngredienteCucina.myContainerStyle(),
                               height: 50,
                               width: 200,
-                              child: TextField(
-                                controller: codiceController,
-                                decoration:
-                                    themeInfoPiatto.TextFieldDecoration(),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        keyboardType: const TextInputType
+                                            .numberWithOptions(decimal: true),
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.allow(
+                                              RegExp(r'^\d+\.?\d{0,2}'))
+                                        ],
+                                        controller: costoController,
+                                        /*decoration:
+                                    themeInfoPiatto.TextFieldDecoration(),*/
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          hintText: 'Enter text...',
+                                        ),
+                                      ),
+                                    ),
+                                    const Text('€'),
+                                  ],
+                                ),
                               ),
                             ),
                             Spacer(
@@ -144,7 +170,8 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                         ),
                       ),
                       Container(
-                        decoration: themeInfoPiatto.containerDecoration(),
+                        decoration:
+                            themeInfoIngredienteCucina.containerDecoration(),
                         height: 100.0,
                         child: Row(
                           children: [
@@ -173,13 +200,14 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                             ),
                             Text(
                               "SCADENZA: ",
-                              style: themeInfoPiatto.textStyle2(),
+                              style: themeInfoIngredienteCucina.textStyle2(),
                             ),
                             Container(
                                 height: 50,
                                 width: 200,
                                 child: ElevatedButton(
-                                    style: themeInfoPiatto.myButtonStyle(),
+                                    style: themeInfoIngredienteCucina
+                                        .myButtonStyle(),
                                     onPressed: () => selectDate(),
                                     child: Text(newScadenza.day.toString() +
                                         '/' +
@@ -196,7 +224,8 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                         height: 20.0,
                       ),
                       Container(
-                        decoration: themeInfoPiatto.containerDecoration(),
+                        decoration:
+                            themeInfoIngredienteCucina.containerDecoration(),
                         child: Padding(
                           padding: EdgeInsets.all(10.0),
                           child: Column(
@@ -205,7 +234,7 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                               const SizedBox(height: 5.0),
                               Text(
                                 "DESCRIZIONE",
-                                style: themeInfoPiatto.textStyle(),
+                                style: themeInfoIngredienteCucina.textStyle(),
                               ),
                               const SizedBox(height: 5.0),
                               WhiteLine(),
@@ -218,8 +247,8 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                                   controller: descrizioneController,
                                   minLines: 7,
                                   maxLines: 7,
-                                  decoration:
-                                      themeInfoPiatto.TextFieldDecoration(),
+                                  decoration: themeInfoIngredienteCucina
+                                      .TextFieldDecoration(),
                                 ),
                               )
                             ],
@@ -235,13 +264,9 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton(
-                            child: Text(
-                              "SALVA",
-                              style: themeInfoPiatto.textStyle4(),
-                            ),
                             onPressed: () {
                               ingrediente.nome = nomeController.text;
-                              ingrediente.codice = codiceController.text;
+                              ingrediente.costo = costoController.text;
                               //String quantita = quantitaController.text;
                               ingrediente.descrizione =
                                   descrizioneController.text;
@@ -253,13 +278,12 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                        'Salvataggio avvenuto con successo!' +
-                                            ingrediente.quantita),
+                                        'Salvataggio avvenuto con successo!${ingrediente.quantita}'),
                                   ),
                                 );
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
+                                  const SnackBar(
                                     content: Text('Salvataggio fallito!'),
                                   ),
                                 );
@@ -269,6 +293,10 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
                               minimumSize: const Size(200, 40),
+                            ),
+                            child: Text(
+                              "SALVA",
+                              style: themeInfoIngredienteCucina.textStyle4(),
                             ),
                           ),
                         ),

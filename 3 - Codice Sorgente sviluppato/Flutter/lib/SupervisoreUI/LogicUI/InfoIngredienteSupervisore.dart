@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:prova1/ClientsWidgets/MyButtonQuantita.dart';
 
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
@@ -39,7 +40,7 @@ class _InfoIngredienteSupervisoreState
 
   TextEditingController nomeController = TextEditingController();
   TextEditingController descrizioneController = TextEditingController();
-  TextEditingController codiceController = TextEditingController();
+  TextEditingController costoController = TextEditingController();
   //TextEditingController quantitaController = TextEditingController();
   TextEditingController scadenzaController = TextEditingController();
   late DateTime newScadenza;
@@ -58,7 +59,7 @@ class _InfoIngredienteSupervisoreState
     ingrediente = widget.ingrediente;
     nomeController.text = ingrediente.nome;
     descrizioneController.text = ingrediente.descrizione;
-    codiceController.text = ingrediente.codice;
+    costoController.text = ingrediente.costo;
     //quantitaController.text = ingrediente.quantita;
     newScadenza = ingrediente.scadenza;
     myButtonQuantita = MyButtonQuantita(quantita: ingrediente.quantita);
@@ -125,7 +126,7 @@ class _InfoIngredienteSupervisoreState
                                 flex: 1,
                               ),
                               Text(
-                                "CODICE: ",
+                                "COSTO: ",
                                 style: themeInfoIngredienteSupervisore
                                     .textStyle2(),
                               ),
@@ -133,12 +134,35 @@ class _InfoIngredienteSupervisoreState
                                 width: 10.0,
                               ),
                               Container(
+                                decoration: themeInfoIngredienteSupervisore
+                                    .myContainerStyle(),
                                 height: 50,
-                                width: 250,
-                                child: TextField(
-                                  controller: codiceController,
-                                  decoration: themeInfoIngredienteSupervisore
-                                      .TextFieldDecoration(),
+                                width: 200,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15.0),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextField(
+                                          keyboardType: const TextInputType
+                                              .numberWithOptions(decimal: true),
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(r'^\d+\.?\d{0,2}'))
+                                          ],
+                                          controller: costoController,
+                                          /*decoration:
+                                    themeInfoPiatto.TextFieldDecoration(),*/
+                                          decoration: const InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: 'Enter text...',
+                                          ),
+                                        ),
+                                      ),
+                                      const Text('€'),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -252,7 +276,7 @@ class _InfoIngredienteSupervisoreState
                             ),
                             onPressed: () {
                               ingrediente.nome = nomeController.text;
-                              ingrediente.codice = codiceController.text;
+                              ingrediente.codice = costoController.text;
                               //String quantita = quantitaController.text;
                               ingrediente.descrizione =
                                   descrizioneController.text;

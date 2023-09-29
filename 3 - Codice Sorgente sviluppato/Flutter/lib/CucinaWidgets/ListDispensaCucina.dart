@@ -94,32 +94,28 @@ class ItemListDispensaCucina extends StatelessWidget {
                   width: 10.0,
                 ),
                 Text(
-                  ingrediente.nome,
+                  ingrediente.nome.toUpperCase(),
                   style: themeDispensaAdmin.textStyle2(),
                 ),
                 const SizedBox(
                   width: 50.0,
                 ),
                 Text(
-                  ingrediente.codice,
+                  'COSTO: ${ingrediente.costo}€',
                   style: themeDispensaAdmin.textStyle2(),
                 ),
                 Spacer(
                   flex: 1,
                 ),
                 Text(
-                  ingrediente.quantita + ' Kg',
+                  'QNT: ${ingrediente.quantita} Kg',
                   style: themeDispensaAdmin.textStyle2(),
                 ),
                 Spacer(
                   flex: 1,
                 ),
                 Text(
-                  ingrediente.scadenza.day.toString() +
-                      "/" +
-                      ingrediente.scadenza.month.toString() +
-                      "/" +
-                      ingrediente.scadenza.year.toString(),
+                  "SCADENZA :${ingrediente.scadenza.day}/${ingrediente.scadenza.month}/${ingrediente.scadenza.year}",
                   style: themeDispensaAdmin.textStyle2(),
                 ),
                 Spacer(
@@ -176,7 +172,7 @@ class ItemListDispensaCucina extends StatelessWidget {
             children: [
               const SizedBox(width: 20.0),
               Text(
-                "Descrizione: ",
+                "DESCRIZIONE: ",
                 style: themeDispensaAdmin.textStyle2(),
               ),
               const SizedBox(width: 10.0),
