@@ -22,6 +22,7 @@ class Ingredients(models.Model):
     cost = models.FloatField() # for kg
     # type = kg or lt
     minThreshold = models.IntegerField()
+    scadenza = models.DateField()
 
 class IngredientsInDish(models.Model):
     id = models.AutoField(primary_key=True)
@@ -46,3 +47,4 @@ class Notification(models.Model):
     id = models.AutoField(primary_key=True)
     message = models.CharField(max_length=500)
     ingredient = models.ForeignKey(Ingredients, on_delete=models.CASCADE)
+    date = models.DateField(default=timezone.now)

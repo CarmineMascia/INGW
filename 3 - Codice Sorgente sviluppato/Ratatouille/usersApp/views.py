@@ -21,7 +21,14 @@ def userApi(request):
             user_serializer.save()
             return JsonResponse("Added successfully", safe=False)
         return JsonResponse("Failed to add", safe=False)
-
+@csrf_exempt
+def userGet(request):
+    if request.method == 'POST':
+        data = JSONParser().parse(request)
+        name = data.get('name')
+        user = User.objects.filter(name=name).first()
+        user_serializer=UserSerializer(user) 
+        return JsonResponse (user_serializer.data, safe=False)
 # Login 
 @csrf_exempt
 def login_view(request):
@@ -41,8 +48,8 @@ def updatePassword_view(request):
     # TODO check if the new password is not the same as before tu tu tu tu tu tututu
     if request.method == 'PUT':
         data = JSONParser().parse(request)
-        user = User.objects.get(id=data['id'])
-        serializer = UserSerializer(user, data=data) 
+        user = User.objects.get(name=data['name'])
+        serializer = UserSerializer(user, data=data, partial=True) 
         if serializer.is_valid():
             serializer.save()
             return JsonResponse("Updated successfully", safe=False)

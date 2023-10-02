@@ -22,7 +22,7 @@ class DishSerializer(serializers.ModelSerializer):
 class IngredientsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredients 
-        fields = ('id', 'name', 'description', 'quantity', 'cost', 'minThreshold')
+        fields = ('id', 'name', 'description', 'quantity', 'cost', 'minThreshold','scadenza')
 
 class IngredientsInDishSerializer(serializers.ModelSerializer):
     class Meta:
@@ -42,4 +42,4 @@ class DishesOfOrderSerializer(serializers.ModelSerializer):
 class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification 
-        fields = ('id', 'message', 'ingredient')
+        fields = ('id', 'message', 'ingredient','date')

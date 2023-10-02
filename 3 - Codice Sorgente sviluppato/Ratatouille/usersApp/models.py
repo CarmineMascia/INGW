@@ -7,8 +7,9 @@ class User(models.Model):
     isNew = models.BooleanField(default=True)
     ROLE_CHOICES = [
         ('admin', 'Admin'),
-        ('supervisor', 'Supervisor'),
+        ('supervisore', 'Supervisore'),
         ('chef', 'Chef'),
-        ('waiter', 'Waiter'),
+        ('cucina', 'Cucina'),
+        ('sala', 'Sala'),
     ]
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)

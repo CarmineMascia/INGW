@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure---gllyg$x9w_v+-gm8^37w+=9$eb%zvbty(l!y=c!o%&27&buc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -86,8 +86,9 @@ WSGI_APPLICATION = 'Ratatouille.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'RatatouilleDatabase',
-        'USER': 'Alfredo Linguini',
+        'NAME': 'test',
+        'USER': 'postgres',
+        'PASSWORD': 'lolloso',
         'HOST': 'localhost',
         'PORT': '5432',
     }

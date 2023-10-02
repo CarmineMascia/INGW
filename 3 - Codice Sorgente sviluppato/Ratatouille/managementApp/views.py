@@ -20,17 +20,21 @@ from django.db.models import Sum
 
 @csrf_exempt
 def statisticsAPI(request):
-    if request.method == 'GET':
+    if request.method == 'POST':
         data = JSONParser().parse(request)
         startDate = data.get('start')
         endDate = data.get('end')
 
         receipt_data = Orders.objects.filter(timestamp__range=(startDate, endDate)).order_by('timestamp')
         total = 0
-        for receipt in receipt_data: total += receipt.cost
+        daily_gains = []  # Lista per tenere traccia dei guadagni giornalieri
+
+        for receipt in receipt_data:
+            total += receipt.cost
+            daily_gains.append({"data": receipt.timestamp.strftime('%Y-%m-%d'), "guadagno": receipt.cost})
 
         n = len(receipt_data)
-        m = (receipt_data.last().timestamp-receipt_data.first().timestamp).days
+        m = (receipt_data.last().timestamp - receipt_data.first().timestamp).days
 
         if n == 0: n = 1
         if m == 0: m = 1
@@ -38,18 +42,15 @@ def statisticsAPI(request):
         expectedReceipt = total // n
         expectedTotal = total // m
 
-        result = Orders.objects.filter(timestamp__range=(startDate, endDate)).values('timestamp') .annotate(total_cost=Sum('cost'))
-        response = { 
-            "total": total, 
+        response = {
+            "total": total,
             "Expected value of receipt": expectedReceipt,
-            "Expected value of total": expectedTotal
+            "Expected value of total": expectedTotal,
+            "guadagno giornaliero": daily_gains  # Aggiungiamo la lista di guadagni giornalieri
         }
 
-        for entry in result:
-            response[entry['timestamp'].strftime('%Y-%m-%d')] = entry['total_cost']
-
         return JsonResponse(response)
-
+        
 @csrf_exempt
 def ingredientsAPI(request):
     if request.method == 'GET':
