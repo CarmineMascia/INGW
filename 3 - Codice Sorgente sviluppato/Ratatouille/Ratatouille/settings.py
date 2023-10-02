@@ -86,9 +86,8 @@ WSGI_APPLICATION = 'Ratatouille.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'test',
-        'USER': 'postgres',
-        'PASSWORD': 'lolloso',
+        'NAME': 'RatatouilleDatabase',
+        'USER': 'Alfredo Linguini',
         'HOST': 'localhost',
         'PORT': '5432',
     }

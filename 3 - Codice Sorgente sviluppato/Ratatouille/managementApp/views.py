@@ -243,6 +243,29 @@ def notificationAPI(request):
 
         return JsonResponse(response_data, safe=False)
 
+@csrf_exempt
+def ingredientsInDishAPI(request):
+        if request.method == 'GET':
+            data = JSONParser().parse(request)
+            dish_id = data.get('dishId')
+
+            # Retrieve the dish from the database
+            dish = Dish.objects.get(id=dish_id)
+
+            # Retrieve the ingredients IDs related to the dish
+            ingredients_in_dish = IngredientsInDish.objects.filter(dishId=dish)
+
+            # Get the IDs of the ingredients
+            ingredient_ids = [ingredient.ingredientsId_id for ingredient in ingredients_in_dish]
+
+            # Retrieve the ingredient details based on the IDs
+            ingredients = Ingredients.objects.filter(id__in=ingredient_ids)
+
+            # Serialize the ingredients
+            ingredient_data = IngredientsSerializer(ingredients, many=True).data
+
+            return JsonResponse({"ingredients": ingredient_data})
+
 # TODO : Gli ordini sono solo gli "scontrini" e l'informazione se sono ancora attivi, una volta che l'ordine è finito, non è più attivo
 # un tavolo sta venendo usato se c'è un ordine attivo su di esso.
 # Quindi si devno aggiungere tuple alla tabella DishesOfOrder per aggiungere un piatto ad un ordine. Alla chiusura del 
