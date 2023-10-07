@@ -12,6 +12,8 @@ from managementApp.models import Ingredients
 from managementApp.serializers import IngredientsSerializer
 from managementApp.models import IngredientsInDish
 from managementApp.serializers import NotificationSerializer
+from managementApp.models import Categories
+from managementApp.serializers import CategoriesSerializer
 
 from django.db.models import F
 
@@ -252,20 +254,48 @@ def ingredientsInDishAPI(request):
             # Retrieve the dish from the database
             dish = Dish.objects.get(id=dish_id)
 
-            # Retrieve the ingredients IDs related to the dish
+            # Retrieve the ingredients IDs and quantity needed related to the dish
             ingredients_in_dish = IngredientsInDish.objects.filter(dishId=dish)
 
-            # Get the IDs of the ingredients
-            ingredient_ids = [ingredient.ingredientsId_id for ingredient in ingredients_in_dish]
+            # Create a list to store ingredient data including quantity needed
+            ingredient_data = []
 
-            # Retrieve the ingredient details based on the IDs
-            ingredients = Ingredients.objects.filter(id__in=ingredient_ids)
+            for ingredient_in_dish in ingredients_in_dish:
+                ingredient_id = ingredient_in_dish.ingredientsId_id
+                quantity_needed = ingredient_in_dish.quantityNeeded
 
-            # Serialize the ingredients
-            ingredient_data = IngredientsSerializer(ingredients, many=True).data
+                # Retrieve the ingredient details based on the ID
+                ingredient = Ingredients.objects.get(id=ingredient_id)
+
+                # Serialize the ingredient details
+                ingredient_serializer = IngredientsSerializer(ingredient)
+
+                # Include the quantity needed in the serialized ingredient data
+                ingredient_data.append({
+                    "ingredient": ingredient_serializer.data,
+                    "quantityNeeded": quantity_needed
+                })
 
             return JsonResponse({"ingredients": ingredient_data})
 
+@csrf_exempt
+def categoriesAPI(request):
+    if request.method == 'GET':
+        categories = Categories.objects.all()
+        categories_serializer=CategoriesSerializer(categories, many=True) 
+        return JsonResponse (categories_serializer.data, safe=False)
+
+    if request.method == 'POST':
+        name = JSONParser().parse(request)['name']
+        category = Categories.objects.create(name=name)
+        return JsonResponse("Added successfully", safe=False)
+
+    if request.method == 'DELETE':
+        category_id = JSONParser().parse(request)['id']
+        category = Categories.objects.get(id=category_id)
+        category.delete()
+        return JsonResponse("Deleted sucessfully", safe=False)
+    
 # TODO : Gli ordini sono solo gli "scontrini" e l'informazione se sono ancora attivi, una volta che l'ordine è finito, non è più attivo
 # un tavolo sta venendo usato se c'è un ordine attivo su di esso.
 # Quindi si devno aggiungere tuple alla tabella DishesOfOrder per aggiungere un piatto ad un ordine. Alla chiusura del 

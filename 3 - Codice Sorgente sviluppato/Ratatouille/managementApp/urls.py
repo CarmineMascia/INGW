@@ -9,5 +9,6 @@ urlpatterns = [
     path('dishOfOrder/', views.dishOfOrderAPI),
     path('ingredientsInDish/', views.ingredientsInDishAPI),
     path('notification/', views.notificationAPI),
-    path('ingredientsInDish/', views.ingredientsInDishAPI)
+    path('ingredientsInDish/', views.ingredientsInDishAPI),
+    path('categories/', views.categoriesAPI)
 ]
