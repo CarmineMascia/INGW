@@ -21,16 +21,14 @@ class MenuCucina extends StatelessWidget {
   ThemeMain theme = ThemeMain();
   AppBarLayoutCucina AppBar = AppBarLayoutCucina();
   ThemeMenuCucina themeMenuCucina = ThemeMenuCucina();
-  List<List<Piatti>> piatti = [[]];
-  List<String> menuTitles = [];
+  Map<String, List<Piatti>> map = {};
   Controller controller = Controller();
 
   MenuCucina({super.key, required this.cucina});
 
   @override
   Widget build(BuildContext context) {
-    piatti = controller.takeAllPiatti(); //creare controller generico
-    menuTitles = themeMenuCucina.menuTitles();
+    map = controller.takeAllPiattiETipologie();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar.buildAppBar(context),
@@ -66,8 +64,8 @@ class MenuCucina extends StatelessWidget {
                           SingleChildScrollView(
                             scrollDirection: Axis.vertical,
                             child: MenuItemCucina(
-                              nome: menuTitles[i],
-                              piatti: piatti.elementAt(i),
+                              nome: map.keys.elementAt(i),
+                              piatti: map.values.elementAt(i),
                               cucina: cucina,
                             ),
                           ),

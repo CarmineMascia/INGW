@@ -26,8 +26,12 @@ import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 class AggiungiPiattoSupervisore extends StatefulWidget {
   final Supervisore supervisore;
   final String tipologia;
+  final List<String> tipologie;
   const AggiungiPiattoSupervisore(
-      {super.key, required this.supervisore, required this.tipologia});
+      {super.key,
+      required this.supervisore,
+      required this.tipologia,
+      required this.tipologie});
 
   @override
   _HomeAggiungiPiattoSupervisore createState() =>
@@ -65,8 +69,8 @@ class _HomeAggiungiPiattoSupervisore extends State<AggiungiPiattoSupervisore> {
   void initState() {
     // TODO: implement initState
     customDropdown = CustomDropdown(
-      options: themeAggiungiPiatto.takeTipologie(),
       hint: widget.tipologia,
+      options: widget.tipologie,
     );
   }
 

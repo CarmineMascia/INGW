@@ -6,6 +6,7 @@ import 'package:prova1/AdminUI/LogicUI/InfoPiatto.dart';
 import 'package:prova1/AdminUI/Themes/ThemeMenuAdmin.dart';
 import 'package:prova1/ClientsWidgets/AlertDialogCustom.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
+import 'package:prova1/Controller/Controller.dart';
 import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/Model/Piatti.dart';
@@ -13,12 +14,19 @@ import 'package:prova1/Model/Piatti.dart';
 class MenuItemAdmin extends StatefulWidget {
   final String nome;
   final List<Piatti> piatti;
-  ControllerAdmin controller = ControllerAdmin();
+  final List<String> tipologie;
+  ControllerAdmin controllerAdmin = ControllerAdmin();
+  Controller controller = Controller();
   final Admin admin;
+  void Function(String) eliminaCategoria;
   ThemeMenuAdmin themeMenuAdmin = ThemeMenuAdmin();
 
   MenuItemAdmin(
-      {required this.nome, required this.piatti, required this.admin});
+      {required this.nome,
+      required this.piatti,
+      required this.admin,
+      required this.tipologie,
+      required this.eliminaCategoria});
 
   @override
   _MenuItemAdminState createState() => _MenuItemAdminState();
@@ -28,7 +36,9 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
   int counter = 0;
   List<Piatti> piatti = [];
   bool isEditMode = false; // Modalità di modifica
-  List<Piatti> selectedPiatti = []; // Lista dei piatti selezionati
+  List<Piatti> selectedPiatti = [];
+  ThemeMenuAdmin themeMenuAdmin = ThemeMenuAdmin();
+  // Lista dei piatti selezionati
 
   @override
   void initState() {
@@ -83,7 +93,52 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
           children: [
             BlackLine(),
             const SizedBox(height: 5),
-            Text(widget.nome, style: widget.themeMenuAdmin.textStyle()),
+            Row(children: [
+              const Spacer(
+                flex: 1,
+              ),
+              Text(widget.nome, style: widget.themeMenuAdmin.textStyle()),
+              const Spacer(
+                flex: 1,
+              ),
+              IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text(
+                              'Sicuro di voler eliminare la categoria?'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const SizedBox(
+                                height: 20.0,
+                              ),
+                              ElevatedButton(
+                                  style: themeMenuAdmin.buttonStyle(),
+                                  onPressed: () {
+                                    if (widget.controller
+                                            .eliminaCategoria(widget.nome) ==
+                                        true) {
+                                      widget.eliminaCategoria(widget.nome);
+                                    } else {
+                                      SnackBar snackBar = const SnackBar(
+                                          content: Text(
+                                              'ERRORE NELL\'ELIMINAZIONE DELLA CATEGORIA'));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(snackBar);
+                                    }
+                                  },
+                                  child: const Text('ELIMINA')),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  icon: const Icon(Icons.delete)),
+            ]),
             const SizedBox(height: 10),
             BlackLine(),
             const SizedBox(height: 20),
@@ -132,6 +187,7 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
                                     builder: (context) => InfoPiatto(
                                           admin: widget.admin,
                                           piatto: piatti.elementAt(index),
+                                          tipologie: widget.tipologie,
                                         )));
                               }, //mettere il Navigator
                               child: Text(
@@ -208,9 +264,9 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => AggiungiPiatto(
-                                admin: widget.admin,
-                                tipologia: convertiStringa(widget.nome),
-                              )));
+                              admin: widget.admin,
+                              tipologia: widget.nome,
+                              tipologie: widget.tipologie)));
                     },
                     icon: const Icon(Icons.add),
                   ),
@@ -258,16 +314,5 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
         ),
       ),
     );
-  }
-
-  String convertiStringa(String input) {
-    Map<String, String> conversione = {
-      'PRIMI': 'Primo',
-      'SECONDI': 'Secondo',
-      'CONTORNI': 'Contorno',
-      'BEVANDE': 'Bevanda',
-      'DOLCI': 'Dolce',
-    };
-    return conversione[input]!;
   }
 }

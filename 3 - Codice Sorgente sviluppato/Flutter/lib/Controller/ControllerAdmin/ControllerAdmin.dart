@@ -23,10 +23,6 @@ class ControllerAdmin {
     return connessioneDB.TakeMessagesDB();
   }
 
-  void DeletePiatti(List<Piatti> selectedPiatti) {
-    connessioneDB.DeletePiattiDB(selectedPiatti);
-  }
-
   void addEmployee(
       String accountType, Iterable<String?> values, BuildContext context) {
     /*switch (accountType) {
@@ -100,8 +96,4 @@ class ControllerAdmin {
     }
     return 2;
   }*/ //dove lo metto?
-
-  bool salvaNuovoOrdineDelMenu(List<Piatti> piatti) {
-    return connessioneDB.salvaNuovoOrdineDelMenuDB(piatti);
-  }
 }

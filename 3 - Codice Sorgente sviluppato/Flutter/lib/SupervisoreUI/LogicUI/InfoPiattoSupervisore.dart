@@ -18,8 +18,12 @@ import '../../ClientsWidgets/ThemeMain.dart';
 class InfoPiattoSupervisore extends StatefulWidget {
   final Supervisore supervisore;
   final Piatti piatto;
+  final List<String> tipologie;
   const InfoPiattoSupervisore(
-      {super.key, required this.supervisore, required this.piatto});
+      {super.key,
+      required this.supervisore,
+      required this.piatto,
+      required this.tipologie});
 
   @override
   _InfoPiattoSupervisoreState createState() => _InfoPiattoSupervisoreState();
@@ -56,8 +60,8 @@ class _InfoPiattoSupervisoreState extends State<InfoPiattoSupervisore> {
     descrizioneController.text = piatto.descrizione;
     //codiceController.text = piatto.codice;
     prezzoController.text = piatto.prezzo;
-    customDropdown = CustomDropdown(
-        options: themeInfoPiatto.takeTipologie(), hint: piatto.tipologia);
+    customDropdown =
+        CustomDropdown(options: widget.tipologie, hint: piatto.tipologia);
   }
 
   @override

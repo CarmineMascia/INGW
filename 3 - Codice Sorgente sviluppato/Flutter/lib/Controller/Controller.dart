@@ -12,8 +12,8 @@ class Controller {
     return clientsConnessioneDB.checkUserDB(email, password);
   }
 
-  List<List<Piatti>> takeAllPiatti() {
-    return clientsConnessioneDB.takeAllPiattiDB();
+  Map<String, List<Piatti>> takeAllPiattiETipologie() {
+    return clientsConnessioneDB.takeAllPiattiETipologieDB();
   }
 
   List<Ingrediente> takeIngredienti() {
@@ -90,5 +90,21 @@ class Controller {
 
   bool setSogliaMinima(Ingrediente ingrediente, String sogliaMinima) {
     return clientsConnessioneDB.setSogliaMinima(ingrediente, sogliaMinima);
+  }
+
+  bool inserisciCategoria(String text) {
+    return clientsConnessioneDB.inserisciCategoria(text);
+  }
+
+  bool eliminaCategoria(String categoria) {
+    return clientsConnessioneDB.eliminaCategoria(categoria);
+  }
+
+  void DeletePiatti(List<Piatti> selectedPiatti) {
+    clientsConnessioneDB.DeletePiattiDB(selectedPiatti);
+  }
+
+  bool salvaNuovoOrdineDelMenu(List<Piatti> piatti) {
+    return clientsConnessioneDB.salvaNuovoOrdineDelMenuDB(piatti);
   }
 }

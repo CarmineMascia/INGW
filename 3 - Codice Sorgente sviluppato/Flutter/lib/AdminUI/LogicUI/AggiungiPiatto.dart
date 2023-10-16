@@ -21,8 +21,12 @@ import 'package:prova1/ClientsWidgets/CustomDropdown.dart';
 class AggiungiPiatto extends StatefulWidget {
   final Admin admin;
   final String tipologia;
+  final List<String> tipologie;
   const AggiungiPiatto(
-      {super.key, required this.admin, required this.tipologia});
+      {super.key,
+      required this.admin,
+      required this.tipologia,
+      required this.tipologie});
 
   @override
   _HomeAggiungiPiatto createState() => _HomeAggiungiPiatto();
@@ -59,7 +63,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
     // TODO: implement initState
     customDropdown = CustomDropdown(
       hint: widget.tipologia,
-      options: themeAggiungiPiatto.takeTipologie(),
+      options: widget.tipologie,
     );
   }
 

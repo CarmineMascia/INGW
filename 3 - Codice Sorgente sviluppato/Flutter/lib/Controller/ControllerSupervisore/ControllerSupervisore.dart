@@ -1,4 +1,5 @@
 import 'package:prova1/Connection/SupervisoreConnessioneDB.dart';
+import 'package:prova1/Model/Piatti.dart';
 import 'package:prova1/Model/PiattiScontrino.dart';
 import 'package:prova1/Model/Supervisore.dart';
 import 'package:prova1/Model/Tavolo.dart';

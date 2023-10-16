@@ -23,7 +23,12 @@ import 'package:prova1/ClientsWidgets/CustomDropdown.dart';
 class InfoPiatto extends StatefulWidget {
   final Admin admin;
   final Piatti piatto;
-  const InfoPiatto({super.key, required this.admin, required this.piatto});
+  final List<String> tipologie;
+  const InfoPiatto(
+      {super.key,
+      required this.admin,
+      required this.piatto,
+      required this.tipologie});
 
   @override
   _InfoPiattoState createState() => _InfoPiattoState();
@@ -62,8 +67,8 @@ class _InfoPiattoState extends State<InfoPiatto> {
 
     prezzoController.text = piatto.prezzo;
     newTipologia = piatto.tipologia;
-    customDropdown = CustomDropdown(
-        options: themeInfoPiatto.takeTipologie(), hint: piatto.tipologia);
+    customDropdown =
+        CustomDropdown(options: widget.tipologie, hint: piatto.tipologia);
   }
 
   @override

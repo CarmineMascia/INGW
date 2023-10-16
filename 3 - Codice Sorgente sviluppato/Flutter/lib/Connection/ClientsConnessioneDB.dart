@@ -5,9 +5,58 @@ import 'package:prova1/Model/Piatti.dart';
 import 'package:prova1/Model/Tavolo.dart';
 
 class ClientsConnessioneDB {
-  List<List<Piatti>> takeAllPiattiDB() {
-    return [
-      [
+  Map<String, List<Piatti>> takeAllPiattiETipologieDB() {
+    return {
+      'Primi': [
+        Piatti(
+            'Spaghetti allo scoglio',
+            '15',
+            'Primi',
+            'BUONO E GUSTOSO, UN PIATTO SEMPLICE CHE CONQUISTA TUTTI',
+            'palla', [
+          Ingrediente('Mozzarella', '00003', '5.0', DateTime(2024, 8, 3),
+              'Buono e gustoso gnam', '15.0', '10')
+        ]),
+        Piatti(
+            'Spaghetti alla amatriciana',
+            '15',
+            'Primi',
+            'BUONO E GUSTOSO, UN PIATTO SEMPLICE CHE CONQUISTA TUTTI',
+            'palla', [
+          Ingrediente('Mozzarella', '00003', '5.0', DateTime(2024, 8, 3),
+              'Buono e gustoso gnam', '15.0', '10')
+        ]),
+      ],
+      'Secondi': [
+        Piatti('Salsiccia', '10', 'Secondi', 'descrizione', '', [
+          Ingrediente('Mozzarella', '00003', '5.0', DateTime(2024, 8, 3),
+              'Buono e gustoso gnam', '15.0', '10')
+        ]),
+        Piatti('Pollo', '10', 'Secondi', 'descrizione', '', [
+          Ingrediente('Mozzarella', '00003', '5.0', DateTime(2024, 8, 3),
+              'Buono e gustoso gnam', '15.0', '10')
+        ]),
+      ],
+      'Contorni': [
+        Piatti('Friarielli', '5', 'Contorni', 'descrizione', '', [
+          Ingrediente('Mozzarella', '00003', '5.0', DateTime(2024, 8, 3),
+              'Buono e gustoso gnam', '15.0', '10')
+        ]),
+      ],
+      'Dolci': [
+        Piatti('Tiramisu', '10', 'Dolci', 'suicidio', 'lala', [
+          Ingrediente('Mozzarella', '00003', '5.0', DateTime(2024, 8, 3),
+              'Buono e gustoso gnam', '15.0', '10')
+        ]),
+      ],
+      'Bibite': [
+        Piatti('Acqua', '2', 'Bibite', 'lalla', '', [
+          Ingrediente('Mozzarella', '00003', '5.0', DateTime(2024, 8, 3),
+              'Buono e gustoso gnam', '15.0', '10')
+        ]),
+      ],
+    };
+    /* [
         Piatti(
             'Spaghetti allo scoglio',
             '15',
@@ -47,7 +96,7 @@ class ClientsConnessioneDB {
         Piatti('Spaghetti alla amatriciana', '15', '', '', 'peefe', []),
         Piatti('Spaghetti alla carbonara', '15', '', '', 'f', []),
       ]
-    ];
+    ];*/
   }
 
   List<Ingrediente> TakeIngredientiDB() {
@@ -144,6 +193,20 @@ class ClientsConnessioneDB {
   }
 
   bool setSogliaMinima(Ingrediente ingrediente, String sogliaMinima) {
+    return true;
+  }
+
+  bool inserisciCategoria(String text) {
+    return true;
+  }
+
+  bool eliminaCategoria(String categoria) {
+    return true;
+  }
+
+  void DeletePiattiDB(List<Piatti> selectedPiatti) {}
+
+  bool salvaNuovoOrdineDelMenuDB(List<Piatti> piatti) {
     return true;
   }
 }
