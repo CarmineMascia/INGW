@@ -63,7 +63,7 @@ def ingredientsAPI(request):
     elif request.method == 'PUT':
         data = JSONParser().parse(request)
         ingredients = Ingredients.objects.get(id=data['id']) 
-        serializer = IngredientsSerializer(ingredients, data=data) 
+        serializer = IngredientsSerializer(ingredients, data=data, partial=True) 
         if serializer.is_valid():
             serializer.save()
             return JsonResponse("Updated successfully", safe=False)
@@ -87,7 +87,39 @@ def dishAPI(request):
     if request.method == 'GET':
         dishes = Dish.objects.all()
         dishes_serializer=DishSerializer(dishes, many=True) 
-        return JsonResponse(dishes_serializer.data, safe=False)
+        data = []
+        i = 0
+        for dish_ingredients in dishes:
+            # Retrieve the ingredients IDs related to the dish
+            ingredients_in_dish = IngredientsInDish.objects.filter(dishId=dish_ingredients)
+            
+            # Get the IDs of the ingredients
+            ingredient_ids = [ingredient.ingredientsId_id for ingredient in ingredients_in_dish]
+
+            # Retrieve the ingredient details based on the IDs
+            ingredients = Ingredients.objects.filter(id__in=ingredient_ids)
+            # Serialize the ingredients
+            ingredient_data = []
+            for ingredient_in_dishz in ingredients_in_dish:
+                ingredient_id = ingredient_in_dishz.ingredientsId_id
+                quantity_needed = ingredient_in_dishz.quantityNeeded
+
+                # Retrieve the ingredient details based on the ID
+                ingredient = Ingredients.objects.get(id=ingredient_id)
+
+                # Serialize the ingredient details
+                ingredient_serializer = IngredientsSerializer(ingredient).data
+                ingredient_serializer['quantity'] = quantity_needed
+                ingredient_data.append(ingredient_serializer)
+                # Include the quantity needed in the serialized ingredient data
+                
+            
+            serializer = dishes_serializer.data[i]
+            data.append({"dish": serializer,"ingredients" : ingredient_data})
+            i = i+1
+
+            #return JsonResponse({"ingredients": ingredient_data})
+        return JsonResponse(data, safe=False)
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
@@ -179,12 +211,7 @@ def orderAPI(request):
             return JsonResponse("Failed to update", safe=False)
 
 # The name 
-def check_inventory_thresholds():
-    ingredients_below_threshold = Ingredients.objects.filter(quantity__lt=F('minTheshold'))
 
-    for ingredient in ingredients_below_threshold:
-        message = f"Warning: {ingredient.name} quantity is below threshold ({ingredient.minThreshold})"
-        Notification(message=message, ingredient=ingredient.name).save()
 
 # Add a tuple (this is for adding an element to an order)
 @csrf_exempt
@@ -233,6 +260,7 @@ def ingredientsInDishAPI(request):
 @csrf_exempt
 def notificationAPI(request):
     if request.method == 'GET':
+        check_inventory_thresholds()
         notifications = Notification.objects.all()
         serializer = NotificationSerializer(notifications, many=True)
     
@@ -245,6 +273,14 @@ def notificationAPI(request):
 
         return JsonResponse(response_data, safe=False)
 
+
+def check_inventory_thresholds():
+    ingredients_below_threshold = Ingredients.objects.filter(quantity__lt=F('minThreshold'))
+
+    for ingredient in ingredients_below_threshold:
+        if not Notification.objects.filter(ingredient_id=ingredient.id).exists():
+            message = f"Attenzione: {ingredient.name} e sotto la soglia minima di ({ingredient.minThreshold})"
+            Notification(message=message, ingredient_id=ingredient.id).save()
 @csrf_exempt
 def ingredientsInDishAPI(request):
         if request.method == 'GET':
@@ -295,7 +331,7 @@ def categoriesAPI(request):
         category = Categories.objects.get(id=category_id)
         category.delete()
         return JsonResponse("Deleted sucessfully", safe=False)
-    
+
 # TODO : Gli ordini sono solo gli "scontrini" e l'informazione se sono ancora attivi, una volta che l'ordine è finito, non è più attivo
 # un tavolo sta venendo usato se c'è un ordine attivo su di esso.
 # Quindi si devno aggiungere tuple alla tabella DishesOfOrder per aggiungere un piatto ad un ordine. Alla chiusura del 
