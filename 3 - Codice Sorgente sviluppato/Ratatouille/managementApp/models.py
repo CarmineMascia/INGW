@@ -13,6 +13,7 @@ class Dish(models.Model):
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     allergens = models.CharField(max_length=500, default='/')
     description = models.CharField(max_length=255)
+    position = models.IntegerField(default=0)
 
 class Ingredients(models.Model):
     id = models.AutoField(primary_key=True)
@@ -48,3 +49,7 @@ class Notification(models.Model):
     message = models.CharField(max_length=500)
     ingredient = models.ForeignKey(Ingredients, on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now)
+
+class Table(models.Model):
+    tableNumber = models.IntegerField(primary_key=True)
+    isActive =  models.BooleanField(default=False)

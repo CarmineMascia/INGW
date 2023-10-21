@@ -6,6 +6,7 @@ from managementApp.models import IngredientsInDish
 from managementApp.models import Orders
 from managementApp.models import DishesOfOrder
 from managementApp.models import Notification
+from managementApp.models import Table
 
 class CategoriesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,7 +16,7 @@ class CategoriesSerializer(serializers.ModelSerializer):
 class DishSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dish
-        fields = ('id', 'name', 'cost', 'category', 'allergens', 'description')
+        fields = ('id', 'name', 'cost', 'category', 'allergens', 'description','position')
     def get_count(self, obj):
         return obj.dishesoforder_set.filter(orderId=self.context['order']).count()
 
@@ -43,3 +44,8 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notification 
         fields = ('id', 'message', 'ingredient','date')
+        
+class TableSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Table
+        fields = ('tableNumber', 'isActive')
