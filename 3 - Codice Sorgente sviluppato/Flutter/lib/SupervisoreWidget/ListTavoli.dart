@@ -34,6 +34,8 @@ class ListTavoli extends StatelessWidget {
 
 class ItemListTavoli extends StatefulWidget {
   final Tavolo tavolo;
+  ThemeRicevuteSupervisore themeRicevuteSupervisore =
+      ThemeRicevuteSupervisore();
 
   ItemListTavoli({required this.tavolo});
   ControllerUISupervisore controllerUISupervisore = ControllerUISupervisore();
@@ -73,6 +75,7 @@ class _ItemListTavoliState extends State<ItemListTavoli> {
                   children: [
                     if (widget.tavolo.attivo)
                       ElevatedButton(
+                        style: themeRicevuteSupervisore.myButtonStyle(),
                         child: const Text('CHIUDI IL TAVOLO'),
                         onPressed: () async {
                           bool userConfirmed = await showDialog(
@@ -81,12 +84,15 @@ class _ItemListTavoliState extends State<ItemListTavoli> {
                               return AlertDialogCustom();
                             },
                           );
-                          if (userConfirmed == true &&
-                              controller.chiudiTavolo(widget.tavolo)) {
+                          if (userConfirmed == true ) {
+                            stampaContoTavolo(widget.tavolo);
+                            await controller.chiudiTavolo(widget.tavolo);
                             setState(() {
                               widget.tavolo.attivo = false;
                             });
-                          } else {
+                            
+                          } else if (userConfirmed == false ){}
+                          else{
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content:
@@ -98,6 +104,7 @@ class _ItemListTavoliState extends State<ItemListTavoli> {
                       ),
                     if (!widget.tavolo.attivo)
                       ElevatedButton(
+                        style: themeRicevuteSupervisore.myButtonStyle(),
                         onPressed: () async {
                           bool userConfirmed = await showDialog(
                             context: context,
@@ -106,11 +113,12 @@ class _ItemListTavoliState extends State<ItemListTavoli> {
                             },
                           );
                           if (userConfirmed == true &&
-                              controller.apriTavolo(widget.tavolo)) {
+                              await controller.apriTavolo(widget.tavolo)) {
                             setState(() {
                               widget.tavolo.attivo = true;
                             });
-                          } else {
+                          } else if (userConfirmed == false ){}
+                          else{
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content:
@@ -122,14 +130,17 @@ class _ItemListTavoliState extends State<ItemListTavoli> {
                         },
                         child: const Text('APRI IL TAVOLO'),
                       ),
-                    const SizedBox(width: 50.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        stampaContoTavolo(widget.tavolo);
-                        // Inserisci qui la logica per stampare il conto
-                      },
-                      child: const Text('STAMPA CONTO'),
-                    ),
+                    if (widget.tavolo.attivo == true)
+                      const SizedBox(width: 50.0),
+                    if (widget.tavolo.attivo == true)
+                      ElevatedButton(
+                        style: themeRicevuteSupervisore.myButtonStyle(),
+                        onPressed: () {
+                          stampaContoTavolo(widget.tavolo);
+                          // Inserisci qui la logica per stampare il conto
+                        },
+                        child: const Text('STAMPA CONTO'),
+                      ),
                   ],
                 ),
                 const SizedBox(
@@ -143,8 +154,11 @@ class _ItemListTavoliState extends State<ItemListTavoli> {
     );
   }
 
-  void stampaContoTavolo(Tavolo tavolo) {
-    List<PiattiScontrino> piattiTavolo = controller.takePiattiPresi(tavolo);
+  Future<void> stampaContoTavolo(Tavolo tavolo) async {
+    List<PiattiScontrino> piattiTavolo = await controller.takePiattiPresi(tavolo);
     widget.controllerUISupervisore.createPDF(piattiTavolo, tavolo);
   }
 }
+
+
+

@@ -38,9 +38,16 @@ class _RicevuteSupervisoreState extends State<RicevuteSupervisore> {
   void initState() {
     super.initState();
     // Carica i dati iniziali per la dispensa
-    tavoli = controller.TakeTavoli();
-    initTavoli = tavoli;
+    initTavolis();
     //initMessaggi = Controller().TakeMessages();
+  }
+
+  void initTavolis() async {
+    tavoli = await controller.TakeTavoli();
+    initTavoli = tavoli;
+    setState(() {
+      tavoli = tavoli;
+    });
   }
 
   /*void updateMessaggi(List<Messaggio> newMessages) {

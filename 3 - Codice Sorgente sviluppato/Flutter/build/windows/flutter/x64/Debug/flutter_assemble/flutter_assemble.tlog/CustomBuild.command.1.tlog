@@ -1,6 +1,6 @@
-^D:\FLUTTER PROJECTS\PROVA1\BUILD\WINDOWS\CMAKEFILES\D59242683AFF93CAFEC44FFE22E433B3\FLUTTER_WINDOWS.DLL.RULE
+^C:\USERS\ALEXM\DESKTOP\NUOVA CARTELLA (2)\INGW\3 - CODICE SORGENTE SVILUPPATO\FLUTTER\BUILD\WINDOWS\CMAKEFILES\B079CBCE02A56A18A24FA1EA404A68E6\FLUTTER_WINDOWS.DLL.RULE
 setlocal
-D:\VisualStudio\IDE\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe -E env FLUTTER_ROOT=D:\flutter "PROJECT_DIR=D:\flutter projects\prova1" FLUTTER_ROOT=D:\flutter "FLUTTER_EPHEMERAL_DIR=D:\flutter projects\prova1\windows\flutter\ephemeral" "PROJECT_DIR=D:\flutter projects\prova1" "FLUTTER_TARGET=D:\flutter projects\prova1\lib\main.dart" DART_DEFINES=Zmx1dHRlci5pbnNwZWN0b3Iuc3RydWN0dXJlZEVycm9ycz1mYWxzZQ==,RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==,RkxVVFRFUl9XRUJfQ0FOVkFTS0lUX1VSTD1odHRwczovL3d3dy5nc3RhdGljLmNvbS9mbHV0dGVyLWNhbnZhc2tpdC9jODM4YTFiMDU5MjQ1N2VlNzVhNjE5N2NjYjBhZDdmZDkzZTdiYTVjLw== DART_OBFUSCATION=false TRACK_WIDGET_CREATION=true TREE_SHAKE_ICONS=false "PACKAGE_CONFIG=D:\flutter projects\prova1\.dart_tool\package_config.json" D:/flutter/packages/flutter_tools/bin/tool_backend.bat windows-x64 Debug
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E env "FLUTTER_ROOT=C:\Users\alexm\Downloads\Nuova cartella\flutter" "PROJECT_DIR=C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter" "FLUTTER_ROOT=C:\Users\alexm\Downloads\Nuova cartella\flutter" "FLUTTER_EPHEMERAL_DIR=C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter\windows\flutter\ephemeral" "PROJECT_DIR=C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter" "FLUTTER_TARGET=C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter\lib\main.dart" DART_DEFINES=RkxVVFRFUl9XRUJfQVVUT19ERVRFQ1Q9dHJ1ZQ==,RkxVVFRFUl9XRUJfQ0FOVkFTS0lUX1VSTD1odHRwczovL3d3dy5nc3RhdGljLmNvbS9mbHV0dGVyLWNhbnZhc2tpdC9iOGQzNTgxMGU5MWFiOGZjMzliYTVlN2E0MWJmZjZmNjk3ZThlM2E4Lw== DART_OBFUSCATION=false TRACK_WIDGET_CREATION=true TREE_SHAKE_ICONS=false "PACKAGE_CONFIG=C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter\.dart_tool\package_config.json" "C:/Users/alexm/Downloads/Nuova cartella/flutter/packages/flutter_tools/bin/tool_backend.bat" windows-x64 Debug
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -8,7 +8,7 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^D:\FLUTTER PROJECTS\PROVA1\BUILD\WINDOWS\CMAKEFILES\B30ACB7689F5DC0B52AD3296BB919AB2\FLUTTER_ASSEMBLE.RULE
+^C:\USERS\ALEXM\DESKTOP\NUOVA CARTELLA (2)\INGW\3 - CODICE SORGENTE SVILUPPATO\FLUTTER\BUILD\WINDOWS\CMAKEFILES\98E6D283B66A13AC8C440DFFCCD2F08A\FLUTTER_ASSEMBLE.RULE
 setlocal
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
@@ -16,9 +16,9 @@ endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
-^D:\FLUTTER PROJECTS\PROVA1\WINDOWS\FLUTTER\CMAKELISTS.TXT
+^C:\USERS\ALEXM\DESKTOP\NUOVA CARTELLA (2)\INGW\3 - CODICE SORGENTE SVILUPPATO\FLUTTER\WINDOWS\FLUTTER\CMAKELISTS.TXT
 setlocal
-D:\VisualStudio\IDE\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe "-SD:/flutter projects/prova1/windows" "-BD:/flutter projects/prova1/build/windows" --check-stamp-file "D:/flutter projects/prova1/build/windows/flutter/CMakeFiles/generate.stamp"
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/windows" "-BC:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/build/windows" --check-stamp-file "C:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/build/windows/flutter/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

@@ -1,6 +1,6 @@
-^D:\FLUTTER PROJECTS\PROVA1\WINDOWS\CMAKELISTS.TXT
+^C:\USERS\ALEXM\DESKTOP\NUOVA CARTELLA (2)\INGW\3 - CODICE SORGENTE SVILUPPATO\FLUTTER\WINDOWS\CMAKELISTS.TXT
 setlocal
-D:\VisualStudio\IDE\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe "-SD:/flutter projects/prova1/windows" "-BD:/flutter projects/prova1/build/windows" --check-stamp-file "D:/flutter projects/prova1/build/windows/CMakeFiles/generate.stamp"
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/windows" "-BC:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/build/windows" --check-stamp-file "C:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/build/windows/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone

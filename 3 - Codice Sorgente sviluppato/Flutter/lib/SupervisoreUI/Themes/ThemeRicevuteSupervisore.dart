@@ -8,6 +8,19 @@ class ThemeRicevuteSupervisore {
       fontWeight: FontWeight.bold,
     );
   }
+  ButtonStyle myButtonStyle() {
+    return ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(Colors.white), // Sfondo bianco
+      shape: MaterialStateProperty.all(
+        RoundedRectangleBorder(
+          side: BorderSide(color: Colors.black), // Bordo nero
+          borderRadius: BorderRadius.circular(
+              5.0), // Puoi regolare la dimensione dei bordi
+        ),
+      ),
+      foregroundColor: MaterialStateProperty.all(Colors.black),
+    );
+  }
 
   TextStyle textStyle3() {
     return const TextStyle(

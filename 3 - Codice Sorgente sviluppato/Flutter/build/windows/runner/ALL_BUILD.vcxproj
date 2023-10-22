@@ -21,7 +21,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{44FDB29C-AFF2-3FC5-94E0-BA18B60DDBCD}</ProjectGuid>
+    <ProjectGuid>{C0B2BAED-C53C-3517-824E-25145F8DE80F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -88,11 +88,11 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\flutter projects\prova1\windows\runner\CMakeLists.txt">
+    <CustomBuild Include="C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter\windows\runner\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/flutter projects/prova1/windows/runner/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/windows/runner/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
-D:\VisualStudio\IDE\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe "-SD:/flutter projects/prova1/windows" "-BD:/flutter projects/prova1/build/windows" --check-stamp-file "D:/flutter projects/prova1/build/windows/runner/CMakeFiles/generate.stamp"
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/windows" "-BC:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/build/windows" --check-stamp-file "C:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/build/windows/runner/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -101,11 +101,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\flutter projects\prova1\build\windows\runner\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter\build\windows\runner\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Building Custom Rule D:/flutter projects/prova1/windows/runner/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">Building Custom Rule C:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/windows/runner/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">setlocal
-D:\VisualStudio\IDE\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe "-SD:/flutter projects/prova1/windows" "-BD:/flutter projects/prova1/build/windows" --check-stamp-file "D:/flutter projects/prova1/build/windows/runner/CMakeFiles/generate.stamp"
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/windows" "-BC:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/build/windows" --check-stamp-file "C:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/build/windows/runner/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -114,11 +114,11 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">D:\flutter projects\prova1\build\windows\runner\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter\build\windows\runner\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/flutter projects/prova1/windows/runner/CMakeLists.txt</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/windows/runner/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
-D:\VisualStudio\IDE\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe "-SD:/flutter projects/prova1/windows" "-BD:/flutter projects/prova1/build/windows" --check-stamp-file "D:/flutter projects/prova1/build/windows/runner/CMakeFiles/generate.stamp"
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" "-SC:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/windows" "-BC:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/build/windows" --check-stamp-file "C:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/build/windows/runner/CMakeFiles/generate.stamp"
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -127,21 +127,21 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\flutter projects\prova1\build\windows\runner\CMakeFiles\generate.stamp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter\build\windows\runner\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\flutter projects\prova1\build\windows\ZERO_CHECK.vcxproj">
-      <Project>{4BD8EE30-6897-3352-B5C3-F5C8667A4E49}</Project>
+    <ProjectReference Include="C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter\build\windows\ZERO_CHECK.vcxproj">
+      <Project>{A7DBADB4-C064-30FC-9113-464B0A0E9C7F}</Project>
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\flutter projects\prova1\build\windows\runner\prova1.vcxproj">
-      <Project>{0A761915-ED55-3BBA-A98F-D909ED50419C}</Project>
+    <ProjectReference Include="C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter\build\windows\runner\prova1.vcxproj">
+      <Project>{4C0243EA-191E-3710-A18D-5B5C5DE4E2C1}</Project>
       <Name>prova1</Name>
     </ProjectReference>
   </ItemGroup>

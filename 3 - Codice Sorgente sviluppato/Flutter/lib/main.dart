@@ -6,8 +6,10 @@ import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:prova1/CucinaUI/LogicUI/DatiAccountCucina.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/Model/Cucina.dart';
+import 'package:prova1/Model/Sala.dart';
 import 'package:prova1/Model/Supervisore.dart';
 import 'package:prova1/PrimoCambioPassword.dart';
+import 'package:prova1/SalaUI/LogicUI/MenuSala.dart';
 import 'package:prova1/SupervisoreUI/LogicUI/DatiAccountSupervisore.dart';
 import 'package:prova1/provaOpenFoodFact.dart';
 import 'package:prova1/recuperaPassword.dart';
@@ -99,27 +101,16 @@ class HomePage extends StatelessWidget {
                       ),
                       obscureText: true,
                     ),
-                    Align(
-                      alignment: AlignmentDirectional.topStart,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => RecuperaPassword()),
-                          );
-                        },
-                        child: const Text('Hai dimenticato la password?'),
-                      ),
-                    ),
+                    
                     const SizedBox(height: 32.0),
                     SizedBox(
                       width: 200.0,
                       height: 30.0,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           String email = emailController.text;
                           String password = passwordController.text;
-                          int flag = controller.checkUser(email, password);
+                          int flag = await controller.checkUser(email, password);
                           switch (flag) {
                             case 0:
                               SnackBar snackBar = const SnackBar(
@@ -138,11 +129,11 @@ class HomePage extends StatelessWidget {
 
                               break;
                             case 2:
-                              if (controller.checkFirstTime()) {
+                              if (await controller.checkFirstTime(email)) {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          PrimoCambioPassword()),
+                                          PrimoCambioPassword(email)),
                                 );
                               } else {
                                 Navigator.of(context).push(
@@ -155,11 +146,11 @@ class HomePage extends StatelessWidget {
                               }
                               break;
                             case 3:
-                              if (controller.checkFirstTime()) {
+                              if (await controller.checkFirstTime(email)) {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          PrimoCambioPassword()),
+                                          PrimoCambioPassword(email)),
                                 );
                               } else {
                                 Navigator.of(context).push(
@@ -174,6 +165,30 @@ class HomePage extends StatelessWidget {
                               }
                               break;
                             case 4:
+                              if (await controller.checkFirstTime(email)) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          PrimoCambioPassword(email)),
+                                );
+                              } else {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          HomeSala(
+                                            sala:
+                                                Sala.emailAndPassword(
+                                                    email, password),
+                                          )),
+                                );
+                              }
+                              break;
+                            case 5:
+                              SnackBar snackBar = const SnackBar(
+                                  content: Text(
+                                      'Nome o password errati'));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
                               break;
                             default:
                               SnackBar snackBar = const SnackBar(

@@ -6,10 +6,10 @@ import 'package:prova1/AdminUI/LogicUI/InfoPiatto.dart';
 import 'package:prova1/AdminUI/Themes/ThemeMenuAdmin.dart';
 import 'package:prova1/ClientsWidgets/AlertDialogCustom.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
-import 'package:prova1/Controller/Controller.dart';
 import 'package:prova1/Controller/ControllerAdmin/ControllerAdmin.dart';
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/Model/Piatti.dart';
+import 'package:prova1/Controller/Controller.dart';
 
 class MenuItemAdmin extends StatefulWidget {
   final String nome;
@@ -21,8 +21,7 @@ class MenuItemAdmin extends StatefulWidget {
   void Function(String) eliminaCategoria;
   ThemeMenuAdmin themeMenuAdmin = ThemeMenuAdmin();
 
-  MenuItemAdmin(
-      {required this.nome,
+  MenuItemAdmin({required this.nome,
       required this.piatti,
       required this.admin,
       required this.tipologie,
@@ -37,8 +36,7 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
   List<Piatti> piatti = [];
   bool isEditMode = false; // Modalità di modifica
   List<Piatti> selectedPiatti = [];
-  ThemeMenuAdmin themeMenuAdmin = ThemeMenuAdmin();
-  // Lista dei piatti selezionati
+  ThemeMenuAdmin themeMenuAdmin = ThemeMenuAdmin(); // Lista dei piatti selezionati
 
   @override
   void initState() {
@@ -103,9 +101,11 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
               ),
               IconButton(
                   onPressed: () {
+                    BuildContext dialogContext;
                     showDialog(
                       context: context,
                       builder: (context) {
+                        dialogContext = context;
                         return AlertDialog(
                           title: const Text(
                               'Sicuro di voler eliminare la categoria?'),
@@ -117,8 +117,8 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
                               ),
                               ElevatedButton(
                                   style: themeMenuAdmin.buttonStyle(),
-                                  onPressed: () {
-                                    if (widget.controller
+                                  onPressed: () async {
+                                    if (await widget.controller
                                             .eliminaCategoria(widget.nome) ==
                                         true) {
                                       widget.eliminaCategoria(widget.nome);
@@ -129,6 +129,7 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(snackBar);
                                     }
+                                    Navigator.pop(dialogContext);
                                   },
                                   child: const Text('ELIMINA')),
                             ],
@@ -187,7 +188,7 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
                                     builder: (context) => InfoPiatto(
                                           admin: widget.admin,
                                           piatto: piatti.elementAt(index),
-                                          tipologie: widget.tipologie,
+                                          tipologie: widget.tipologie
                                         )));
                               }, //mettere il Navigator
                               child: Text(
@@ -230,7 +231,7 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
                           );
 
                           if (userConfirmed == true) {
-                            if (widget.controller
+                            if (await widget.controller
                                     .salvaNuovoOrdineDelMenu(piatti) ==
                                 true) {
                               SnackBar snackBar = const SnackBar(
@@ -264,7 +265,7 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => AggiungiPiatto(
-                              admin: widget.admin,
+                                admin: widget.admin,
                               tipologia: widget.nome,
                               tipologie: widget.tipologie)));
                     },
@@ -315,4 +316,5 @@ class _MenuItemAdminState extends State<MenuItemAdmin> {
       ),
     );
   }
+
 }

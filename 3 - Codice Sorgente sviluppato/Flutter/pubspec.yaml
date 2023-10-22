@@ -43,6 +43,7 @@ dependencies:
   charts_flutter: ^0.12.0
   syncfusion_flutter_charts: ^21.2.4
   openfoodfacts: ^2.10.1
+  http: ^1.1.0
 
 dev_dependencies:
   flutter_test:

@@ -2,10 +2,10 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\flutter projects\prova1\build\windows\x64\Debug\ZERO_CHECK</FullPath>
+      <FullPath>C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter\build\windows\x64\Debug\ZERO_CHECK</FullPath>
     </ProjectOutput>
     <ProjectOutput>
-      <FullPath>D:\flutter projects\prova1\build\windows\flutter\x64\Debug\flutter_assemble</FullPath>
+      <FullPath>C:\Users\alexm\Desktop\Nuova cartella (2)\INGW\3 - Codice Sorgente sviluppato\Flutter\build\windows\flutter\x64\Debug\flutter_assemble</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

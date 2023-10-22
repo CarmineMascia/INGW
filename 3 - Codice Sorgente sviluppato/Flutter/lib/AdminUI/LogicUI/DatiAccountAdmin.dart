@@ -30,9 +30,10 @@ class DatiAccountAdmin extends StatelessWidget {
 
   DatiAccountAdmin({super.key, required this.admin});
 
+
+
   @override
   Widget build(BuildContext context) {
-    admin = controller.takeAdminInfoDB();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar.buildAppBar(context, admin),
@@ -58,6 +59,19 @@ class DatiAccountAdmin extends StatelessWidget {
                         "DATI ACCOUNT",
                         style: themeDatiAccount.textStyle(),
                       ),
+                      FutureBuilder(
+                      future: controller.takeAdminInfoDB(admin.email), // Assuming getPiatti returns a Future
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          // Display a loading indicator while waiting for data
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          // Display an error message if there's an error
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          admin = snapshot.data!;
+                          return Column(
+                    children: [
                       const SizedBox(height: 5.0),
                       WhiteLine(),
                       const SizedBox(height: 20.0),
@@ -67,7 +81,8 @@ class DatiAccountAdmin extends StatelessWidget {
                       const SizedBox(height: 50.0),
                       controllerUI.ShowText("EMAIL", admin.email),
                       const SizedBox(height: 50.0),
-                      WhiteLine(),
+                      WhiteLine(),]);
+                        }}),
                     ],
                   ),
                 ),
@@ -79,3 +94,4 @@ class DatiAccountAdmin extends StatelessWidget {
     );
   }
 }
+

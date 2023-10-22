@@ -1,22 +1,31 @@
+import 'dart:math';
+
 import 'package:prova1/Connection/ClientsConnessioneDB.dart';
 import 'package:prova1/Model/Allergeni.dart';
 import 'package:prova1/Model/Ingrediente.dart';
 import 'package:prova1/Model/Messaggio.dart';
+import 'package:prova1/Model/Ordine.dart';
 import 'package:prova1/Model/Piatti.dart';
 import 'package:prova1/Model/Tavolo.dart';
 
 class Controller {
   ClientsConnessioneDB clientsConnessioneDB = ClientsConnessioneDB();
 
-  int checkUser(String email, String password) {
-    return clientsConnessioneDB.checkUserDB(email, password);
+  Future<int> checkUser(String email, String password) async {
+    return await clientsConnessioneDB.checkUserDB(email, password);
   }
 
-  Map<String, List<Piatti>> takeAllPiattiETipologie() {
+
+  Future<List<List<Piatti>>> takeAllPiatti() async {
+    Future<List<List<Piatti>>> list2 = clientsConnessioneDB.takeAllPiattiDB();
+    return list2;
+  }
+
+  Future<Map<String, List<Piatti>>> takeAllPiattiETipologie() async {
     return clientsConnessioneDB.takeAllPiattiETipologieDB();
   }
 
-  List<Ingrediente> takeIngredienti() {
+  Future<List<Ingrediente>> takeIngredienti() {
     return clientsConnessioneDB.TakeIngredientiDB();
   }
 
@@ -24,79 +33,75 @@ class Controller {
     return clientsConnessioneDB.takeAllergeniDB();
   }
 
-  List<Ingrediente> TakeDispensa() {
+  Future<List<Ingrediente>> TakeDispensa() {
     return clientsConnessioneDB.TakeDispensaDB();
   }
 
-  List<Messaggio> TakeMessages() {
+  Future<List<Messaggio>> TakeMessages() {
     return clientsConnessioneDB.TakeMessagesDB();
   }
 
-  bool UpdatePiatto(Piatti piatti) {
+  Future<bool> UpdatePiatto(Piatti piatti) {
     if (piatti.nome.isEmpty ||
         piatti.tipologia.isEmpty ||
         piatti.descrizione.isEmpty ||
         piatti.ingredienti.isEmpty ||
         piatti.allergeni.isEmpty) {
-      return false;
+      return Future.value(false);
     } else {
       return clientsConnessioneDB.UpdatePiattoDB(piatti);
     }
   }
 
-  bool SavePiatto(Piatti piatti) {
+  Future<bool> SavePiatto(Piatti piatti) {
     if (piatti.nome.isEmpty ||
-        piatti.tipologia.isEmpty ||
-        piatti.descrizione.isEmpty ||
-        piatti.ingredienti.isEmpty ||
-        piatti.allergeni.isEmpty) {
-      return false;
+        piatti.tipologia.isEmpty || piatti.prezzo.isEmpty) {
+      return Future.value(false);
     } else {
       return clientsConnessioneDB.SavePiattoDB(piatti);
     }
   }
 
-  bool AggiungiIngrediente(Ingrediente ingrediente) {
+  Future<bool> AggiungiIngrediente(Ingrediente ingrediente) {
     if (ingrediente.nome.isEmpty ||
         ingrediente.descrizione.isEmpty ||
-        ingrediente.codice.isEmpty ||
         ingrediente.quantita.isEmpty) {
-      return false;
+      return Future.value(false);
     }
     return clientsConnessioneDB.AggiungiIngredienteDB(ingrediente);
   }
 
-  bool UpdateIngrediente(Ingrediente ingrediente) {
+  Future<bool> UpdateIngrediente(Ingrediente ingrediente) {
     if (ingrediente.nome.isEmpty ||
         ingrediente.descrizione.isEmpty ||
         ingrediente.codice.isEmpty ||
         ingrediente.quantita.isEmpty) {
-      return false;
+      return Future.value(false);
     }
     return clientsConnessioneDB.UpdateIngredienteDB(ingrediente);
   }
 
-  List<Tavolo> TakeTavoli() {
+  Future<List<Tavolo>> TakeTavoli() {
     return clientsConnessioneDB.TakeTavoli();
   }
 
-  bool checkFirstTime() {
-    return clientsConnessioneDB.checkFirstTime();
+  Future<bool> checkFirstTime(String email) {
+    return clientsConnessioneDB.checkFirstTime(email);
   }
 
-  bool setNewPassword(String text) {
-    return false;
+  Future<bool> setNewPassword(String mail,String text) {
+    return clientsConnessioneDB.updatePassword(mail,text);
   }
 
-  bool setSogliaMinima(Ingrediente ingrediente, String sogliaMinima) {
+  Future<bool> setSogliaMinima(Ingrediente ingrediente, String sogliaMinima) {
     return clientsConnessioneDB.setSogliaMinima(ingrediente, sogliaMinima);
   }
 
-  bool inserisciCategoria(String text) {
+  Future<bool> inserisciCategoria(String text) {
     return clientsConnessioneDB.inserisciCategoria(text);
   }
 
-  bool eliminaCategoria(String categoria) {
+  Future<bool> eliminaCategoria(String categoria) {
     return clientsConnessioneDB.eliminaCategoria(categoria);
   }
 
@@ -104,7 +109,11 @@ class Controller {
     clientsConnessioneDB.DeletePiattiDB(selectedPiatti);
   }
 
-  bool salvaNuovoOrdineDelMenu(List<Piatti> piatti) {
+  Future<bool> salvaNuovoOrdineDelMenu(List<Piatti> piatti) {
     return clientsConnessioneDB.salvaNuovoOrdineDelMenuDB(piatti);
+  }
+
+  Future<Ordine> TakeOrdine(Tavolo tavolo) {
+    return clientsConnessioneDB.TakeOrdine(tavolo);
   }
 }

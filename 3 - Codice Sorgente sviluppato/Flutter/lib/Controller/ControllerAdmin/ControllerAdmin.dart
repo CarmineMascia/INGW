@@ -13,18 +13,22 @@ import 'dart:math'; //ricorda di levarlo poi
 class ControllerAdmin {
   AdminConnessioneDB connessioneDB = AdminConnessioneDB();
 
-  Admin takeAdminInfoDB() {
-    return connessioneDB.takeAdminInfoDB();
+  Future<Admin> takeAdminInfoDB(String email) {
+    return connessioneDB.takeAdminInfoDB(email);
   }
 
   CreaAccountDB() {}
 
-  List<Messaggio> TakeMessages() {
+  Future<List<Messaggio>> TakeMessages() {
     return connessioneDB.TakeMessagesDB();
   }
 
+  void DeletePiatti(List<Piatti> selectedPiatti) {
+    connessioneDB.DeletePiattiDB(selectedPiatti);
+  }
+
   void addEmployee(
-      String accountType, Iterable<String?> values, BuildContext context) {
+      String accountType, Iterable<String?> values, BuildContext context) async {
     /*switch (accountType) {
       case 'Cucina':
         Cucina(values.elementAt(0).toString(), values.elementAt(1).toString(),
@@ -46,7 +50,7 @@ class ControllerAdmin {
       SnackBar snackBar =
           const SnackBar(content: Text('Inserisci tutti i campi'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } else if (connessioneDB.addEmployee(accountType, values) == true) {
+    } else if (await connessioneDB.addEmployee(accountType, values) == true) {
       SnackBar snackBar =
           const SnackBar(content: Text('Aggiunto correttamente'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -61,7 +65,7 @@ class ControllerAdmin {
     connessioneDB.setToZeroNotifications();
   }
 
-  Map<DateTime, double> getIncassoGiornaliero(
+  Future<Map<DateTime, double>> getIncassoGiornaliero(
       DateTime startDate, DateTime endDate) {
     return connessioneDB.getIncassoGiornalieroDB(startDate, endDate);
   }
@@ -76,7 +80,7 @@ class ControllerAdmin {
   }
 
   //prendere i conti e tornare il valore della media
-  double getValoreMedioConto(DateTime startDate, DateTime endDate) {
+  Future<double> getValoreMedioConto(DateTime startDate, DateTime endDate) {
     return connessioneDB.getValoreMedioContoDB(startDate, endDate);
   }
 
@@ -96,4 +100,8 @@ class ControllerAdmin {
     }
     return 2;
   }*/ //dove lo metto?
+
+  bool salvaNuovoOrdineDelMenu(List<Piatti> piatti) {
+    return connessioneDB.salvaNuovoOrdineDelMenuDB(piatti);
+  }
 }

@@ -35,8 +35,15 @@ class _DispensaCucinaState extends State<DispensaCucina> {
   void initState() {
     super.initState();
     // Carica i dati iniziali per la dispensa
-    dispensa = controller.TakeDispensa();
-    initDispensa = controller.TakeDispensa();
+    initDispensaz();
+  }
+
+  void initDispensaz() async {
+    dispensa = await controller.TakeDispensa();
+    initDispensa = dispensa;
+    setState(() {
+      dispensa = dispensa;
+    });
   }
 
   void updateDispensa(List<Ingrediente> newDispensa) {

@@ -28,12 +28,10 @@ class _MenuAdminState extends State<MenuAdmin> {
   ThemeMain theme = ThemeMain();
   AppBarLayout AppBar = AppBarLayout();
   ThemeMenuAdmin themeMenuAdmin = ThemeMenuAdmin();
+  List<List<Piatti>> piatti = [[]];
+  List<String> menuTitles = [];
   Map<String, List<Piatti>> map = {};
 
-  @override
-  void initState() {
-    map = controller.takeAllPiattiETipologie();
-  }
 
   void eliminaCategoria(String categoria) {
     setState(() {
@@ -43,69 +41,75 @@ class _MenuAdminState extends State<MenuAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar.buildAppBar(context, widget.admin),
-      body: theme.buildDecoratedBox(
-        SafeArea(
-          // Resto del codice rimane invariato
-          child: ListView(
-            // ListView permette di fare quello che fa Column solo già scrollabile
-            children: [
-              controllerUI.ButtonBarAdmin(context, widget.admin),
-              const SizedBox(height: 40.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                child: Container(
-                  color: const Color.fromRGBO(255, 255, 255, 0.4),
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      WhiteLine(),
-                      const SizedBox(height: 5.0),
-                      Text(
-                        "MENU",
-                        style: themeMenuAdmin.textStyle(),
-                      ),
-                      const SizedBox(height: 5.0),
-                      WhiteLine(),
-                      const SizedBox(height: 20.0),
-                      // Qui il resto del tuo codice rimane invariato
-                      // ...
-
-                      for (int i = 0; i < map.keys.length; i += 2)
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Padding(
-                            padding: const EdgeInsets.all(60.0),
-                            child: Row(
-                              children: [
-                                MenuItemAdmin(
-                                  nome: map.keys.elementAt(i),
-                                  piatti: map.values.elementAt(i),
-                                  admin: widget.admin,
-                                  tipologie: map.keys.toList(),
-                                  eliminaCategoria: eliminaCategoria,
-                                ),
-                                if (i + 1 < map.keys.length)
-                                  SizedBox(width: 300),
-                                // Spazio tra i container
-                                if (i + 1 < map.keys.length)
-                                  MenuItemAdmin(
-                                    nome: map.keys.elementAt(i + 1),
+  return Scaffold(
+    extendBodyBehindAppBar: true,
+    appBar: AppBar.buildAppBar(context, widget.admin),
+    body: theme.buildDecoratedBox(
+      SafeArea(
+        child: ListView(
+          children: [
+            controllerUI.ButtonBarAdmin(context, widget.admin),
+            const SizedBox(height: 40.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: Container(
+                color: const Color.fromRGBO(255, 255, 255, 0.4),
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    WhiteLine(),
+                    const SizedBox(height: 5.0),
+                    Text(
+                      "MENU",
+                      style: themeMenuAdmin.textStyle(),
+                    ),
+                    const SizedBox(height: 5.0),
+                    WhiteLine(),
+                    const SizedBox(height: 20.0),
+                    FutureBuilder(
+                      future: controller.takeAllPiattiETipologie(), // Assuming getPiatti returns a Future
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          // Display a loading indicator while waiting for data
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          // Display an error message if there's an error
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          // Display the data when available
+                          map = snapshot.data!; // Assuming the data type is List<Piatto>
+                          return Column(
+                            children: [
+                              for (int i = 0; i < map.keys.length; i += 2)
+                                SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(60.0),
+                                    child: Row(
+                                      children: [
+                                        MenuItemAdmin(
+                                           nome: map.keys.elementAt(i),
+                                            piatti: map.values.elementAt(i),
+                                            admin: widget.admin,
+                                            tipologie: map.keys.toList(),
+                                            eliminaCategoria: eliminaCategoria,
+                                        ),
+                                        if (i < 4) SizedBox(width: 300),
+                                        if (i + 1 < map.keys.length)
+                                          MenuItemAdmin(
+                                            nome: map.keys.elementAt(i + 1),
                                     piatti: map.values.elementAt(i + 1),
                                     admin: widget.admin,
                                     tipologie: map.keys.toList(),
                                     eliminaCategoria: eliminaCategoria,
+                                          ),
+                                      ],
+                                    ),
                                   ),
-                              ],
-                            ),
-                          ),
-                        ),
-
-                      const SizedBox(height: 50.0),
-                      WhiteLine(),
-                      const SizedBox(height: 30.0),
+                                ),
+                              const SizedBox(height: 50.0),
+                              WhiteLine(),
+                              const SizedBox(height: 30.0),
 
                       Padding(
                         padding: EdgeInsets.all(15.0),
@@ -113,11 +117,13 @@ class _MenuAdminState extends State<MenuAdmin> {
                           alignment: Alignment.centerRight,
                           child: FloatingActionButton(
                             onPressed: () {
+                              BuildContext dialogContext;
                               TextEditingController text =
                                   TextEditingController();
                               showDialog(
                                 context: context,
                                 builder: (context) {
+                                  dialogContext = context;
                                   return AlertDialog(
                                     title: const Text(
                                         'Inserisci il nome della nuova categoria'),
@@ -132,7 +138,7 @@ class _MenuAdminState extends State<MenuAdmin> {
                                         ),
                                         ElevatedButton(
                                             style: themeMenuAdmin.buttonStyle(),
-                                            onPressed: () {
+                                            onPressed: () async {
                                               String newCategoria = text.text;
                                               if (newCategoria.isEmpty) {
                                                 return; // Gestisci il caso in cui la stringa sia vuota
@@ -146,7 +152,7 @@ class _MenuAdminState extends State<MenuAdmin> {
                                               if (map.keys
                                                       .contains(newCategoria) ==
                                                   false) {
-                                                bool result = controller
+                                                bool result = await controller
                                                     .inserisciCategoria(
                                                         newCategoria);
                                                 if (!result) {
@@ -161,6 +167,7 @@ class _MenuAdminState extends State<MenuAdmin> {
                                                     map[newCategoria] = [];
                                                   });
                                                 }
+                                                 Navigator.pop(dialogContext);
                                               }
                                             },
                                             child: const Text('CREA')),
@@ -176,14 +183,19 @@ class _MenuAdminState extends State<MenuAdmin> {
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 }

@@ -1,4 +1,4 @@
-# Install script for directory: D:/flutter projects/prova1/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows
+# Install script for directory: C:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/windows/flutter/ephemeral/.plugin_symlinks/url_launcher_windows/windows
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

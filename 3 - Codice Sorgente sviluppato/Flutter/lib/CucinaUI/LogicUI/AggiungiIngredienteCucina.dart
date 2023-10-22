@@ -246,7 +246,7 @@ class _AggiungiIngredienteCucinaState extends State<AggiungiIngredienteCucina> {
                               "SALVA",
                               style: themeInfoIngredienteCucina.textStyle4(),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               Ingrediente ingrediente =
                                   Ingrediente.noSogliaMinimaECodice(
                                       nomeController.text,
@@ -255,7 +255,7 @@ class _AggiungiIngredienteCucinaState extends State<AggiungiIngredienteCucina> {
                                       newScadenza,
                                       descrizioneController.text);
 
-                              if (controller.AggiungiIngrediente(ingrediente)) {
+                              if (await controller.AggiungiIngrediente(ingrediente)) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
@@ -297,7 +297,10 @@ class _AggiungiIngredienteCucinaState extends State<AggiungiIngredienteCucina> {
       lastDate: DateTime(2050),
     );
     if (picked != null) {
-      newScadenza = picked;
+      setState(() {
+        newScadenza = picked;
+      });
+      
     }
   }
 }

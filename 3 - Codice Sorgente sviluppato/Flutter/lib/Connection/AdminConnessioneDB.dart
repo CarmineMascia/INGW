@@ -1,471 +1,126 @@
 import 'dart:ffi';
 import 'dart:math';
+import 'dart:convert';
 
 import 'package:prova1/Model/Admin.dart';
 import 'package:prova1/Model/Allergeni.dart';
 import 'package:prova1/Model/Ingrediente.dart';
 import 'package:prova1/Model/Messaggio.dart';
 import 'package:prova1/Model/Piatti.dart';
+import 'package:http/http.dart' as http;
+import 'package:prova1/Connection/Settings.dart';
+import 'package:prova1/ConnectionInterface/AdminConnessioneDB_interface.dart';
 
-class AdminConnessioneDB {
+class AdminConnessioneDB implements AdminConnessioneDB_interface{
   //ci va il metodo che ci dice quante notifiche ci sono
-  int notifica() {
-    return 3;
+  @override
+  Future<int> notifica() async {
+    var url = "${Settings.url}notification/";
+
+    final url2 = Uri.parse(url);
+    final response = await http.get(url2);
+    var json = jsonDecode(response.body);
+
+    return json['notification_count'];
   }
 
+  @override
   int recv(int num) {
     return 1;
   }
 
-  Admin takeAdminInfoDB() {
-    return (Admin('Carmine', 'Mascia', 'mascia.c02@gmail.com', 'lalalala'));
+  @override
+  Future<Admin> takeAdminInfoDB(String email) async {
+
+    var url = "${Settings.url}userget/";
+
+    final url2 = Uri.parse(url);
+  final response = await http.post(url2,
+    headers: {"Content-Type": "application/json"},
+       body: jsonEncode({
+          'name': email, 
+       })
+  );
+  var json = jsonDecode(response.body);
+    return (Admin(json['nome'], json['cognome'], json['name'], 'lalalala'));
   }
 
-  List<Messaggio> TakeMessagesDB() {
-    return [
-      Messaggio('La mozzarella sta per terminare', DateTime(2023, 8, 6)),
-      Messaggio('La salsa sta per terminare', DateTime(2023, 8, 7)),
-      Messaggio('La pizza sta per terminare', DateTime(2023, 8, 6)),
-      Messaggio('Il prosciutto sta per terminare', DateTime(2023, 8, 8)),
-    ];
+  @override
+  Future<List<Messaggio>> TakeMessagesDB() async {
+    var url = "${Settings.url}notification/";
+
+    final url2 = Uri.parse(url);
+    final response = await http.get(url2);
+    var json = jsonDecode(response.body);
+
+    return [Messaggio(json['notifications']['message'], json['notifications']['date'])];
   }
 
-  /*String nome;
-  String prezzo;
-  String codice;
-  String descrizione;
-  List<String> allergeni;
-  List<Ingrediente> ingredienti;*/
-
-  /*List<List<Piatti>> takeAllPiattiDB() {
-    return [
-      [
-        Piatti('Spaghetti allo scoglio', '15', '00001',
-            'BUONO E GUSTOSO, UN PIATTO SEMPLICE CHE CONQUISTA TUTTI', [
-          Allergeni('nichel')
-        ], [
-          Ingrediente('Mozzarella', '00003', '5KG', DateTime(2024, 8, 3),
-              'Buono e gustoso gnam')
-        ]),
-        Piatti('Spaghetti alla amatriciana', '15', '', '', [], []),
-        Piatti('Spaghetti alla carbonara', '15', '', '', [], []),
-        Piatti('Spaghetti aglio ed olio', '15', '', '', [], []),
-        Piatti('Spaghetti al pomodoro', '15', '', '', [], []),
-        Piatti('Spaghetti al pesto', '15', '', '', [], []),
-        Piatti('Spaghetti alle vongole', '15', '', '', [], []),
-        Piatti('Spaghetti alle cozze', '15', '', '', [], []),
-        Piatti('Spaghetti al pomodorino', '15', '', '', [], []),
-        Piatti('Spaghetti al burro', '15', '', '', [], []),
-      ],
-      [
-        Piatti('Spaghetti allo scoglio', '15', '', '', [], []),
-        Piatti('Spaghetti alla amatriciana', '15', '', '', [], []),
-        Piatti('Spaghetti alla carbonara', '15', '', '', [], []),
-      ],
-      [
-        Piatti('Spaghetti allo scoglio', '15', '', '', [], []),
-        Piatti('Spaghetti alla amatriciana', '15', '', '', [], []),
-        Piatti('Spaghetti alla carbonara', '15', '', '', [], []),
-      ],
-      [
-        Piatti('Spaghetti allo scoglio', '15', '', '', [], []),
-        Piatti('Spaghetti alla amatriciana', '15', '', '', [], []),
-        Piatti('Spaghetti alla carbonara', '15', '', '', [], []),
-      ],
-      [
-        Piatti('Spaghetti allo scoglio', '15', '', '', [], []),
-        Piatti('Spaghetti alla amatriciana', '15', '', '', [], []),
-        Piatti('Spaghetti alla carbonara', '15', '', '', [], []),
-      ]
-    ];
-  }*/
-
+  @override
   void DeletePiattiDB(List<Piatti> selectedPiatti) {
     //elimina i piatti dal DB
   }
 
-  bool addEmployee(String accountType, Iterable<String?> values) {
-    return true;
+  @override
+  Future<bool> addEmployee(String accountType, Iterable<String?> values) async {
+    var url = "${Settings.url}user/";
+
+    final url2 = Uri.parse(url);
+    final response = await http.post(url2,headers: {"Content-Type": "application/json"},
+       body: jsonEncode({
+        "name": "${values.elementAt(2)}",
+        "password": "${values.elementAt(3)}",
+        "role": accountType.toLowerCase(),
+        "nome": "${values.elementAt(0)}",
+        "cognome": "${values.elementAt(1)}"
+    }
+));
+    if(response.body == "\"Added successfully\""){
+      return true;
+    }else{
+      return false;
+    }
   }
 
+  @override
   void setToZeroNotifications() {}
 
-  Map<DateTime, double> getIncassoGiornalieroDB(
-      DateTime startDate, DateTime endDate) {
-    Random random = Random();
-    return {
-      DateTime(2023, 1, 1): random.nextDouble() * 100,
-      DateTime(2023, 1, 2): random.nextDouble() * 100,
-      DateTime(2023, 1, 3): random.nextDouble() * 100,
-      DateTime(2023, 1, 4): random.nextDouble() * 100,
-      DateTime(2023, 1, 5): random.nextDouble() * 100,
-      DateTime(2023, 1, 6): random.nextDouble() * 100,
-      DateTime(2023, 1, 7): random.nextDouble() * 100,
-      DateTime(2023, 1, 8): random.nextDouble() * 100,
-      DateTime(2023, 1, 9): random.nextDouble() * 100,
-      DateTime(2023, 1, 10): random.nextDouble() * 100,
-      DateTime(2023, 1, 11): random.nextDouble() * 100,
-      DateTime(2023, 1, 12): random.nextDouble() * 100,
-      DateTime(2023, 1, 13): random.nextDouble() * 100,
-      DateTime(2023, 1, 14): random.nextDouble() * 100,
-      DateTime(2023, 1, 15): random.nextDouble() * 100,
-      DateTime(2023, 1, 16): random.nextDouble() * 100,
-      DateTime(2023, 1, 17): random.nextDouble() * 100,
-      DateTime(2023, 1, 18): random.nextDouble() * 100,
-      DateTime(2023, 1, 19): random.nextDouble() * 100,
-      DateTime(2023, 1, 20): random.nextDouble() * 100,
-      DateTime(2023, 1, 21): random.nextDouble() * 100,
-      DateTime(2023, 1, 22): random.nextDouble() * 100,
-      DateTime(2023, 1, 23): random.nextDouble() * 100,
-      DateTime(2023, 1, 24): random.nextDouble() * 100,
-      DateTime(2023, 1, 25): random.nextDouble() * 100,
-      DateTime(2023, 1, 26): random.nextDouble() * 100,
-      DateTime(2023, 1, 27): random.nextDouble() * 100,
-      DateTime(2023, 1, 28): random.nextDouble() * 100,
-      DateTime(2023, 1, 29): random.nextDouble() * 100,
-      DateTime(2023, 1, 30): random.nextDouble() * 100,
-      DateTime(2023, 1, 31): random.nextDouble() * 100,
-      DateTime(2023, 2, 1): random.nextDouble() * 100,
-      DateTime(2023, 2, 2): random.nextDouble() * 100,
-      DateTime(2023, 2, 3): random.nextDouble() * 100,
-      DateTime(2023, 2, 4): random.nextDouble() * 100,
-      DateTime(2023, 2, 5): random.nextDouble() * 100,
-      DateTime(2023, 2, 6): random.nextDouble() * 100,
-      DateTime(2023, 2, 7): random.nextDouble() * 100,
-      DateTime(2023, 2, 8): random.nextDouble() * 100,
-      DateTime(2023, 2, 9): random.nextDouble() * 100,
-      DateTime(2023, 2, 10): random.nextDouble() * 100,
-      DateTime(2023, 2, 11): random.nextDouble() * 100,
-      DateTime(2023, 2, 12): random.nextDouble() * 100,
-      DateTime(2023, 2, 13): random.nextDouble() * 100,
-      DateTime(2023, 2, 14): random.nextDouble() * 100,
-      DateTime(2023, 2, 15): random.nextDouble() * 100,
-      DateTime(2023, 2, 16): random.nextDouble() * 100,
-      DateTime(2023, 2, 17): random.nextDouble() * 100,
-      DateTime(2023, 2, 18): random.nextDouble() * 100,
-      DateTime(2023, 2, 19): random.nextDouble() * 100,
-      DateTime(2023, 2, 20): random.nextDouble() * 100,
-      DateTime(2023, 2, 21): random.nextDouble() * 100,
-      DateTime(2023, 2, 22): random.nextDouble() * 100,
-      DateTime(2023, 2, 23): random.nextDouble() * 100,
-      DateTime(2023, 2, 24): random.nextDouble() * 100,
-      DateTime(2023, 2, 25): random.nextDouble() * 100,
-      DateTime(2023, 2, 26): random.nextDouble() * 100,
-      DateTime(2023, 2, 27): random.nextDouble() * 100,
-      DateTime(2023, 2, 28): random.nextDouble() * 100,
-      DateTime(2023, 3, 1): random.nextDouble() * 100,
-      DateTime(2023, 3, 2): random.nextDouble() * 100,
-      DateTime(2023, 3, 3): random.nextDouble() * 100,
-      DateTime(2023, 3, 4): random.nextDouble() * 100,
-      DateTime(2023, 3, 5): random.nextDouble() * 100,
-      DateTime(2023, 3, 6): random.nextDouble() * 100,
-      DateTime(2023, 3, 7): random.nextDouble() * 100,
-      DateTime(2023, 3, 8): random.nextDouble() * 100,
-      DateTime(2023, 3, 9): random.nextDouble() * 100,
-      DateTime(2023, 3, 10): random.nextDouble() * 100,
-      DateTime(2023, 3, 11): random.nextDouble() * 100,
-      DateTime(2023, 3, 12): random.nextDouble() * 100,
-      DateTime(2023, 3, 13): random.nextDouble() * 100,
-      DateTime(2023, 3, 14): random.nextDouble() * 100,
-      DateTime(2023, 3, 15): random.nextDouble() * 100,
-      DateTime(2023, 3, 16): random.nextDouble() * 100,
-      DateTime(2023, 3, 17): random.nextDouble() * 100,
-      DateTime(2023, 3, 18): random.nextDouble() * 100,
-      DateTime(2023, 3, 19): random.nextDouble() * 100,
-      DateTime(2023, 3, 20): random.nextDouble() * 100,
-      DateTime(2023, 3, 21): random.nextDouble() * 100,
-      DateTime(2023, 3, 22): random.nextDouble() * 100,
-      DateTime(2023, 3, 23): random.nextDouble() * 100,
-      DateTime(2023, 3, 24): random.nextDouble() * 100,
-      DateTime(2023, 3, 25): random.nextDouble() * 100,
-      DateTime(2023, 3, 26): random.nextDouble() * 100,
-      DateTime(2023, 3, 27): random.nextDouble() * 100,
-      DateTime(2023, 3, 28): random.nextDouble() * 100,
-      DateTime(2023, 3, 29): random.nextDouble() * 100,
-      DateTime(2023, 3, 30): random.nextDouble() * 100,
-      DateTime(2023, 3, 31): random.nextDouble() * 100,
-      DateTime(2023, 4, 1): random.nextDouble() * 100,
-      DateTime(2023, 4, 2): random.nextDouble() * 100,
-      DateTime(2023, 4, 3): random.nextDouble() * 100,
-      DateTime(2023, 4, 4): random.nextDouble() * 100,
-      DateTime(2023, 4, 5): random.nextDouble() * 100,
-      DateTime(2023, 4, 6): random.nextDouble() * 100,
-      DateTime(2023, 4, 7): random.nextDouble() * 100,
-      DateTime(2023, 4, 8): random.nextDouble() * 100,
-      DateTime(2023, 4, 9): random.nextDouble() * 100,
-      DateTime(2023, 4, 10): random.nextDouble() * 100,
-      DateTime(2023, 4, 11): random.nextDouble() * 100,
-      DateTime(2023, 4, 12): random.nextDouble() * 100,
-      DateTime(2023, 4, 13): random.nextDouble() * 100,
-      DateTime(2023, 4, 14): random.nextDouble() * 100,
-      DateTime(2023, 4, 15): random.nextDouble() * 100,
-      DateTime(2023, 4, 16): random.nextDouble() * 100,
-      DateTime(2023, 4, 17): random.nextDouble() * 100,
-      DateTime(2023, 4, 18): random.nextDouble() * 100,
-      DateTime(2023, 4, 19): random.nextDouble() * 100,
-      DateTime(2023, 4, 20): random.nextDouble() * 100,
-      DateTime(2023, 4, 21): random.nextDouble() * 100,
-      DateTime(2023, 4, 22): random.nextDouble() * 100,
-      DateTime(2023, 4, 23): random.nextDouble() * 100,
-      DateTime(2023, 4, 24): random.nextDouble() * 100,
-      DateTime(2023, 4, 25): random.nextDouble() * 100,
-      DateTime(2023, 4, 26): random.nextDouble() * 100,
-      DateTime(2023, 4, 27): random.nextDouble() * 100,
-      DateTime(2023, 4, 28): random.nextDouble() * 100,
-      DateTime(2023, 4, 29): random.nextDouble() * 100,
-      DateTime(2023, 4, 30): random.nextDouble() * 100,
-      DateTime(2023, 5, 1): random.nextDouble() * 100,
-      DateTime(2023, 5, 2): random.nextDouble() * 100,
-      DateTime(2023, 5, 3): random.nextDouble() * 100,
-      DateTime(2023, 5, 4): random.nextDouble() * 100,
-      DateTime(2023, 5, 5): random.nextDouble() * 100,
-      DateTime(2023, 5, 6): random.nextDouble() * 100,
-      DateTime(2023, 5, 7): random.nextDouble() * 100,
-      DateTime(2023, 5, 8): random.nextDouble() * 100,
-      DateTime(2023, 5, 9): random.nextDouble() * 100,
-      DateTime(2023, 5, 10): random.nextDouble() * 100,
-      DateTime(2023, 5, 11): random.nextDouble() * 100,
-      DateTime(2023, 5, 12): random.nextDouble() * 100,
-      DateTime(2023, 5, 13): random.nextDouble() * 100,
-      DateTime(2023, 5, 14): random.nextDouble() * 100,
-      DateTime(2023, 5, 15): random.nextDouble() * 100,
-      DateTime(2023, 5, 16): random.nextDouble() * 100,
-      DateTime(2023, 5, 17): random.nextDouble() * 100,
-      DateTime(2023, 5, 18): random.nextDouble() * 100,
-      DateTime(2023, 5, 19): random.nextDouble() * 100,
-      DateTime(2023, 5, 20): random.nextDouble() * 100,
-      DateTime(2023, 5, 21): random.nextDouble() * 100,
-      DateTime(2023, 5, 22): random.nextDouble() * 100,
-      DateTime(2023, 5, 23): random.nextDouble() * 100,
-      DateTime(2023, 5, 24): random.nextDouble() * 100,
-      DateTime(2023, 5, 25): random.nextDouble() * 100,
-      DateTime(2023, 5, 26): random.nextDouble() * 100,
-      DateTime(2023, 5, 27): random.nextDouble() * 100,
-      DateTime(2023, 5, 28): random.nextDouble() * 100,
-      DateTime(2023, 5, 29): random.nextDouble() * 100,
-      DateTime(2023, 5, 30): random.nextDouble() * 100,
-      DateTime(2023, 5, 31): random.nextDouble() * 100,
-      DateTime(2023, 6, 1): random.nextDouble() * 100,
-      DateTime(2023, 6, 2): random.nextDouble() * 100,
-      DateTime(2023, 6, 3): random.nextDouble() * 100,
-      DateTime(2023, 6, 4): random.nextDouble() * 100,
-      DateTime(2023, 6, 5): random.nextDouble() * 100,
-      DateTime(2023, 6, 6): random.nextDouble() * 100,
-      DateTime(2023, 6, 7): random.nextDouble() * 100,
-      DateTime(2023, 6, 8): random.nextDouble() * 100,
-      DateTime(2023, 6, 9): random.nextDouble() * 100,
-      DateTime(2023, 6, 10): random.nextDouble() * 100,
-      DateTime(2023, 6, 11): random.nextDouble() * 100,
-      DateTime(2023, 6, 12): random.nextDouble() * 100,
-      DateTime(2023, 6, 13): random.nextDouble() * 100,
-      DateTime(2023, 6, 14): random.nextDouble() * 100,
-      DateTime(2023, 6, 15): random.nextDouble() * 100,
-      DateTime(2023, 6, 16): random.nextDouble() * 100,
-      DateTime(2023, 6, 17): random.nextDouble() * 100,
-      DateTime(2023, 6, 18): random.nextDouble() * 100,
-      DateTime(2023, 6, 19): random.nextDouble() * 100,
-      DateTime(2023, 6, 20): random.nextDouble() * 100,
-      DateTime(2023, 6, 21): random.nextDouble() * 100,
-      DateTime(2023, 6, 22): random.nextDouble() * 100,
-      DateTime(2023, 6, 23): random.nextDouble() * 100,
-      DateTime(2023, 6, 24): random.nextDouble() * 100,
-      DateTime(2023, 6, 25): random.nextDouble() * 100,
-      DateTime(2023, 6, 26): random.nextDouble() * 100,
-      DateTime(2023, 6, 27): random.nextDouble() * 100,
-      DateTime(2023, 6, 28): random.nextDouble() * 100,
-      DateTime(2023, 6, 29): random.nextDouble() * 100,
-      DateTime(2023, 6, 30): random.nextDouble() * 100,
-      DateTime(2023, 7, 1): random.nextDouble() * 100,
-      DateTime(2023, 7, 2): random.nextDouble() * 100,
-      DateTime(2023, 7, 3): random.nextDouble() * 100,
-      DateTime(2023, 7, 4): random.nextDouble() * 100,
-      DateTime(2023, 7, 5): random.nextDouble() * 100,
-      DateTime(2023, 7, 6): random.nextDouble() * 100,
-      DateTime(2023, 7, 7): random.nextDouble() * 100,
-      DateTime(2023, 7, 8): random.nextDouble() * 100,
-      DateTime(2023, 7, 9): random.nextDouble() * 100,
-      DateTime(2023, 7, 10): random.nextDouble() * 100,
-      DateTime(2023, 7, 11): random.nextDouble() * 100,
-      DateTime(2023, 7, 12): random.nextDouble() * 100,
-      DateTime(2023, 7, 13): random.nextDouble() * 100,
-      DateTime(2023, 7, 14): random.nextDouble() * 100,
-      DateTime(2023, 7, 15): random.nextDouble() * 100,
-      DateTime(2023, 7, 16): random.nextDouble() * 100,
-      DateTime(2023, 7, 17): random.nextDouble() * 100,
-      DateTime(2023, 7, 18): random.nextDouble() * 100,
-      DateTime(2023, 7, 19): random.nextDouble() * 100,
-      DateTime(2023, 7, 20): random.nextDouble() * 100,
-      DateTime(2023, 7, 21): random.nextDouble() * 100,
-      DateTime(2023, 7, 22): random.nextDouble() * 100,
-      DateTime(2023, 7, 23): random.nextDouble() * 100,
-      DateTime(2023, 7, 24): random.nextDouble() * 100,
-      DateTime(2023, 7, 25): random.nextDouble() * 100,
-      DateTime(2023, 7, 26): random.nextDouble() * 100,
-      DateTime(2023, 7, 27): random.nextDouble() * 100,
-      DateTime(2023, 7, 28): random.nextDouble() * 100,
-      DateTime(2023, 7, 29): random.nextDouble() * 100,
-      DateTime(2023, 7, 30): random.nextDouble() * 100,
-      DateTime(2023, 7, 31): random.nextDouble() * 100,
-      DateTime(2023, 8, 1): random.nextDouble() * 100,
-      DateTime(2023, 8, 2): random.nextDouble() * 100,
-      DateTime(2023, 8, 3): random.nextDouble() * 100,
-      DateTime(2023, 8, 4): random.nextDouble() * 100,
-      DateTime(2023, 8, 5): random.nextDouble() * 100,
-      DateTime(2023, 8, 6): random.nextDouble() * 100,
-      DateTime(2023, 8, 7): random.nextDouble() * 100,
-      DateTime(2023, 8, 8): random.nextDouble() * 100,
-      DateTime(2023, 8, 9): random.nextDouble() * 100,
-      DateTime(2023, 8, 10): random.nextDouble() * 100,
-      DateTime(2023, 8, 11): random.nextDouble() * 100,
-      DateTime(2023, 8, 12): random.nextDouble() * 100,
-      DateTime(2023, 8, 13): random.nextDouble() * 100,
-      DateTime(2023, 8, 14): random.nextDouble() * 100,
-      DateTime(2023, 8, 15): random.nextDouble() * 100,
-      DateTime(2023, 8, 16): random.nextDouble() * 100,
-      DateTime(2023, 8, 17): random.nextDouble() * 100,
-      DateTime(2023, 8, 18): random.nextDouble() * 100,
-      DateTime(2023, 8, 19): random.nextDouble() * 100,
-      DateTime(2023, 8, 20): random.nextDouble() * 100,
-      DateTime(2023, 8, 21): random.nextDouble() * 100,
-      DateTime(2023, 8, 22): random.nextDouble() * 100,
-      DateTime(2023, 8, 23): random.nextDouble() * 100,
-      DateTime(2023, 8, 24): random.nextDouble() * 100,
-      DateTime(2023, 8, 25): random.nextDouble() * 100,
-      DateTime(2023, 8, 26): random.nextDouble() * 100,
-      DateTime(2023, 8, 27): random.nextDouble() * 100,
-      DateTime(2023, 8, 28): random.nextDouble() * 100,
-      DateTime(2023, 8, 29): random.nextDouble() * 100,
-      DateTime(2023, 8, 30): random.nextDouble() * 100,
-      DateTime(2023, 8, 31): random.nextDouble() * 100,
-      DateTime(2023, 9, 1): random.nextDouble() * 100,
-      DateTime(2023, 9, 2): random.nextDouble() * 100,
-      DateTime(2023, 9, 3): random.nextDouble() * 100,
-      DateTime(2023, 9, 4): random.nextDouble() * 100,
-      DateTime(2023, 9, 5): random.nextDouble() * 100,
-      DateTime(2023, 9, 6): random.nextDouble() * 100,
-      DateTime(2023, 9, 7): random.nextDouble() * 100,
-      DateTime(2023, 9, 8): random.nextDouble() * 100,
-      DateTime(2023, 9, 9): random.nextDouble() * 100,
-      DateTime(2023, 9, 10): random.nextDouble() * 100,
-      DateTime(2023, 9, 11): random.nextDouble() * 100,
-      DateTime(2023, 9, 12): random.nextDouble() * 100,
-      DateTime(2023, 9, 13): random.nextDouble() * 100,
-      DateTime(2023, 9, 14): random.nextDouble() * 100,
-      DateTime(2023, 9, 15): random.nextDouble() * 100,
-      DateTime(2023, 9, 16): random.nextDouble() * 100,
-      DateTime(2023, 9, 17): random.nextDouble() * 100,
-      DateTime(2023, 9, 18): random.nextDouble() * 100,
-      DateTime(2023, 9, 19): random.nextDouble() * 100,
-      DateTime(2023, 9, 20): random.nextDouble() * 100,
-      DateTime(2023, 9, 21): random.nextDouble() * 100,
-      DateTime(2023, 9, 22): random.nextDouble() * 100,
-      DateTime(2023, 9, 23): random.nextDouble() * 100,
-      DateTime(2023, 9, 24): random.nextDouble() * 100,
-      DateTime(2023, 9, 25): random.nextDouble() * 100,
-      DateTime(2023, 9, 26): random.nextDouble() * 100,
-      DateTime(2023, 9, 27): random.nextDouble() * 100,
-      DateTime(2023, 9, 28): random.nextDouble() * 100,
-      DateTime(2023, 9, 29): random.nextDouble() * 100,
-      DateTime(2023, 9, 30): random.nextDouble() * 100,
-      DateTime(2023, 10, 1): random.nextDouble() * 100,
-      DateTime(2023, 10, 2): random.nextDouble() * 100,
-      DateTime(2023, 10, 3): random.nextDouble() * 100,
-      DateTime(2023, 10, 4): random.nextDouble() * 100,
-      DateTime(2023, 10, 5): random.nextDouble() * 100,
-      DateTime(2023, 10, 6): random.nextDouble() * 100,
-      DateTime(2023, 10, 7): random.nextDouble() * 100,
-      DateTime(2023, 10, 8): random.nextDouble() * 100,
-      DateTime(2023, 10, 9): random.nextDouble() * 100,
-      DateTime(2023, 10, 10): random.nextDouble() * 100,
-      DateTime(2023, 10, 11): random.nextDouble() * 100,
-      DateTime(2023, 10, 12): random.nextDouble() * 100,
-      DateTime(2023, 10, 13): random.nextDouble() * 100,
-      DateTime(2023, 10, 14): random.nextDouble() * 100,
-      DateTime(2023, 10, 15): random.nextDouble() * 100,
-      DateTime(2023, 10, 16): random.nextDouble() * 100,
-      DateTime(2023, 10, 17): random.nextDouble() * 100,
-      DateTime(2023, 10, 18): random.nextDouble() * 100,
-      DateTime(2023, 10, 19): random.nextDouble() * 100,
-      DateTime(2023, 10, 20): random.nextDouble() * 100,
-      DateTime(2023, 10, 21): random.nextDouble() * 100,
-      DateTime(2023, 10, 22): random.nextDouble() * 100,
-      DateTime(2023, 10, 23): random.nextDouble() * 100,
-      DateTime(2023, 10, 24): random.nextDouble() * 100,
-      DateTime(2023, 10, 25): random.nextDouble() * 100,
-      DateTime(2023, 10, 26): random.nextDouble() * 100,
-      DateTime(2023, 10, 27): random.nextDouble() * 100,
-      DateTime(2023, 10, 28): random.nextDouble() * 100,
-      DateTime(2023, 10, 29): random.nextDouble() * 100,
-      DateTime(2023, 10, 30): random.nextDouble() * 100,
-      DateTime(2023, 10, 31): random.nextDouble() * 100,
-      DateTime(2023, 11, 1): random.nextDouble() * 100,
-      DateTime(2023, 11, 2): random.nextDouble() * 100,
-      DateTime(2023, 11, 3): random.nextDouble() * 100,
-      DateTime(2023, 11, 4): random.nextDouble() * 100,
-      DateTime(2023, 11, 5): random.nextDouble() * 100,
-      DateTime(2023, 11, 6): random.nextDouble() * 100,
-      DateTime(2023, 11, 7): random.nextDouble() * 100,
-      DateTime(2023, 11, 8): random.nextDouble() * 100,
-      DateTime(2023, 11, 9): random.nextDouble() * 100,
-      DateTime(2023, 11, 10): random.nextDouble() * 100,
-      DateTime(2023, 11, 11): random.nextDouble() * 100,
-      DateTime(2023, 11, 12): random.nextDouble() * 100,
-      DateTime(2023, 11, 13): random.nextDouble() * 100,
-      DateTime(2023, 11, 14): random.nextDouble() * 100,
-      DateTime(2023, 11, 15): random.nextDouble() * 100,
-      DateTime(2023, 11, 16): random.nextDouble() * 100,
-      DateTime(2023, 11, 17): random.nextDouble() * 100,
-      DateTime(2023, 11, 18): random.nextDouble() * 100,
-      DateTime(2023, 11, 19): random.nextDouble() * 100,
-      DateTime(2023, 11, 20): random.nextDouble() * 100,
-      DateTime(2023, 11, 21): random.nextDouble() * 100,
-      DateTime(2023, 11, 22): random.nextDouble() * 100,
-      DateTime(2023, 11, 23): random.nextDouble() * 100,
-      DateTime(2023, 11, 24): random.nextDouble() * 100,
-      DateTime(2023, 11, 25): random.nextDouble() * 100,
-      DateTime(2023, 11, 26): random.nextDouble() * 100,
-      DateTime(2023, 11, 27): random.nextDouble() * 100,
-      DateTime(2023, 11, 28): random.nextDouble() * 100,
-      DateTime(2023, 11, 29): random.nextDouble() * 100,
-      DateTime(2023, 11, 30): random.nextDouble() * 100,
-      DateTime(2023, 12, 1): random.nextDouble() * 100,
-      DateTime(2023, 12, 2): random.nextDouble() * 100,
-      DateTime(2023, 12, 3): random.nextDouble() * 100,
-      DateTime(2023, 12, 4): random.nextDouble() * 100,
-      DateTime(2023, 12, 5): random.nextDouble() * 100,
-      DateTime(2023, 12, 6): random.nextDouble() * 100,
-      DateTime(2023, 12, 7): random.nextDouble() * 100,
-      DateTime(2023, 12, 8): random.nextDouble() * 100,
-      DateTime(2023, 12, 9): random.nextDouble() * 100,
-      DateTime(2023, 12, 10): random.nextDouble() * 100,
-      DateTime(2023, 12, 11): random.nextDouble() * 100,
-      DateTime(2023, 12, 12): random.nextDouble() * 100,
-      DateTime(2023, 12, 13): random.nextDouble() * 100,
-      DateTime(2023, 12, 14): random.nextDouble() * 100,
-      DateTime(2023, 12, 15): random.nextDouble() * 100,
-      DateTime(2023, 12, 16): random.nextDouble() * 100,
-      DateTime(2023, 12, 17): random.nextDouble() * 100,
-      DateTime(2023, 12, 18): random.nextDouble() * 100,
-      DateTime(2023, 12, 19): random.nextDouble() * 100,
-      DateTime(2023, 12, 20): random.nextDouble() * 100,
-      DateTime(2023, 12, 21): random.nextDouble() * 100,
-      DateTime(2023, 12, 22): random.nextDouble() * 100,
-      DateTime(2023, 12, 23): random.nextDouble() * 100,
-      DateTime(2023, 12, 24): random.nextDouble() * 100,
-      DateTime(2023, 12, 25): random.nextDouble() * 100,
-      DateTime(2023, 12, 26): random.nextDouble() * 100,
-      DateTime(2023, 12, 27): random.nextDouble() * 100,
-      DateTime(2023, 12, 28): random.nextDouble() * 100,
-      DateTime(2023, 12, 29): random.nextDouble() * 100,
-      DateTime(2023, 12, 30): random.nextDouble() * 100,
-    };
+  @override
+  Future<Map<DateTime, double>> getIncassoGiornalieroDB(
+      DateTime startDate, DateTime endDate) async {
+        var url = "${Settings.url}statistics/";
+
+    final url2 = Uri.parse(url);
+    final response = await http.post(url2,headers: {"Content-Type": "application/json"},
+       body: jsonEncode({
+    "start":"${startDate.year}-${startDate.month}-${startDate.day}",
+    "end":"${endDate.year}-${endDate.month}-${endDate.day}"
+}
+));
+    var json = jsonDecode(response.body)['guadagno giornaliero'];
+    Map<DateTime, double> mappa = {};
+    for (var element in json) {
+      mappa[DateTime.parse(element['data'])] = element['guadagno'];
+    }
+
+    return mappa;
   }
 
   bool salvaNuovoOrdineDelMenuDB(List<Piatti> piatti) {
     return true;
   }
 
-  double getValoreMedioContoDB(DateTime startDate, DateTime endDate) {
-    return Random().nextDouble() * 200;
+  @override
+  Future<double> getValoreMedioContoDB(DateTime startDate, DateTime endDate) async {
+    var url = "${Settings.url}statistics/";
+
+    final url2 = Uri.parse(url);
+    final response = await http.post(url2,headers: {"Content-Type": "application/json"},
+       body: jsonEncode({
+    "start":"${startDate.year}-${startDate.month}-${startDate.day}",
+    "end":"${endDate.year}-${endDate.month}-${endDate.day}"
+}
+));
+return jsonDecode(response.body)['Expected value of receipt'];
   }
 }

@@ -38,17 +38,34 @@ class AppBarLayout {
               ),
             ),
             const SizedBox(width: 30),
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => MessaggiAdmin(
-                          admin: admin,
-                        )));
-              },
-              icon: BadgeWidget(
-                initialCounter: connessioneDB.notifica(),
-              ),
-            ),
+            FutureBuilder<int>(
+  future: connessioneDB.notifica(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      // Return a loading indicator or placeholder if the future is still running.
+      return CircularProgressIndicator();
+    } else if (snapshot.hasError) {
+      // Handle error state if the future fails.
+      return Text('Error: ${snapshot.error}');
+    } else {
+      // If the future succeeds, you can access the notification count using snapshot.data.
+      int notificationCount = snapshot.data!;
+
+      // Return the IconButton with the notification count.
+      return IconButton(
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => MessaggiAdmin(
+                    admin: admin,
+                  )));
+        },
+        icon: BadgeWidget(
+          initialCounter: notificationCount,
+        ),
+      );
+    }
+  },
+),
             const SizedBox(width: 50),
           ],
         ),

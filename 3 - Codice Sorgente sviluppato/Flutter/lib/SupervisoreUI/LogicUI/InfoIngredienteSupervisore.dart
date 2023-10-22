@@ -274,9 +274,9 @@ class _InfoIngredienteSupervisoreState
                               style:
                                   themeInfoIngredienteSupervisore.textStyle4(),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               ingrediente.nome = nomeController.text;
-                              ingrediente.codice = costoController.text;
+                              ingrediente.costo = costoController.text;
                               //String quantita = quantitaController.text;
                               ingrediente.descrizione =
                                   descrizioneController.text;
@@ -284,12 +284,11 @@ class _InfoIngredienteSupervisoreState
                               ingrediente.quantita =
                                   myButtonQuantita.getQuantita();
 
-                              if (controller.UpdateIngrediente(ingrediente)) {
+                              if (await controller.UpdateIngrediente(ingrediente)) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                        'Salvataggio avvenuto con successo!' +
-                                            ingrediente.quantita),
+                                        'Salvataggio avvenuto con successo!'),
                                   ),
                                 );
                               } else {
@@ -326,8 +325,12 @@ class _InfoIngredienteSupervisoreState
       firstDate: DateTime(2023),
       lastDate: DateTime(2050),
     );
+
     if (picked != null) {
-      newScadenza = picked;
+      setState(() {
+        newScadenza = picked;
+      });
+      
     }
   }
 

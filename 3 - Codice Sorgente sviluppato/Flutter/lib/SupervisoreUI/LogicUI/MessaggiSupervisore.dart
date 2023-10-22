@@ -32,20 +32,6 @@ class _MessaggiSupervisoreState extends State<MessaggiSupervisore> {
   //Admin admin = Controller().takeAdminInfoDB();
 
   @override
-  void initState() {
-    super.initState();
-    // Carica i dati iniziali per la dispensa
-    messaggi = controller.TakeMessages();
-    //initMessaggi = Controller().TakeMessages();
-  }
-
-  /*void updateMessaggi(List<Messaggio> newMessages) {
-    setState(() {
-      messaggi = newMessages;
-    });
-  }*/
-
-  @override
   Widget build(BuildContext context) {
     //controller.setToZeroNotifications();
     return Scaffold(
@@ -77,7 +63,21 @@ class _MessaggiSupervisoreState extends State<MessaggiSupervisore> {
                         children: [
                           Container(
                             height: 450.0,
-                            child: ListMessaggi(messaggi: messaggi),
+                            //child: ListMessaggi(messaggi: messaggi),
+                            child: FutureBuilder(
+                      future: controller.TakeMessages(), // Assuming getPiatti returns a Future
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          // Display a loading indicator while waiting for data
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          // Display an error message if there's an error
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          // Display the data when available
+                          messaggi = snapshot.data!;
+                          return ListMessaggi(messaggi: messaggi);
+                        }}),
                           ),
                         ],
                       ),

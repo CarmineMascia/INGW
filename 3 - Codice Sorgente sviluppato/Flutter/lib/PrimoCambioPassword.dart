@@ -16,10 +16,9 @@ import 'package:prova1/provaOpenFoodFact.dart';
 class PrimoCambioPassword extends StatelessWidget {
   TextEditingController passwordController = TextEditingController(text: '');
   Controller controller = Controller();
-
+  String email;
   ThemeMain theme = ThemeMain();
-
-  PrimoCambioPassword({super.key});
+  PrimoCambioPassword(this.email, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +31,6 @@ class PrimoCambioPassword extends StatelessWidget {
     OpenFoodAPIConfiguration.globalCountry = OpenFoodFactsCountry.ITALY;
 
     prova(context);*/
-
     return Scaffold(
       body: theme.buildDecoratedBox(
         Center(
@@ -89,12 +87,12 @@ class PrimoCambioPassword extends StatelessWidget {
                       width: 200.0,
                       height: 30.0,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           bool flagValiditaPass =
                               checkValiditaPass(passwordController.text);
                           if (flagValiditaPass) {
-                            bool flag = controller
-                                .setNewPassword(passwordController.text);
+                            bool flag = await controller
+                                .setNewPassword(email,passwordController.text);
                             if (flag == false) {
                               SnackBar snackBar = const SnackBar(
                                   content: Text(

@@ -259,7 +259,7 @@ class _AggiungiIngredienteSupervisoreState
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               Ingrediente ingrediente =
                                   Ingrediente.noSogliaMinimaECodice(
                                       nomeController.text,
@@ -268,7 +268,7 @@ class _AggiungiIngredienteSupervisoreState
                                       newScadenza,
                                       descrizioneController.text);
 
-                              if (controller.AggiungiIngrediente(ingrediente)) {
+                              if (await controller.AggiungiIngrediente(ingrediente)) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text(
@@ -315,7 +315,10 @@ class _AggiungiIngredienteSupervisoreState
       lastDate: DateTime(2050),
     );
     if (picked != null) {
-      newScadenza = picked;
+      setState(() {
+        newScadenza = picked;
+      });
+      
     }
   }
 }

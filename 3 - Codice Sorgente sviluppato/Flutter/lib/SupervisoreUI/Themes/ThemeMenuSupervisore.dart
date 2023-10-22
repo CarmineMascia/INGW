@@ -17,10 +17,6 @@ class ThemeMenuSupervisore {
     );
   }
 
-  List<String> menuTitles() {
-    return ['PRIMI', 'SECONDI', 'CONTORNI', 'DOLCI', 'BEVANDE'];
-  }
-
   ButtonStyle buttonStyle() {
     return ButtonStyle(
       backgroundColor: MaterialStateProperty.all<Color>(Colors.black),

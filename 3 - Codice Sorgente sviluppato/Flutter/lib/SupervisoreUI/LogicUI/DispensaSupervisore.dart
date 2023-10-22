@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:prova1/ClientsWidgets/SearchBarWidget.dart';
 import 'package:prova1/ClientsWidgets/WidgetsLayout.dart';
@@ -34,8 +36,15 @@ class _DispensaSupervisoreState extends State<DispensaSupervisore> {
   void initState() {
     super.initState();
     // Carica i dati iniziali per la dispensa
-    dispensa = controller.TakeDispensa();
-    initDispensa = controller.TakeDispensa();
+    initDispensaz();
+  }
+
+  void initDispensaz() async {
+    dispensa = await controller.TakeDispensa();
+    initDispensa = dispensa;
+    setState(() {
+      dispensa = dispensa;
+    });
   }
 
   void updateDispensa(List<Ingrediente> newDispensa) {

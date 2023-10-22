@@ -6,7 +6,7 @@ import 'package:prova1/Model/Piatti.dart';
 class ControllerCucina {
   CucinaConnessioneDB cucinaConnessioneDB = CucinaConnessioneDB();
 
-  Cucina takeInfo(Cucina cucina) {
+  Future<Cucina> takeInfo(Cucina cucina) {
     return cucinaConnessioneDB.takeInfoDB(cucina);
   }
 

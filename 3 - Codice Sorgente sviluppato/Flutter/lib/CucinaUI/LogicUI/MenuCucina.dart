@@ -21,6 +21,8 @@ class MenuCucina extends StatelessWidget {
   ThemeMain theme = ThemeMain();
   AppBarLayoutCucina AppBar = AppBarLayoutCucina();
   ThemeMenuCucina themeMenuCucina = ThemeMenuCucina();
+  List<List<Piatti>> piatti = [[]];
+  List<String> menuTitles = [];
   Map<String, List<Piatti>> map = {};
   Controller controller = Controller();
 
@@ -28,7 +30,9 @@ class MenuCucina extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    map = controller.takeAllPiattiETipologie();
+    //piatti = controller.takeAllPiatti(); //creare controller generico
+    menuTitles = themeMenuCucina.menuTitles();
+     //map = controller.takeAllPiattiETipologie();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar.buildAppBar(context),
@@ -48,7 +52,21 @@ class MenuCucina extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      WhiteLine(),
+                      FutureBuilder(
+                      future: controller.takeAllPiattiETipologie(), // Assuming getPiatti returns a Future
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          // Display a loading indicator while waiting for data
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          // Display an error message if there's an error
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          // Display the data when available
+                          map = snapshot.data!; // Assuming the data type is List<Piatto>
+                          return Column(
+                            children: [
+                              WhiteLine(),
                       const SizedBox(height: 5.0),
                       Text(
                         "MENU",
@@ -59,7 +77,7 @@ class MenuCucina extends StatelessWidget {
                       const SizedBox(height: 20.0),
                       //qui
 
-                      for (int i = 0; i < 5; i += 1)
+                      for (int i = 0; i < map.keys.length; i += 1)
                         Column(children: [
                           SingleChildScrollView(
                             scrollDirection: Axis.vertical,
@@ -75,8 +93,13 @@ class MenuCucina extends StatelessWidget {
                         ]),
                       const SizedBox(height: 20.0),
                       WhiteLine(),
-                    ],
-                  ),
+                            ],
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
                 ),
               ),
             ],
@@ -86,3 +109,5 @@ class MenuCucina extends StatelessWidget {
     );
   }
 }
+
+

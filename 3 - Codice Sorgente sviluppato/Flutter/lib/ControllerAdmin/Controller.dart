@@ -10,17 +10,15 @@ import 'dart:math'; //ricorda di levarlo poi
 class Controller {
   AdminConnessioneDB connessioneDB = AdminConnessioneDB();
 
-  Admin takeAdminInfoDB() {
+  Future<Admin> takeAdminInfoDB() {
     return connessioneDB.takeAdminInfoDB();
   }
-
-  CreaAccountDB() {}
 
   List<Ingrediente> TakeDispensa() {
     return connessioneDB.TakeDispensaDB();
   }
 
-  List<Messaggio> TakeMessages() {
+  Future<List<Messaggio>> TakeMessages() {
     return connessioneDB.TakeMessagesDB();
   }
 
@@ -51,8 +49,8 @@ class Controller {
     return connessioneDB.SavePiattoDB(piatti);
   }
 
-  void addEmployee(
-      String accountType, Iterable<String?> values, BuildContext context) {
+  Future<void> addEmployee(
+      String accountType, Iterable<String?> values, BuildContext context) async {
     /*switch (accountType) {
       case 'Cucina':
         Cucina(values.elementAt(0).toString(), values.elementAt(1).toString(),
@@ -74,7 +72,7 @@ class Controller {
       SnackBar snackBar =
           const SnackBar(content: Text('Inserisci tutti i campi'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } else if (connessioneDB.addEmployee(accountType, values) == true) {
+    } else if (await connessioneDB.addEmployee(accountType, values) == true) {
       SnackBar snackBar =
           const SnackBar(content: Text('Aggiunto correttamente'));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -89,7 +87,7 @@ class Controller {
     connessioneDB.setToZeroNotifications();
   }
 
-  Map<DateTime, double> getIncassoGiornaliero(
+  Future<Map<DateTime, double>> getIncassoGiornaliero(
       DateTime startDate, DateTime endDate) {
     return connessioneDB.getIncassoGiornalieroDB(startDate, endDate);
   }

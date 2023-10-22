@@ -67,8 +67,7 @@ class _InfoPiattoState extends State<InfoPiatto> {
 
     prezzoController.text = piatto.prezzo;
     newTipologia = piatto.tipologia;
-    customDropdown =
-        CustomDropdown(options: widget.tipologie, hint: piatto.tipologia);
+    customDropdown = CustomDropdown(options: widget.tipologie, hint: piatto.tipologia);
   }
 
   @override
@@ -261,17 +260,29 @@ class _InfoPiattoState extends State<InfoPiatto> {
                       ),
                       const SizedBox(
                         height: 20.0,
-                      ),
-                      IngredientiWidgetInfoPiatto(
+                      ),FutureBuilder(
+                      future: controller.takeIngredienti(), // Assuming getPiatti returns a Future
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          // Display a loading indicator while waiting for data
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          // Display an error message if there's an error
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          // Display the data when available
+                          return IngredientiWidgetInfoPiatto(
                         //qui
-                        optionsList: controller.takeIngredienti(),
+                        optionsList: snapshot.data!,
                         onUpdateSelection: (updatedSelection) {
                           setState(() {
                             ingredientiList = updatedSelection;
                           });
                         },
                         ingredientiList: ingredientiList,
-                      ),
+                      );
+                        }})
+                      ,
                       const SizedBox(
                         height: 20.0,
                       ),
@@ -285,7 +296,7 @@ class _InfoPiattoState extends State<InfoPiatto> {
                               "SALVA",
                               style: themeInfoPiatto.textStyle3(),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               piatto.nome = nomeController.text;
                               piatto.allergeni = allergeniController.text;
 
@@ -299,12 +310,11 @@ class _InfoPiattoState extends State<InfoPiatto> {
 
                               // Ottieni i dati dagli AllergeniWidget
 
-                              if (controller.UpdatePiatto(piatto)) {
+                              if (await controller.UpdatePiatto(piatto)) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                        'Salvataggio avvenuto con successo!' +
-                                            piatto.allergeni),
+                                        'Salvataggio avvenuto con successo!'),
                                   ),
                                 );
                               } else {

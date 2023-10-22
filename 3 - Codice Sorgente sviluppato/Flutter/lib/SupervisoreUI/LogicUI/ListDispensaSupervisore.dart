@@ -159,8 +159,8 @@ class _ItemListDispensaSupervisoreState
                                 ),
                                 ElevatedButton(
                                     style: themeDispensaAdmin.buttonStyle(),
-                                    onPressed: () {
-                                      bool flag = controller.setSogliaMinima(
+                                    onPressed: () async {
+                                      bool flag = await controller.setSogliaMinima(
                                           widget.ingrediente,
                                           quantitaMinimaController.text);
                                       if (flag) {

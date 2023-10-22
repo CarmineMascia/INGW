@@ -28,9 +28,9 @@ class _StatisticheShopState extends State<StatisticheShop> {
   // ... Il resto del codice rimane invariato ...
   late DateTime startDate;
   late DateTime endDate;
-  double incassoMedio = 10.0;
-  double valoreMedioConto = 30.0;
-  double incassoComplessivo = 50.0;
+  double incassoMedio = 0;
+  double valoreMedioConto = 0;
+  double incassoComplessivo = 0;
   Map<DateTime, double> incassoGiornalieroStatistiche = {};
 
   @override
@@ -41,17 +41,29 @@ class _StatisticheShopState extends State<StatisticheShop> {
     updateStatistics();
   }
 
-  void updateStatistics() {
-    setState(() {
+  void updateStatistics() async {
+    var tmp;
+    try{
+    incassoGiornalieroStatistiche =
+          await widget.controller.getIncassoGiornaliero(startDate, endDate);
+          tmp = await widget.controller.getValoreMedioConto(startDate, endDate);
+    }catch(e){
+      incassoGiornalieroStatistiche = {};
+    }
+    setState((){
       //aggiungere anche gli altri grafici
-      incassoGiornalieroStatistiche =
-          widget.controller.getIncassoGiornaliero(startDate, endDate);
+      try{
       incassoMedio =
           widget.controller.getIncassoMedio(incassoGiornalieroStatistiche);
-      valoreMedioConto =
-          widget.controller.getValoreMedioConto(startDate, endDate);
+      valoreMedioConto = tmp;
       incassoComplessivo = widget.controller
           .getIncassoComplessivo(incassoGiornalieroStatistiche);
+      }catch(e){
+      incassoMedio = 0;
+      valoreMedioConto = 0;
+      incassoComplessivo = 0;
+    }
+
     });
 
     /*SnackBar snackBar = SnackBar(content: Text(startDate.toString()));
@@ -59,6 +71,7 @@ class _StatisticheShopState extends State<StatisticheShop> {
   }
 
   void changeStartDate(DateTime newDate) {
+    
     startDate = newDate;
     updateStatistics();
 

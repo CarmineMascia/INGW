@@ -248,16 +248,28 @@ class _InfoPiattoSupervisoreState extends State<InfoPiattoSupervisore> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      IngredientiWidgetInfoPiatto(
+                      FutureBuilder(
+                      future: controller.takeIngredienti(), // Assuming getPiatti returns a Future
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          // Display a loading indicator while waiting for data
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          // Display an error message if there's an error
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          // Display the data when available
+                          return IngredientiWidgetInfoPiatto(
                         //qui
-                        optionsList: controller.takeIngredienti(),
+                        optionsList: snapshot.data!,
                         onUpdateSelection: (updatedSelection) {
                           setState(() {
                             ingredientiList = updatedSelection;
                           });
                         },
                         ingredientiList: ingredientiList,
-                      ),
+                      );
+                        }}),
                       const SizedBox(
                         height: 20.0,
                       ),
@@ -271,7 +283,7 @@ class _InfoPiattoSupervisoreState extends State<InfoPiattoSupervisore> {
                               "SALVA",
                               style: themeInfoPiatto.textStyle3(),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               piatto.nome = nomeController.text;
 
                               piatto.prezzo = prezzoController.text;
@@ -285,7 +297,7 @@ class _InfoPiattoSupervisoreState extends State<InfoPiattoSupervisore> {
                               // Ottieni i dati dagli AllergeniWidget
                               piatto.allergeni = allergeniController.text;
 
-                              if (controller.UpdatePiatto(piatto)) {
+                              if (await controller.UpdatePiatto(piatto)) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(

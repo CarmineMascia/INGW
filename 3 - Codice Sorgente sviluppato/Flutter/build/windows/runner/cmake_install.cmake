@@ -1,4 +1,4 @@
-# Install script for directory: D:/flutter projects/prova1/windows/runner
+# Install script for directory: C:/Users/alexm/Desktop/Nuova cartella (2)/INGW/3 - Codice Sorgente sviluppato/Flutter/windows/runner
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

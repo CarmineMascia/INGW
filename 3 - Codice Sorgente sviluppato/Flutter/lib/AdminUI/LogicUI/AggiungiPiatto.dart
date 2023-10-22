@@ -310,15 +310,27 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                       ),
                       const SizedBox(
                         height: 20.0,
-                      ),
-                      IngredientiWidget(
-                        optionsList: controller.takeIngredienti(),
+                      ),FutureBuilder(
+                      future: controller.takeIngredienti(), // Assuming getPiatti returns a Future
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          // Display a loading indicator while waiting for data
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          // Display an error message if there's an error
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          // Display the data when available
+                          return IngredientiWidget(
+                        optionsList: snapshot.data!,
                         onUpdateSelection: (updatedSelection) {
                           setState(() {
                             ingredientiList = updatedSelection;
                           });
                         },
-                      ),
+                      );
+                        }})
+                      ,
                       const SizedBox(
                         height: 20.0,
                       ),
@@ -332,7 +344,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                               "SALVA",
                               style: themeAggiungiPiatto.textStyle3(),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               String nome = nomeController.text;
 
                               String prezzo = prezzoController.text;
@@ -340,7 +352,6 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                               String allergeni = allergeniController.text;
                               // Ottieni i dati dagli IngredientiWidget
                               List<Ingrediente> ingredienti = ingredientiList;
-
                               // Ottieni i dati dagli AllergeniWidget
                               /*if (customDropdown.getSelectedValue() == null) {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -361,7 +372,7 @@ class _HomeAggiungiPiatto extends State<AggiungiPiatto> {
                                 );
                               }*/
 
-                              if (controller.SavePiatto(Piatti(
+                              if (await controller.SavePiatto(Piatti(
                                   nome,
                                   prezzo,
                                   customDropdown.getSelectedValue()!,

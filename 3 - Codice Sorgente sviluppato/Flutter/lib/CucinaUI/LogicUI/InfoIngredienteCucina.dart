@@ -264,7 +264,7 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               ingrediente.nome = nomeController.text;
                               ingrediente.costo = costoController.text;
                               //String quantita = quantitaController.text;
@@ -274,11 +274,11 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
                               ingrediente.quantita =
                                   myButtonQuantita.getQuantita();
 
-                              if (controller.UpdateIngrediente(ingrediente)) {
+                              if (await controller.UpdateIngrediente(ingrediente)) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                        'Salvataggio avvenuto con successo!${ingrediente.quantita}'),
+                                        'Salvataggio avvenuto con successo!'),
                                   ),
                                 );
                               } else {
@@ -320,7 +320,9 @@ class _InfoIngredienteCucinaState extends State<InfoIngredienteCucina> {
       lastDate: DateTime(2050),
     );
     if (picked != null) {
-      newScadenza = picked;
+      setState(() {
+        newScadenza = picked;
+      });
     }
   }
 

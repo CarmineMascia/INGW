@@ -33,7 +33,6 @@ class DatiAccountSupervisore extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    supervisore = controller.takeSupervisoreInfoDB();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar.buildAppBar(context, supervisore),
@@ -59,6 +58,19 @@ class DatiAccountSupervisore extends StatelessWidget {
                         "DATI ACCOUNT",
                         style: themeDatiAccount.textStyle(),
                       ),
+                      FutureBuilder(
+                      future: controller.takeSupervisoreInfoDB(supervisore.email), // Assuming getPiatti returns a Future
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          // Display a loading indicator while waiting for data
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          // Display an error message if there's an error
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          supervisore = snapshot.data!;
+                          return Column(
+                    children: [
                       const SizedBox(height: 5.0),
                       WhiteLine(),
                       const SizedBox(height: 20.0),
@@ -68,7 +80,8 @@ class DatiAccountSupervisore extends StatelessWidget {
                       const SizedBox(height: 50.0),
                       controllerUI.ShowText("EMAIL", supervisore.email),
                       const SizedBox(height: 50.0),
-                      WhiteLine(),
+                      WhiteLine(),]);
+                        }}),
                     ],
                   ),
                 ),

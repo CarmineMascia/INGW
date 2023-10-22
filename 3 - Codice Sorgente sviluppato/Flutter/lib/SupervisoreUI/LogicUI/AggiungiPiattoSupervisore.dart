@@ -32,7 +32,6 @@ class AggiungiPiattoSupervisore extends StatefulWidget {
       required this.supervisore,
       required this.tipologia,
       required this.tipologie});
-
   @override
   _HomeAggiungiPiattoSupervisore createState() =>
       _HomeAggiungiPiattoSupervisore();
@@ -69,8 +68,8 @@ class _HomeAggiungiPiattoSupervisore extends State<AggiungiPiattoSupervisore> {
   void initState() {
     // TODO: implement initState
     customDropdown = CustomDropdown(
-      hint: widget.tipologia,
       options: widget.tipologie,
+      hint: widget.tipologia,
     );
   }
 
@@ -312,14 +311,26 @@ class _HomeAggiungiPiattoSupervisore extends State<AggiungiPiattoSupervisore> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      IngredientiWidget(
-                        optionsList: controller.takeIngredienti(),
+                      FutureBuilder(
+                      future: controller.takeIngredienti(), // Assuming getPiatti returns a Future
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          // Display a loading indicator while waiting for data
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          // Display an error message if there's an error
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          // Display the data when available
+                          return IngredientiWidget(
+                        optionsList: snapshot.data!,
                         onUpdateSelection: (updatedSelection) {
                           setState(() {
                             ingredientiList = updatedSelection;
                           });
                         },
-                      ),
+                      );
+                        }}),
                       const SizedBox(
                         height: 20.0,
                       ),
@@ -333,7 +344,7 @@ class _HomeAggiungiPiattoSupervisore extends State<AggiungiPiattoSupervisore> {
                               "SALVA",
                               style: themeAggiungiPiatto.textStyle3(),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
                               String nome = nomeController.text;
 
                               String prezzo = prezzoController.text;
@@ -345,7 +356,7 @@ class _HomeAggiungiPiattoSupervisore extends State<AggiungiPiattoSupervisore> {
 
                               // Ottieni i dati dagli AllergeniWidget
 
-                              if (controller.SavePiatto(Piatti(
+                              if (await controller.SavePiatto(Piatti(
                                   nome,
                                   prezzo,
                                   customDropdown.getSelectedValue()!,
