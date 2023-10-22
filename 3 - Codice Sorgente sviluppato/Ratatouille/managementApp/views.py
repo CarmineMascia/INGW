@@ -378,7 +378,7 @@ def ordergetAPI(request):
             dishes_of_order = DishesOfOrder.objects.filter(orderId=order)
 
             # Calculate the total cost of all dishes
-            total_cost = sum(dish_order.dishId.cost for dish_order in dishes_of_order)
+            total_cost = sum(dish_order.dishId.cost*dish_order.count for dish_order in dishes_of_order)
 
             # Update the 'cost' field of the order
             order.cost = total_cost
