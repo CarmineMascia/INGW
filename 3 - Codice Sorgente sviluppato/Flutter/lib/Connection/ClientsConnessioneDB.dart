@@ -327,7 +327,8 @@ class ClientsConnessioneDB implements ClientsConnessioneDB_interface {
           "quantity": double.parse(ingrediente.quantita),
           "cost": double.parse(ingrediente.costo),
           "isAllergen": "False",
-          "minThreshold": ingrediente.sogliaMinima
+          "minThreshold": ingrediente.sogliaMinima,
+          "scadenza" : "${ingrediente.scadenza.year}-${ingrediente.scadenza.month}-${ingrediente.scadenza.day}"
        })
   );
    if(response.body == "\"Added successfully\""){
@@ -350,7 +351,8 @@ class ClientsConnessioneDB implements ClientsConnessioneDB_interface {
           "quantity": double.parse(ingrediente.quantita),
           "cost": double.parse(ingrediente.costo),
           "isAllergen": "False",
-          "minThreshold": ingrediente.sogliaMinima
+          "minThreshold": ingrediente.sogliaMinima,
+          "scadenza" : "${ingrediente.scadenza.year}-${ingrediente.scadenza.month}-${ingrediente.scadenza.day}"
        })
   );
    if(response.body == "\"Updated successfully\""){

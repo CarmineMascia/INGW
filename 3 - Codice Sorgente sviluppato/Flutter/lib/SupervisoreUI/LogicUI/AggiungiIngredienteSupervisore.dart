@@ -260,6 +260,7 @@ class _AggiungiIngredienteSupervisoreState
                           alignment: Alignment.centerRight,
                           child: ElevatedButton(
                             onPressed: () async {
+                              print(newScadenza.toString());
                               Ingrediente ingrediente =
                                   Ingrediente.noSogliaMinimaECodice(
                                       nomeController.text,
